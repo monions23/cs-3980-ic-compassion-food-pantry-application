@@ -1,0 +1,108 @@
+
+<!--
+This uses styles.css
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Pantry Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+
+    <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+    <!-- Top Bar -->
+    <section class="topbar">
+      <div class="logo"> <!-- This is the ☰ Iowa City Compassion in top left-->
+        <span onclick="toggleSidebar()" style="cursor:pointer;">☰</span> Iowa City Compassion Food Pantry
+      </div>
+      <div class="user">
+        <span>Username</span>
+        <img src="https://via.placeholder.com/40" alt="User">
+      </div>
+    </section>
+
+    <main class="container">
+
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-links"><a href="main.html" class="sidebar-button">Homepage</a></div>
+        <div class="sidebar-links"><a href="archive.html" class="sidebar-button">Archive</div>
+        <div class="sidebar-links"><a href="trends.html" class="sidebar-button">Trends</div>
+        <div class="sidebar-links"><a href="stock.html" class="sidebar-button">Stock</a></div>
+        <div class="sidebar-links"><a href="account.html" class="sidebar-button">Account</div>
+        <div class="sidebar-links"><a href="tasks.html" class="sidebar-button">Task Manager</div>
+        <div class="sidebar-links"><a href="pantry.html" class="sidebar-button" active>Pantry</a></div>
+        <div class="sidebar-links" onclick="logout()">Log Out</div> <!-- Doesnt do anything yet-->
+      </aside>
+
+      <!-- Main Content Table, Can be merged or sorted differently-->
+      <section class="main">
+        <div class="main-grid">
+          <div class="main-structure-left">
+            <h1>Pantry</h1>
+            <p><strong>p strong</strong></p>
+            <p>
+              A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, 
+              A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, 
+              A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, 
+              A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, 
+              A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, 
+              A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, 
+              A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, 
+              A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, 
+              A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, 
+              A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, 
+              A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph, A big paragraph 
+            </p>
+          </div>
+          <div class="main-structure-right">
+            <h2>Header 2</h2>
+            <br>
+            <p>p</p>
+            <hr>
+            <h4>h4</h4>
+          </div>
+          <div class="main-structure-left">
+            <h3>Header 3</h3>
+          </div>
+          <div class="main-structure-right">
+              <div class="graph">
+                <p>A graph goes here</p>
+              </div>
+          </div>
+          <div class="main-structure-bottom">
+            <h5>Header 5</h5>
+            <h6>Header 6</h6> 
+            <p>These borders are just here to show the containers, they can be merged and hidden, its just for structure. 
+              I separated left and right in the table so that if we wanted we can make a middle partition easy.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+  <footer>
+    <hr>
+    <div class="footer-grid">
+      <img src="IC_Compassion_Logo_big.jpg" alt="Iowa City Compassion Logo" class="footer-logo">
+      <div class="footer-pantry-info">
+         <p>Food Pantry Open 12:00 pm to 5:00 pm Wednesday
+            <br>
+            <br>Email: info@iccompassion.org
+            <br>Phone: (319)-330-9883
+            <br>
+            <br>1035 Wade St
+            <br>Iowa City, IA 52240
+            <br>@ 2026 by IC Compassion
+        </p>
+      </div>
+       <a href="https://www.iccompassion.org/" class="footer-button">For more information</a>
+    </div>
+    <hr>
+  </body>
+  <script src="formatting.js"></script>
+  <!-- <script src="main.js" defer></script> -->
+</html>
