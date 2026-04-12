@@ -14,10 +14,13 @@ async def init():
     client = AsyncIOMotorClient("mongodb://localhost:27017/")
 
     db = client["food_pantry_db"]
-    await init_beanie(database=db, document_models=[User, Stock, PantryRecord, Scheduling])
+    await init_beanie(
+        database=db, document_models=[User, Stock, PantryRecord, Scheduling]
+    )
 
-    #test
+    # test
     s = await User.insert_one(User(email="hi@gmail.com", password="12345", role="user"))
     print(s)
+
 
 # asyncio.run(init())
