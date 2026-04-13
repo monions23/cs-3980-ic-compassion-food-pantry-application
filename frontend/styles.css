@@ -222,12 +222,12 @@ hr {
 .main-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: min-content auto min-content;
   width: 100%;
   height: 100%;
   margin: auto;
   border: 2px solid #626262;
   border-collapse: collapse;
-  column-gap: 1vh;
 }
 /* 
 .main-structure {
@@ -253,6 +253,10 @@ hr {
   vertical-align: top;
   padding: 10px;
   grid-column: 7 / 13;
+  border-bottom: 2px solid #111;
+}
+.main-structure-right:nth-last-child(1 of .main-structure-right) {
+  border-bottom: none;
 }
 .main-structure-bottom {
   /* Bottom box */
@@ -300,4 +304,139 @@ h5 {
 }
 strong {
   color: #2f6e74;
+}
+
+/* For archive page */
+.archive-title,
+.archive-info {
+  grid-column: span 12;
+  padding: 0px 20px;
+  height: auto;
+}
+
+.archive-table {
+  width: 100%;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+}
+
+.archive-header {
+  padding: 10px;
+  border-right: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+
+/* Make it so last header has no right border */
+.archive-header:last-child {
+  border-right: none;
+}
+
+.archive-table-item {
+  padding: 10px;
+  border-right: 1px solid #dddddd;
+  text-align: center;
+}
+
+/* Make it so last header has no right border */
+.archive-table-item:last-child {
+  border-right: none;
+}
+
+/* PANTRY PAGE */
+.pantry-form {
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 75%;
+  margin: 10px 0px;
+  padding: 5px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  position: relative;
+}
+.client-info {
+  justify-self: center;
+  display: flex;
+  width: 100%;
+  min-height: 80px;
+  flex-direction: column;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  position: relative;
+}
+
+.family-members {
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-around;
+}
+
+.add-button {
+  width: 25%;
+  position: absolute;
+  margin-top: 10px;
+  padding: 5px;
+  bottom: 0;
+  right: 0;
+}
+.edit-button {
+  width: 25%;
+  align-self: flex-end;
+  margin-top: 10px;
+  padding: 5px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.close-button {
+  width: 10%;
+  align-self: flex-end;
+  padding: 5px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.submit-button {
+  width: 25%;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.pantry-history-info {
+  margin-left: 10px;
+}
+.section-header {
+  text-align: center;
+}
+
+.stock-table {
+  width: 100%;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  margin-bottom: 2rem;
+}
+
+.stock-header {
+  padding: 10px;
+  text-align: center;
+  border-right: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+
+/* Make it so last header has no right border */
+.stock-header:last-child {
+  border-right: none;
+}
+
+.stock-table-item {
+  padding: 10px;
+  border-right: 1px solid #dddddd;
+  text-align: center;
+}
+
+/* Make it so last header has no right border */
+.stock-table-item:last-child {
+  border-right: none;
 }
