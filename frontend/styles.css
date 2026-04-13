@@ -246,6 +246,14 @@ hr {
   padding: 10px;
   grid-column: 1 / 7;
 }
+.main-structure-left-two-rows {
+  border-right: 2px solid #111;
+  text-align: left;
+  vertical-align: top;
+  padding: 10px;
+  grid-column: 1 / 7;
+  grid-row: span 2;
+}
 .main-structure-right {
   /* Right side box of the center */
   /* border-left: 2px solid #111; */
