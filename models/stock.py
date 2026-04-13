@@ -1,5 +1,7 @@
+from typing import Optional
+
 from beanie import Document
-from pydantic import Field
+from pydantic import BaseModel, Field
 
 class Stock(Document):
     item_name: str = Field(..., description="Name of the stock item")
@@ -8,3 +10,8 @@ class Stock(Document):
     
     class Settings:
         name = "stock"
+
+class StockUpdate(BaseModel):
+    item_name: Optional[str] = None
+    quantity: Optional[int] = None
+    target_quantity: Optional[int] = None
