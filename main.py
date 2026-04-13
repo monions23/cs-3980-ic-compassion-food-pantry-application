@@ -5,10 +5,7 @@ from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 from database import init
-
-# from old.Xtracker_routes import tracker_router
-
-app = FastAPI(title="IC Compassion Food Pantry", version="1.0.0")
+from routers.stock_router import stock_router
 
 
 @asynccontextmanager
@@ -28,15 +25,15 @@ app = FastAPI(title="IC Compassion Food Pantry", version="1.0.0", lifespan=lifes
 
 @app.get("/")
 async def home():
-    return {"message": "Food Pantry API running"}
+    return FileResponse("frontend/main.html")
 
 
-# app.include_router(tracker_router, tags=["Reagents"], prefix="/reagents")
+app.include_router(stock_router, prefix="/stock", tags=["Stock"])
 
 
-# app.mount("/", StaticFiles(directory="frontend"), name="static")
+app.mount("/", StaticFiles(directory="frontend"), name="static")
 
 
-# @app.exception_handler(HTTPException)
-# async def my_http_exception_handler(request, ex):
-#     return PlainTextResponse(str(ex.detail), status_code=ex.status_code)
+@app.exception_handler(HTTPException)
+async def my_http_exception_handler(request, ex):
+    return PlainTextResponse(str(ex.detail), status_code=ex.status_code)
