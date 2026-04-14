@@ -1,5 +1,9 @@
 # cs-3980-ic-compassion-food-pantry-application
 
+## Project Description
+
+Talk about IC Compassion application goals and stuff here
+
 ## Set Up
 
 After cloning this repository, create a virtual environment in your local project folder. Enter the following terminal command:

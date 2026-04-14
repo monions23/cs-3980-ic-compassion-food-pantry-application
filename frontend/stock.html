@@ -1,48 +1,73 @@
-
 <!--
 This uses styles.css
 -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Food Pantry Tracker</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-
     <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
     <!-- Top Bar -->
     <section class="topbar">
-      <div class="logo"> <!-- This is the ☰ Iowa City Compassion in top left-->
-        <span onclick="toggleSidebar()" style="cursor:pointer;">☰</span> Iowa City Compassion Food Pantry
+      <div class="logo">
+        <!-- This is the ☰ Iowa City Compassion in top left-->
+        <span onclick="toggleSidebar()" style="cursor: pointer">☰</span> Iowa
+        City Compassion Food Pantry
       </div>
       <div class="user">
         <span>Username</span>
-        <img src="https://via.placeholder.com/40" alt="User">
+        <img src="https://via.placeholder.com/40" alt="User" />
       </div>
     </section>
 
     <main class="container">
-
       <!-- Sidebar -->
       <aside class="sidebar" id="sidebar">
-        <div class="sidebar-links"><a href="main.html" class="sidebar-button">Homepage</a></div>
-        <div class="sidebar-links"><a href="archive.html" class="sidebar-button">Archive</div>
-        <div class="sidebar-links"><a href="trends.html" class="sidebar-button">Trends</div>
-        <div class="sidebar-links"><a href="stock.html" class="sidebar-button" active>Stock</a></div>
-        <div class="sidebar-links"><a href="account.html" class="sidebar-button">Account</div>
-        <div class="sidebar-links"><a href="tasks.html" class="sidebar-button">Task Manager</div>
-        <div class="sidebar-links"><a href="pantry.html" class="sidebar-button">Pantry</a></div>
-        <div class="sidebar-links" onclick="logout()">Log Out</div> <!-- Doesnt do anything yet-->
+        <div class="sidebar-links">
+          <a href="main.html" class="sidebar-button">Homepage</a>
+        </div>
+        <div class="sidebar-links">
+          <a href="archive.html" class="sidebar-button">Archive</a>
+        </div>
+        <div class="sidebar-links">
+          <a href="trends.html" class="sidebar-button">Trends</a>
+        </div>
+        <div class="sidebar-links">
+          <a href="stock.html" class="sidebar-button" active>Stock</a>
+        </div>
+        <div class="sidebar-links">
+          <a href="account.html" class="sidebar-button">Account</a>
+        </div>
+        <div class="sidebar-links">
+          <a href="tasks.html" class="sidebar-button">Task Manager</a>
+        </div>
+        <div class="sidebar-links">
+          <a href="pantry.html" class="sidebar-button">Pantry</a>
+        </div>
+        <div class="sidebar-links" onclick="logout()">Log Out</div>
+        <!-- Doesnt do anything yet-->
       </aside>
 
       <!-- Main Content Table, Can be merged or sorted differently-->
       <section class="main">
         <div class="main-grid">
           <div class="main-structure-left-two-rows">
-            <h2 class="section-header">Current Stock</h2>
+            <div class="stock-title">
+              <h2 class="section-header">Current Stock</h2>
+              <button
+                id="openNewStockModal"
+                data-bs-toggle="stock"
+                data-bs-target="#stock-add"
+                type="button"
+                class="btn btn-primary"
+              >
+                <i class="bi bi-plus-circle"></i> Add Item
+              </button>
+            </div>
             <section class="stock-info">
               <table class="stock-table">
                 <tr>
@@ -57,45 +82,120 @@ This uses styles.css
             </section>
           </div>
           <div class="main-structure-right">
-              <div class="graph">
-                <p>A graph goes here</p>
-              </div>
+            <div class="graph">
+              <p>A graph goes here</p>
+            </div>
           </div>
           <div class="main-structure-right">
-              <div class="graph">
-                <p>A graph goes here</p>
-              </div>
+            <div class="graph">
+              <p>A graph goes here</p>
+            </div>
           </div>
           <div class="main-structure-bottom">
             <h5>Header 5</h5>
-            <h6>Header 6</h6> 
-            <p>These borders are just here to show the containers, they can be merged and hidden, its just for structure. 
-              I separated left and right in the table so that if we wanted we can make a middle partition easy.</p>
+            <h6>Header 6</h6>
+            <p>
+              These borders are just here to show the containers, they can be
+              merged and hidden, its just for structure. I separated left and
+              right in the table so that if we wanted we can make a middle
+              partition easy.
+            </p>
           </div>
         </div>
       </section>
     </main>
 
-    <!-- Footer -->
-  <footer>
-    <hr>
-    <div class="footer-grid">
-      <img src="IC_Compassion_Logo_big.jpg" alt="Iowa City Compassion Logo" class="footer-logo">
-      <div class="footer-pantry-info">
-         <p>Food Pantry Open 12:00 pm to 5:00 pm Wednesday
-            <br>
-            <br>Email: info@iccompassion.org
-            <br>Phone: (319)-330-9883
-            <br>
-            <br>1035 Wade St
-            <br>Iowa City, IA 52240
-            <br>@ 2026 by IC Compassion
-        </p>
+    <!-- MODALS -->
+    <!-- modal needs to be in body level -->
+    <!-- modal dialog for adding -->
+    <div id="modal-add" class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Item to Stock</h5>
+            <div id="" reagents></div>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="new-reagent-form">
+              <div class="mb-3">
+                <label for="title" class="form-label">Name of Reagent</label>
+                <input type="text" class="form-control" id="title" />
+              </div>
+              <div class="mb-3">
+                <label for="open_date" class="form-label"
+                  >When was the Reagent Opened?</label
+                >
+                <input type="date" id="open_date" name="open_date" />
+              </div>
+              <div class="mb-3">
+                <label for="freezer" class="form-label"
+                  >Which Freezer is the Reagent Stored In?</label
+                >
+                <input type="text" class="form-control" id="freezer" />
+              </div>
+              <div class="mb-3">
+                <label for="protocol" class="form-label"
+                  >What Protocols is this Reagent Commonly Used In?</label
+                >
+                <input type="text" class="form-control" id="protocol" />
+              </div>
+              <div class="mb-3">
+                <label for="desc" class="form-label"
+                  >Notes/Other Information</label
+                >
+                <textarea class="form-control" id="desc" rows="3"></textarea>
+              </div>
+              <div class="text-danger" id="msg"></div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              id="close-add-modal"
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              <i class="bi bi-x"></i> Close
+            </button>
+            <button id="add-btn" type="button" class="btn btn-primary">
+              <i class="bi bi-plus-circle"></i> Add
+            </button>
+          </div>
+        </div>
       </div>
-       <a href="https://www.iccompassion.org/" class="footer-button">For more information</a>
     </div>
-    <hr>
+    <!-- Footer -->
+    <footer>
+      <hr />
+      <div class="footer-grid">
+        <img
+          src="IC_Compassion_Logo_big.jpg"
+          alt="Iowa City Compassion Logo"
+          class="footer-logo"
+        />
+        <div class="footer-pantry-info">
+          <p>
+            Food Pantry Open 12:00 pm to 5:00 pm Wednesday
+            <br />
+            <br />Email: info@iccompassion.org <br />Phone: (319)-330-9883
+            <br />
+            <br />1035 Wade St <br />Iowa City, IA 52240 <br />@ 2026 by IC
+            Compassion
+          </p>
+        </div>
+        <a href="https://www.iccompassion.org/" class="footer-button"
+          >For more information</a
+        >
+      </div>
+      <hr />
+    </footer>
   </body>
-  <script src="formatting.js"></script>
+  <script src="js/stock.js"></script>
   <!-- <script src="main.js" defer></script> -->
 </html>

@@ -1,6 +1,6 @@
-let data = [];
-const api = 'http://127.0.0.1:8000/reagents';
-let reagentIdInEdit = 0;
+let stockedFood = [];
+const api = 'http://127.0.0.1:8000/stock';
+let stockIdInEdit = 0;
 
 document.getElementById('add-btn').addEventListener('click', (e) => {
     e.preventDefault()
