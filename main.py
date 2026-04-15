@@ -6,6 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 from database import init
 from routers.stock_router import stock_router
+from routers.user_router import user_router 
 
 
 @asynccontextmanager
@@ -27,6 +28,7 @@ async def home():
 
 
 app.include_router(stock_router, prefix="/stock", tags=["Stock"])
+app.include_router(user_router, prefix="/users", tags=["Users"])
     
 
 app.mount("/", StaticFiles(directory="frontend"), name="static")
