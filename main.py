@@ -20,7 +20,7 @@ async def lifespan(app: FastAPI):
     print("Shutting down...")
 
 
-app = FastAPI(title="IC Compassion Food Pantry", version="1.0.0", lifespan=lifespan)
+app = FastAPI(title="IC Compassion Food Pantry", version="0.135.3", lifespan=lifespan)
 
 
 @app.get("/")

@@ -14,9 +14,9 @@ async def get_all_stocks():
 
 # Create a stock item
 @stock_router.post("/", status_code=201)
-async def create_new_stock(item: Stock):
+async def create_new_stock(item: Stock) -> Stock:
     await item.insert()
-    return {"message": f"{item.item_name} added successfully"}
+    return item
 
 # Get a stock item
 @stock_router.get("/{item_id}")
