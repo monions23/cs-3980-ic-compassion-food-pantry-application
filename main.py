@@ -22,17 +22,12 @@ async def lifespan(app: FastAPI):
     print("Shutting down...")
 
 
-<<<<<<< HEAD
-app = FastAPI(title="IC Compassion Food Pantry", version="0.135.3", lifespan=lifespan)
-=======
 app = FastAPI(
     title="IC Compassion Food Pantry",
     version="1.0.0",
     swagger_ui_parameters={"persistAuthorization": True},
     lifespan=lifespan,
 )
->>>>>>> 5af0fd6b83b25c59e98b08389e3edbf301005ec3
-
 
 @app.get("/")
 async def home():
