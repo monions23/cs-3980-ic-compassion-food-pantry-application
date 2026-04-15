@@ -1,0 +1,104 @@
+from fastapi import APIRouter, HTTPException, status, Depends
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
+from models.user import User
+from auth.hash_password import verify_password
+from auth.jwt_handler import create_access_token, verify_access_token
+import logging
+
+from auth.hash_password import hash_password, verify_password
+from auth.jwt_handler import create_access_token
+from database import Database
+from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
+from models.user import User, TokenResponse
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/sign-in")
+
+
+
+logger = logging.getLogger(__name__)
+
+auth_router = APIRouter()
+
+user_database = Database(User)
+
+
+@auth_router.post("/signup")
+async def sign_user_up(user: User) -> dict:
+    logger.info(f"User [{user.email}] is signing up.")
+    db_user = await User.find_one(User.email == user.email)
+
+    if db_user:
+        logger.warning(f"\t User [{user.email}] has already signed up.")
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="User with email provided exists already.",
+        )
+    hashed_password = hash_password(user.password)
+    user.password = str(hashed_password, "utf-8")
+    await user_database.save(user)
+    logger.info(f"\t User [{user.email}] is created.")
+    return {"message": "User created successfully"}
+
+@auth_router.post("/sign-in", response_model=TokenResponse)
+async def sign_in(user: OAuth2PasswordRequestForm = Depends()):
+    logger.info(f"User [{user.username}] is signing in the system.")
+
+    db_user = await User.find_one(User.email == user.username)
+
+    if not db_user or not db_user.active:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    if not verify_password(user.password, db_user.password):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    logger.info(f"\tUser [{user.username}] signed in")
+
+    access_token, expiry = create_access_token(
+        {"username": db_user.email, "role": str(db_user.role)}
+    )
+
+    return TokenResponse(
+        username=db_user.email,
+        role=str(db_user.role),
+        token=access_token,
+        expiry=expiry,
+    )
+# @auth_router.post("/sign-in", response_model=TokenResponse)
+# async def sign_user_in(user: OAuth2PasswordRequestForm = Depends()) -> dict:
+#     logger.info(f"User [{user.username}] is signing in the system.")
+#     db_user = await User.find_one(User.email == user.username)
+#     if db_user and db_user.active:
+#         if verify_password(user.password, db_user.password):
+#             logger.info(f"\t User [{user.username}] signed in")
+#             (access_token, expiry) = create_access_token(
+#                 {"username": db_user.email, "role": db_user.role}
+#             )
+#             return TokenResponse(
+#                 username=db_user.email,
+#                 role=db_user.role,
+#                 token=access_token,
+#                 expiry=expiry,
+#             )
+
+#     raise HTTPException(
+#         status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid details passed."
+#     )
+
+async def get_current_user(token: str = Depends(oauth2_scheme)):
+    token_data = verify_access_token(token)
+
+    user = await User.find_one(User.email == token_data.username)
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found",
+        )
+
+    return user
+
+@auth_router.get("/me")
+async def get_me(current_user: User = Depends(get_current_user)):
+    return current_user
