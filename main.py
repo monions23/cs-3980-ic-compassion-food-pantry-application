@@ -19,9 +19,7 @@ async def lifespan(app: FastAPI):
     # Shutdown logic (optional)
     print("Shutting down...")
 
-
 app = FastAPI(title="IC Compassion Food Pantry", version="1.0.0", lifespan=lifespan)
-
 
 @app.get("/")
 async def home():
@@ -29,10 +27,9 @@ async def home():
 
 
 app.include_router(stock_router, prefix="/stock", tags=["Stock"])
-
+    
 
 app.mount("/", StaticFiles(directory="frontend"), name="static")
-
 
 @app.exception_handler(HTTPException)
 async def my_http_exception_handler(request, ex):
