@@ -147,6 +147,8 @@ hr {
   display: flex;
   flex: 1;
   position: relative;
+  margin: 0;
+  max-width: 100%;
 }
 
 /* Sidebar (Sliding Drawer) */
@@ -228,6 +230,7 @@ hr {
   margin: auto;
   border: 2px solid #626262;
   border-collapse: collapse;
+  padding: 15px;
 }
 /* 
 .main-structure {
@@ -366,7 +369,7 @@ strong {
   justify-self: center;
   display: flex;
   width: 100%;
-  min-height: 80px;
+  min-height: 90px;
   flex-direction: column;
   border: 1px solid #dddddd;
   border-radius: 5px;
@@ -380,7 +383,7 @@ strong {
 }
 
 .pantry-add {
-  width: 25%;
+  width: 35%;
   position: absolute;
   margin-top: 10px;
   padding: 5px;
@@ -432,9 +435,21 @@ strong {
   border-bottom: 1px solid #dddddd;
 }
 
+.stock-header.item {
+  width: 50%;
+}
+
 /* Make it so last header has no right border */
 .stock-header:last-child {
   border-right: none;
+}
+
+/* .stock-table-row:first-child {
+  border-top: none;
+} */
+
+.stock-table-row {
+  border-bottom: 1px solid #dddddd;
 }
 
 .stock-table-item {
@@ -456,10 +471,22 @@ strong {
   flex-direction: row;
   justify-content: space-between;
 }
-#openNewStockModal {
+.stock-modal {
+  margin-top: 4rem;
+}
+.stockModalTrigger {
   display: block;
   margin-top: 10px;
   margin-bottom: 10px;
   width: 25%;
   padding: 3px;
+  background-color: #dddddd;
+}
+.stockModalTrigger:hover {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 25%;
+  padding: 3px;
+  background-color: #a19f9f;
 }

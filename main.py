@@ -29,7 +29,6 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-
 @app.get("/")
 async def home():
     return FileResponse("frontend/main.html")
