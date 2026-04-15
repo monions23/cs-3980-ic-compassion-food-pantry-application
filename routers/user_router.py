@@ -44,3 +44,4 @@ async def update_user(user_id: PydanticObjectId, update_data: dict):
 
     await user.update({"$set": update_data})
     return await User.get(user_id)
+

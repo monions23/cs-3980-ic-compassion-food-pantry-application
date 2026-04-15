@@ -5,8 +5,9 @@ from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 from database import init
+from routers.auth_router import auth_router
 from routers.stock_router import stock_router
-from routers.user_router import user_router 
+from routers.user_router import user_router
 
 
 @asynccontextmanager
@@ -20,18 +21,27 @@ async def lifespan(app: FastAPI):
     # Shutdown logic (optional)
     print("Shutting down...")
 
-app = FastAPI(title="IC Compassion Food Pantry", version="1.0.0", lifespan=lifespan)
+
+app = FastAPI(
+    title="IC Compassion Food Pantry",
+    version="1.0.0",
+    swagger_ui_parameters={"persistAuthorization": True},
+    lifespan=lifespan,
+)
+
 
 @app.get("/")
 async def home():
     return FileResponse("frontend/main.html")
 
 
+app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(stock_router, prefix="/stock", tags=["Stock"])
 app.include_router(user_router, prefix="/users", tags=["Users"])
-    
+
 
 app.mount("/", StaticFiles(directory="frontend"), name="static")
+
 
 @app.exception_handler(HTTPException)
 async def my_http_exception_handler(request, ex):
