@@ -26,7 +26,7 @@ This uses styles.css
         City Compassion Food Pantry
       </div>
       <div class="user">
-        <span>Username</span>
+        <span>Sign in</span>
         <img src="https://via.placeholder.com/40" alt="User" />
       </div>
     </section>
@@ -35,80 +35,57 @@ This uses styles.css
       <!-- Sidebar -->
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-links">
-          <a href="main.html" class="sidebar-button">Homepage</a>
-        </div>
-        <div class="sidebar-links">
-          <a href="archive.html" class="sidebar-button">Archive</a>
+          <a href="main-logged-out.html" class="sidebar-button" active>Homepage</a>
         </div>
         <div class="sidebar-links">
           <a href="trends.html" class="sidebar-button">Trends</a>
         </div>
-        <div class="sidebar-links">
-          <a href="stock.html" class="sidebar-button">Stock</a>
-        </div>
-        <div class="sidebar-links">
-          <a href="account.html" class="sidebar-button" active>Account</a>
-        </div>
-        <div class="sidebar-links">
-          <a href="tasks.html" class="sidebar-button">Task Manager</a>
-        </div>
-        <div class="sidebar-links">
-          <a href="pantry.html" class="sidebar-button">Pantry</a>
-        </div>
-        <div class="sidebar-links" onclick="logout()">Log Out</div>
+        <div class="sidebar-links" onclick="Signin()">Sign in</div>
         <!-- Doesnt do anything yet-->
       </aside>
 
       <!-- Main Content Table, Can be merged or sorted differently-->
       <section class="main">
         <div class="main-grid">
+            <div class="main-structure-top">
+                <h1>Sign in / Sign up</h1>
+            </div>
           <div class="main-structure-left">
-            <h1>Account USER OR ADMIN ONLY</h1>
-            <hr>
-            <table  class="account-table">
-              <th >
-                <strong>Username:</strong> </th>
-                <td> ######</td>
-                <tr>
-                <th>
-                  <strong>Email:</strong>
-                </th>
-                <td>Email@email.com</td>
-                
-              </tr>
-              <tr>
-                <th>
-                  <strong>Status:</strong>
-                </th>
-                <td>Admin/User/Veiwer</td>
-                <!-- Admin can change permissions
-                 User can veiw all pages but cant change permissions
-                 Veiwer is someone who mistakenly logged in. 
-                 Maybe they cann see the trends? -->
-              </tr>
-            </table>
-              
-          </div>
-          <div class="main-structure-right">
-            <h2>Header 2</h2>
-            <br />
-            <p>Reset password</p>
-            <hr />
-            <p>Reset Username</p>
-            <hr />
-            <p>Change email</p>
-            <hr />
+                <h2>Sign in</h2>
+            <form action="/login-process" method="POST">
+                <div class="form-group">
+                    <label for="username">Username:</label><br>
+                    <input type="text" id="username" name="username" placeholder="Enter Username" required><br>
+                </div><br>
+                <div class="form-group">
+                    <label for="password">Password:</label><br>
+                    <input type="password" id="password" name="password" placeholder="Enter Password" required><br>
+                </div><br>
+                <button type="submit">Sign In</button><br>
+                <div class="extra-options"><br>
+                    <label>
+                        <input type="checkbox" name="remember"> Remember me<br>
+                    </label><br>
+                    <a href="#">Forgot password?</a>
+                </div>
+            </form>
 
-
-            <br> <br> <br> <br>
-          </div>
-          <div class="main-structure-left">
-            <h3>Header 3</h3>
-            <p>Table with  changing permissions in Admin Veiw</p>
-            <hr />
-          </div>
-          <div class="main-structure-right">
             
+          </div>
+          <div class="main-structure-right">
+
+                <form action="/submit-signup" method="POST">
+                    <h2>Create Account</h2>
+                    <label for="username">Username:</label><br>
+                    <input type="text" id="username" name="username" required><br><br>
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" required><br><br>
+                    <label for="password">Password:</label><br>
+                    <input type="password" id="password" name="password" required><br><br>
+                    <button type="submit">Sign Up</button>
+                </form>
+
+
           </div>
           
         </div>
@@ -117,7 +94,7 @@ This uses styles.css
 
     <!-- Footer -->
     <footer>
-      <hr class="center" />
+      <hr class="center"/>
       <div class="footer-grid">
         <img
           src="IC_Compassion_Logo_big.jpg"
@@ -138,7 +115,7 @@ This uses styles.css
           >For more information</a
         >
       </div>
-      <hr class="center" />
+      <hr class="center"/>
     </footer>
   </body>
   <script
