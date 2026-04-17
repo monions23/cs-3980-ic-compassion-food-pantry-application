@@ -4,18 +4,20 @@ from enum import StrEnum, unique
 from beanie import Document
 from pydantic import BaseModel, ConfigDict, EmailStr
 
+
 @unique
 class UserRole(StrEnum):
     BasicUser = "BasicUser"
     Admin = "Admin"
     SuperAdmin = "SuperAdmin"
 
+
 class User(Document):
     email: EmailStr
     role: str = UserRole.BasicUser
     password: str = ""
     active: bool = True
-    
+
     model_config = ConfigDict(
         json_schema_extra={
             "example": {"email": "python-web-dev@cs.uiowa.edu", "password": "strong!!!"}
@@ -25,10 +27,11 @@ class User(Document):
     class Settings:
         name = "users"
 
+
 class TokenResponse(BaseModel):
-    username: str
+    username: str                                                                                                                                                                                                                                          
     role: str
-    token: str
+    access_token: str
     expiry: datetime
 
 
