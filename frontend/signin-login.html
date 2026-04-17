@@ -35,7 +35,9 @@ This uses styles.css
       <!-- Sidebar -->
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-links">
-          <a href="main-logged-out.html" class="sidebar-button" active>Homepage</a>
+          <a href="main-logged-out.html" class="sidebar-button active"
+            >Homepage</a
+          >
         </div>
         <div class="sidebar-links">
           <a href="trends.html" class="sidebar-button">Trends</a>
@@ -47,54 +49,78 @@ This uses styles.css
       <!-- Main Content Table, Can be merged or sorted differently-->
       <section class="main">
         <div class="main-grid">
-            <div class="main-structure-top">
-                <h1>Sign in / Sign up</h1>
-            </div>
+          <div class="main-structure-top">
+            <h1>Sign in / Sign up</h1>
+          </div>
           <div class="main-structure-left">
-                <h2>Sign in</h2>
+            <h2>Sign in</h2>
             <form action="/login-process" method="POST">
-                <div class="form-group">
-                    <label for="username">Username:</label><br>
-                    <input type="text" id="username" name="username" placeholder="Enter Username" required><br>
-                </div><br>
-                <div class="form-group">
-                    <label for="password">Password:</label><br>
-                    <input type="password" id="password" name="password" placeholder="Enter Password" required><br>
-                </div><br>
-                <button type="submit">Sign In</button><br>
-                <div class="extra-options"><br>
-                    <label>
-                        <input type="checkbox" name="remember"> Remember me<br>
-                    </label><br>
-                    <a href="#">Forgot password?</a>
-                </div>
+              <div class="form-group">
+                <label for="username">Username:</label><br />
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Enter Username"
+                  required
+                /><br />
+              </div>
+              <br />
+              <div class="form-group">
+                <label for="password">Password:</label><br />
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Enter Password"
+                  required
+                /><br />
+              </div>
+              <br />
+              <button type="submit">Sign In</button><br />
+              <div class="extra-options">
+                <br />
+                <label>
+                  <input type="checkbox" name="remember" /> Remember me<br /> </label
+                ><br />
+                <a href="#">Forgot password?</a>
+              </div>
             </form>
-
-            
           </div>
           <div class="main-structure-right">
-
-                <form action="/submit-signup" method="POST">
-                    <h2>Create Account</h2>
-                    <label for="username">Username:</label><br>
-                    <input type="text" id="username" name="username" required><br><br>
-                    <label for="email">Email:</label><br>
-                    <input type="email" id="email" name="email" required><br><br>
-                    <label for="password">Password:</label><br>
-                    <input type="password" id="password" name="password" required><br><br>
-                    <button type="submit">Sign Up</button>
-                </form>
-
-
+            <form action="/submit-signup" method="POST">
+              <h2>Create Account</h2>
+              <label for="username">Username:</label><br />
+              <input
+                type="text"
+                id="username"
+                name="username"
+                required
+              /><br /><br />
+              <label for="email">Email:</label><br />
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+              /><br /><br />
+              <label for="password">Password:</label><br />
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+              /><br /><br />
+              <button type="submit">Sign Up</button>
+            </form>
           </div>
-          
         </div>
       </section>
     </main>
 
     <!-- Footer -->
     <footer>
-      <hr class="center"/>
+      <hr class="center" />
       <div class="footer-grid">
         <img
           src="IC_Compassion_Logo_big.jpg"
@@ -115,7 +141,7 @@ This uses styles.css
           >For more information</a
         >
       </div>
-      <hr class="center"/>
+      <hr class="center" />
     </footer>
   </body>
   <script
