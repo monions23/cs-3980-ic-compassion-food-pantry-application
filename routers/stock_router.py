@@ -37,7 +37,7 @@ async def update_stock(item_id: str, update: StockUpdate):
 
     await item.update({"$set": update.model_dump(exclude_unset=True)})
 
-    return {"message": "Stock updated successfully"}
+    return item
 
 # Delete a stock item
 @stock_router.delete("/{item_id}")

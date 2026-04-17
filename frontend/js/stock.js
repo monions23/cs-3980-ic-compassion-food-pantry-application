@@ -1,6 +1,11 @@
-let stockedFood = [];
 const api = "http://127.0.0.1:8000/stock/";
-let stockIdInEdit = 0;
+
+let stockedFood = []; // default of empty array, will be updated with getAllStockItems() upon page load
+let stockIdInEdit = "";
+
+(() => {
+  getAllStockItems();
+})();
 
 document.getElementById("add-btn").addEventListener("click", (e) => {
   e.preventDefault();
@@ -11,6 +16,7 @@ document.getElementById("add-btn").addEventListener("click", (e) => {
   const stockInput = document.getElementById("stock-number");
   const targetQuantityInput = document.getElementById("target-stock");
 
+  // check that all input fields are non-empty, otherwise display an error message
   if (!itemNameInput.value || !stockInput.value || !targetQuantityInput.value) {
     msgDiv.innerHTML =
       "Please provide non-empty fields when adding a new Reagent";
@@ -21,6 +27,7 @@ document.getElementById("add-btn").addEventListener("click", (e) => {
 
   xhr.onload = () => {
     if (xhr.status === 201) {
+      // get the new stocked item and updated the stockedFood array
       const newStockItem = JSON.parse(xhr.response);
       stockedFood.push(newStockItem);
       renderStock(stockedFood);
@@ -40,9 +47,6 @@ document.getElementById("add-btn").addEventListener("click", (e) => {
     console.log(stockedFood);
   };
 
-  console.log(itemNameInput.value);
-  console.log(stockInput.value);
-  console.log(targetQuantityInput.value);
   // with POST, need to send a body with post
   xhr.open("POST", api, true);
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -59,20 +63,13 @@ document.getElementById("edit-btn").addEventListener("click", (e) => {
   e.preventDefault();
 
   // get id from form input in modal and assign to what will be added by using .value
-  const msgDiv = document.getElementById("msgEdit");
-  const titleInput = document.getElementById("titleEdit");
-  const descInput = document.getElementById("descEdit");
-  const dateInput = document.getElementById("open_dateEdit");
-  const freezerInput = document.getElementById("freezerEdit");
-  const protocolInput = document.getElementById("protocolEdit");
+  const msgDiv = document.getElementById("msg-edit");
+  const itemNameInput = document.getElementById("title-edit");
+  const stockInput = document.getElementById("stock-number-edit");
+  const targetQuantityInput = document.getElementById("target-stock-edit");
 
-  if (
-    !titleInput.value ||
-    !descInput.value ||
-    !dateInput.value ||
-    !freezerInput.value ||
-    !protocolInput.value
-  ) {
+  // check that all input fields are non-empty, otherwise display an error message
+  if (!itemNameInput.value || !stockInput.value || !targetQuantityInput.value) {
     msgDiv.innerHTML =
       "Please provide non-empty fields when adding a new Reagent";
     return;
@@ -82,14 +79,15 @@ document.getElementById("edit-btn").addEventListener("click", (e) => {
 
   xhr.onload = () => {
     if (xhr.status === 200) {
-      const newReagent = JSON.parse(xhr.response);
-      const reagent = data.find((x) => x.id == reagentIdInEdit);
-      reagent.title = newReagent.title;
-      reagent.desc = newReagent.desc;
-      reagent.open_date = newReagent.open_date;
-      reagent.freezer = newReagent.freezer;
-      reagent.protocol = newReagent.protocol;
-      renderStock(data);
+      // get old and updated stock items
+      const editedStockItem = JSON.parse(xhr.response);
+      const oldStockItem = stockedFood.find((s) => s._id == stockIdInEdit);
+
+      // set stock values to the edited values
+      oldStockItem.item_name = editedStockItem.item_name;
+      oldStockItem.quantity = editedStockItem.quantity;
+      oldStockItem.target_quantity = editedStockItem.target_quantity;
+      renderStock(stockedFood);
 
       // close modal dialog
       // if using fetch, use "then"
@@ -98,78 +96,93 @@ document.getElementById("edit-btn").addEventListener("click", (e) => {
 
       // clean up error message
       msgDiv.innerHTML = "";
-      titleInput.value = "";
-      descInput.value = "";
-      dateInput.value = "";
-      freezerInput.value = "";
+      itemNameInput.value = "";
+      stockInput.value = "";
+      targetQuantityInput.value = "";
     }
   };
 
   // with POST, need to send a body with post
-  xhr.open("PUT", api + "/" + reagentIdInEdit, true);
+  xhr.open("PUT", api + stockIdInEdit, true);
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xhr.send(
     JSON.stringify({
-      title: titleInput.value,
-      desc: descInput.value,
-      open_date: dateInput.value,
-      freezer: freezerInput.value,
-      protocol: protocolInput.value,
+      item_name: itemNameInput.value,
+      quantity: parseInt(stockInput.value),
+      target_quantity: parseInt(targetQuantityInput.value),
     }),
   );
 });
 
-function deleteReagent(id) {
+function deleteStockItem(id) {
   const xhr = new XMLHttpRequest();
   xhr.onload = () => {
     if (xhr.status == 200) {
-      data = data.filter((x) => x.id != id); // filter ids that are all except the chosen id
-      renderStock(data); // refreshes todos
+      stockedFood = stockedFood.filter((x) => x._id != id); // filter ids that are all except the chosen id
+      renderStock(stockedFood); // refreshes todos
     }
   };
 
   // get api link from docs on page. need to open and send xhr request
-  xhr.open("DELETE", api + "/" + id, true);
+  xhr.open("DELETE", api + id, true);
   xhr.send();
 }
 
-function setReagentInEdit(id) {
-  reagentIdInEdit = id;
+function setStockItemInEdit(id) {
+  // find item with the corresponding id
+  stockIdInEdit = id;
+  const stockItem = stockedFood.find((s) => s._id == id);
 
-  const reagent = data.find((r) => r.id == id);
-
-  document.getElementById("titleEdit").value = reagent.title;
-  document.getElementById("descEdit").value = reagent.desc;
-  document.getElementById("open_dateEdit").value = reagent.open_date;
-  document.getElementById("freezerEdit").value = reagent.freezer;
-  document.getElementById("protocolEdit").value = reagent.protocol;
+  // set the input values in the edit modal to the current values of the stock item being edited
+  document.getElementById("title-edit").value = stockItem.item_name;
+  document.getElementById("stock-number-edit").value = stockItem.quantity;
+  document.getElementById("target-stock-edit").value =
+    stockItem.target_quantity;
 }
 
 /* Render stock data */
 function renderStock(data) {
+  // get the div where the stock data is rendered
   const stockDiv = document.getElementById("stock-table-data");
-  stockDiv.innerHTML = "";
+  stockDiv.innerHTML = ""; // clear before rerendering to avoid duplications
+
+  // display data in descending order of quantity
   data
     .sort((a, b) => b.quantity - a.quantity)
     .forEach((x) => {
+      // render each stock item as a row in the table
       stockDiv.innerHTML += `
-        <tr id = "stock-item-${x.id}" class="stock-table-row">
+        <tr id = "stock-item-${x._id}" class="stock-table-row">
             <td class = "stock-table-item">${x.item_name}</td>
             <td class = "stock-table-item">${x.quantity}</td>
             <td class = "stock-table-item">${x.target_quantity}</td>
-            <td class = "stock-table-item">Edit button</td>
+            <td class = "stock-table-item">
+                <button type="button" class = "btn btn-success btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modal-edit"
+                    onClick="setStockItemInEdit('${x._id}')">
+                    <i class="bi bi-pencil-square"></i>
+                    Edit
+                </button>
+                <button type="button" class = "btn btn-danger btn-sm"
+                    onClick="deleteStockItem('${x._id}')">
+                    <i class="bi bi-trash"></i>
+                Delete
+                </button>
+            </td>
         </tr>
-        `; // names must match the other ones from the app
+        `;
     });
 }
 
+/* Get all stock items from backend and render on page */
 function getAllStockItems() {
   const xhr = new XMLHttpRequest();
   xhr.onload = () => {
     if (xhr.status == 200) {
-      data = JSON.parse(xhr.response) || [];
-      console.log(data);
-      renderStock(data);
+      stockedFood = JSON.parse(xhr.response) || [];
+      console.log(stockedFood);
+      renderStock(stockedFood);
     }
   };
 
@@ -177,10 +190,6 @@ function getAllStockItems() {
   xhr.open("GET", api, true);
   xhr.send();
 }
-
-(() => {
-  getAllStockItems();
-})();
 
 document.addEventListener("DOMContentLoaded", () => {
   const addModalClear = document.getElementById("modal-add");

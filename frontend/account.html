@@ -47,7 +47,7 @@ This uses styles.css
           <a href="stock.html" class="sidebar-button">Stock</a>
         </div>
         <div class="sidebar-links">
-          <a href="account.html" class="sidebar-button" active>Account</a>
+          <a href="account.html" class="sidebar-button active">Account</a>
         </div>
         <div class="sidebar-links">
           <a href="tasks.html" class="sidebar-button">Task Manager</a>
@@ -63,61 +63,59 @@ This uses styles.css
       <section class="main">
         <div class="main-grid">
           <div class="main-structure-left">
-            <h1>Account</h1>
-            <p><strong>p strong</strong></p>
-            <p>
-              A big paragraph, A big paragraph, A big paragraph, A big
-              paragraph, A big paragraph, A big paragraph, A big paragraph, A
-              big paragraph, A big paragraph, A big paragraph, A big paragraph,
-              A big paragraph, A big paragraph, A big paragraph, A big
-              paragraph, A big paragraph, A big paragraph, A big paragraph, A
-              big paragraph, A big paragraph, A big paragraph, A big paragraph,
-              A big paragraph, A big paragraph, A big paragraph, A big
-              paragraph, A big paragraph, A big paragraph, A big paragraph, A
-              big paragraph, A big paragraph, A big paragraph, A big paragraph,
-              A big paragraph, A big paragraph, A big paragraph, A big
-              paragraph, A big paragraph, A big paragraph, A big paragraph, A
-              big paragraph, A big paragraph, A big paragraph, A big paragraph,
-              A big paragraph, A big paragraph, A big paragraph, A big
-              paragraph, A big paragraph, A big paragraph, A big paragraph, A
-              big paragraph, A big paragraph, A big paragraph, A big paragraph,
-              A big paragraph, A big paragraph, A big paragraph, A big
-              paragraph, A big paragraph, A big paragraph, A big paragraph, A
-              big paragraph, A big paragraph, A big paragraph, A big paragraph
-            </p>
+            <h1>Account USER OR ADMIN ONLY</h1>
+            <hr />
+            <table class="account-table">
+              <th>
+                <strong>Username:</strong>
+              </th>
+              <td>######</td>
+              <tr>
+                <th>
+                  <strong>Email:</strong>
+                </th>
+                <td>Email@email.com</td>
+              </tr>
+              <tr>
+                <th>
+                  <strong>Status:</strong>
+                </th>
+                <td>Admin/User/Veiwer</td>
+                <!-- Admin can change permissions
+                 User can veiw all pages but cant change permissions
+                 Veiwer is someone who mistakenly logged in. 
+                 Maybe they cann see the trends? -->
+              </tr>
+            </table>
           </div>
           <div class="main-structure-right">
             <h2>Header 2</h2>
             <br />
-            <p>p</p>
+            <p>Reset password</p>
             <hr />
-            <h4>h4</h4>
+            <p>Reset Username</p>
+            <hr />
+            <p>Change email</p>
+            <hr />
+
+            <br />
+            <br />
+            <br />
+            <br />
           </div>
           <div class="main-structure-left">
             <h3>Header 3</h3>
+            <p>Table with changing permissions in Admin Veiw</p>
+            <hr />
           </div>
-          <div class="main-structure-right">
-            <div class="graph">
-              <p>A graph goes here</p>
-            </div>
-          </div>
-          <div class="main-structure-bottom">
-            <h5>Header 5</h5>
-            <h6>Header 6</h6>
-            <p>
-              These borders are just here to show the containers, they can be
-              merged and hidden, its just for structure. I separated left and
-              right in the table so that if we wanted we can make a middle
-              partition easy.
-            </p>
-          </div>
+          <div class="main-structure-right"></div>
         </div>
       </section>
     </main>
 
     <!-- Footer -->
     <footer>
-      <hr />
+      <hr class="center" />
       <div class="footer-grid">
         <img
           src="IC_Compassion_Logo_big.jpg"
@@ -138,7 +136,7 @@ This uses styles.css
           >For more information</a
         >
       </div>
-      <hr />
+      <hr class="center" />
     </footer>
   </body>
   <script
