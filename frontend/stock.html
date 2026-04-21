@@ -63,9 +63,7 @@ This uses styles.css
       <section class="main">
         <div class="main-grid">
           <div class="main-structure-left-two-rows">
-            <p>
-              This is to add items to stock to show on website and in archive
-            </p>
+            
             <div class="stock-title">
               <h2 class="section-header">Current Stock</h2>
               <button
@@ -84,8 +82,126 @@ This uses styles.css
                   <tr>
                     <th class="stock-header item">Item</th>
                     <th class="stock-header">Stock</th>
-                    <th class="stock-header">Target Stock</th>
-                    <th class="stock-header">Options</th>
+                  </tr>
+                  <tr>
+                    <td>Apples</td>
+                    <td>136</td>
+                  </tr>
+                  <tr>
+                    <td>Item with a really really long name</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
+                  </tr>
+                  <tr>
+                    <td>Test</td>
+                    <td>7</td>
                   </tr>
                 </thead>
                 <tbody id="stock-table-data"></tbody>
@@ -93,27 +209,92 @@ This uses styles.css
             </section>
           </div>
           <div class="main-structure-right">
-            <div class="graph">
-              <p>
-                A Table to search through the stock and list the number here
-              </p>
+            <label for="search-choice">Search or select:</label>
+            <input list="options" id="search-choice" name="search-choice" placeholder="Type to search...">
+            <!-- HERE WE WOULD PUT THE NAME OF THE STOCK ITEMS THESE ARE TEMPORARY PLACEMENTS-->
+            <datalist id="options">
+              <option value="Apple">
+              <option value="Banana">
+              <option value="Cherry">
+              <option value="Date">
+            </datalist>
+            <br>
+            <br>
+            <div class="stock-search-table">
+              <!-- EXAMPLE TABLE-->  
+              <table class="side-stock-table-quantity">
+                  <tr>
+                    <th>ITEM NAME</th>
+                    <td></td>
+                    <td></td>
+                    <td> # of Stock</td>
+                  </tr>
+              </table >
+              <br>
+              <table class="side-stock-table-records">
+                
+                  <tr>
+                    <th>EDIT DATE</th>
+                    <th>ITEM NAME</th>
+                    <th>QUANTITY CHANGED</th>
+                    <th>TOTAL QUANTITY</th>
+                    
+                  </tr>
+                  <tr>
+                    <td>04/21/2026 12:27 pm</td>
+                     <td>Red Apples</td>
+                    <td>-9</td>
+                    <td>4</td>
+
+                  </tr>
+                  <tr>
+                    <td>04/11/2026 9:00 am</td>
+                    <td>Green Apples</td>
+                    <td>+100</td>
+                    <td>132</td>
+                  </tr>
+                  <tr>
+                    <td>##/##/#### #:## am</td>
+                    <td>ITEM WITH A REALLY REALLY REALLY LONG NAME</td>
+                    <td>+-1237954642139</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>##/##/#### #:## am</td>
+                    <td>ITEM WITH A REALLY REALLY REALLY LONG NAME</td>
+                    <td>+-1237954642139</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>##/##/#### #:## am</td>
+                    <td>ITEM WITH A REALLY REALLY REALLY LONG NAME</td>
+                    <td>+-1237954642139</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>##/##/#### #:## am</td>
+                    <td>ITEM WITH A REALLY REALLY REALLY LONG NAME</td>
+                    <td>+-1237954642139</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>##/##/#### #:## am</td>
+                    <td>ITEM WITH A REALLY REALLY REALLY LONG NAME</td>
+                    <td>+-1237954642139</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>##/##/#### #:## am</td>
+                    <td>ITEM WITH A REALLY REALLY REALLY LONG NAME</td>
+                    <td>+-1237954642139</td>
+                    <td>2</td>
+                  </tr>
+                  
+              </table>
             </div>
           </div>
-          <div class="main-structure-right">
-            <div class="graph">
-              <p>A graph showing change in stock within past two months</p>
-            </div>
-          </div>
-          <div class="main-structure-bottom">
-            <h5>Header 5</h5>
-            <h6>Header 6</h6>
-            <p>
-              These borders are just here to show the containers, they can be
-              merged and hidden, its just for structure. I separated left and
-              right in the table so that if we wanted we can make a middle
-              partition easy.
-            </p>
-          </div>
+          
+          
         </div>
       </section>
     </main>

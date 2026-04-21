@@ -487,6 +487,25 @@ strong {
   border-right: none;
 }
 
+.stock-info {
+  display:block;
+  max-height: 550px;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.stock-table {
+  max-height: 0px;;
+  overflow:auto;
+}
+
+.stock-table td {
+  width: 50%;
+  padding:5px;
+  border-top:#2f6e74 solid 1px;
+  margin:2px;
+}
+
 /* STOCK PAGE */
 
 .stock-title {
@@ -581,4 +600,36 @@ strong {
   border: black solid 2px;
   width: 50%;
   height: auto;
+}
+
+.stock-search-table {
+  width: 100%;
+  min-height: 150px;
+  border: black solid 2px;
+  padding:3px;
+  display:block;
+  max-height: 550px;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.side-stock-table-quantity {
+  width: 100%;
+  border: black solid 1px;
+  
+}
+.side-stock-table-quantity td {
+  width: 25%;
+  padding: 3px;
+}
+
+.side-stock-table-records {
+  
+  width: 100%;
+}
+
+.side-stock-table-records td {
+  border: black solid 2px;
+  text-align: left;
+  width: 25%;
+  padding: 3px;
 }
