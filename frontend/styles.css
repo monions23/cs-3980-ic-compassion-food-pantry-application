@@ -292,18 +292,7 @@ hr.center {
   grid-column: 1 / 13;
 }
 
-/* Graph */
-.graph {
-  border: 2px solid #111;
-  text-align: center;
-  background-color: #65bac2;
-  margin: 0 auto;
 
-  /* Size of graphs, I dunno 
-  if this will be the size for all graphs */
-  /* width: 400px; */
-  height: 200px;
-}
 
 /* Text titles */
 p {
@@ -487,25 +476,6 @@ strong {
   border-right: none;
 }
 
-.stock-info {
-  display:block;
-  max-height: 550px;
-  overflow-x: auto;
-  overflow-y: auto;
-}
-
-.stock-table {
-  max-height: 0px;;
-  overflow:auto;
-}
-
-.stock-table td {
-  width: 50%;
-  padding:5px;
-  border-top:#2f6e74 solid 1px;
-  margin:2px;
-}
-
 /* STOCK PAGE */
 
 .stock-title {
@@ -602,34 +572,56 @@ strong {
   height: auto;
 }
 
-.stock-search-table {
-  width: 100%;
-  min-height: 150px;
-  border: black solid 2px;
-  padding:3px;
-  display:block;
-  max-height: 550px;
-  overflow-x: auto;
-  overflow-y: auto;
-}
-.side-stock-table-quantity {
-  width: 100%;
-  border: black solid 1px;
+
+
+
+
+
+
+
+
+
+
+
+
+/* Graph */
+canvas {
+      background: white;
+      padding: 20px;
+      
+      height:100%;
+      width:100%;
+      border: solid #65bac2 2px;
+    }
+
+
+
+
+.graph {
+  text-align: center;
   
+  margin: 0 auto;
+
+  /* Size of graphs, I dunno 
+  if this will be the size for all graphs */
+  /* width: 400px; */
+  height: 100%;
+  width: 100%;
 }
-.side-stock-table-quantity td {
-  width: 25%;
+#chart {
+   
+  height: 80%;
+  width: 100%;
+}
+
+
+
+.search-answer-quantity {
+  border: solid black 1px;
+  width:100%;
   padding: 3px;
 }
 
-.side-stock-table-records {
-  
-  width: 100%;
-}
-
-.side-stock-table-records td {
-  border: black solid 2px;
-  text-align: left;
-  width: 25%;
-  padding: 3px;
+.search-answer-quantity td {
+  width: 50%;
 }

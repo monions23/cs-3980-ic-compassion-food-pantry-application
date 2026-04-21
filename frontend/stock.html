@@ -8,6 +8,7 @@ This uses styles.css
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Food Pantry Tracker</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Bootstrap Stylesheet -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -21,9 +22,9 @@ This uses styles.css
     <!-- Top Bar -->
     <section class="topbar">
       <div class="logo">
-        <!-- This is the &#9776; Iowa City Compassion in top left -->
-        <span onclick="toggleSidebar()" style="cursor: pointer">&#9776;</span>
-        Iowa City Compassion Food Pantry
+        <!-- This is the ☰ Iowa City Compassion in top left-->
+        <span onclick="toggleSidebar()" style="cursor: pointer">☰</span> Iowa
+        City Compassion Food Pantry
       </div>
       <div class="user">
         <span>Username</span>
@@ -44,7 +45,7 @@ This uses styles.css
           <a href="trends.html" class="sidebar-button">Trends</a>
         </div>
         <div class="sidebar-links">
-          <a href="stock.html" class="sidebar-button active">Stock</a>
+          <a href="stock.html" class="sidebar-button" active>Stock</a>
         </div>
         <div class="sidebar-links">
           <a href="account.html" class="sidebar-button">Account</a>
@@ -82,126 +83,8 @@ This uses styles.css
                   <tr>
                     <th class="stock-header item">Item</th>
                     <th class="stock-header">Stock</th>
-                  </tr>
-                  <tr>
-                    <td>Apples</td>
-                    <td>136</td>
-                  </tr>
-                  <tr>
-                    <td>Item with a really really long name</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
-                  </tr>
-                  <tr>
-                    <td>Test</td>
-                    <td>7</td>
+                    <th class="stock-header">Target Stock</th>
+                    <th class="stock-header">Options</th>
                   </tr>
                 </thead>
                 <tbody id="stock-table-data"></tbody>
@@ -209,10 +92,10 @@ This uses styles.css
             </section>
           </div>
           <div class="main-structure-right">
-            <label for="search-choice">Search or select:</label>
-            <input list="options" id="search-choice" name="search-choice" placeholder="Type to search...">
-            <!-- HERE WE WOULD PUT THE NAME OF THE STOCK ITEMS THESE ARE TEMPORARY PLACEMENTS-->
-            <datalist id="options">
+            <label for="search-input">Search items:</label>
+            <input list="items" id="search-input" name="search-input" placeholder="Type to search...">
+            
+            <datalist id="items">
               <option value="Apple">
               <option value="Banana">
               <option value="Cherry">
@@ -220,81 +103,31 @@ This uses styles.css
             </datalist>
             <br>
             <br>
-            <div class="stock-search-table">
-              <!-- EXAMPLE TABLE-->  
-              <table class="side-stock-table-quantity">
-                  <tr>
-                    <th>ITEM NAME</th>
-                    <td></td>
-                    <td></td>
-                    <td> # of Stock</td>
-                  </tr>
-              </table >
-              <br>
-              <table class="side-stock-table-records">
-                
-                  <tr>
-                    <th>EDIT DATE</th>
-                    <th>ITEM NAME</th>
-                    <th>QUANTITY CHANGED</th>
-                    <th>TOTAL QUANTITY</th>
-                    
-                  </tr>
-                  <tr>
-                    <td>04/21/2026 12:27 pm</td>
-                     <td>Red Apples</td>
-                    <td>-9</td>
-                    <td>4</td>
-
-                  </tr>
-                  <tr>
-                    <td>04/11/2026 9:00 am</td>
-                    <td>Green Apples</td>
-                    <td>+100</td>
-                    <td>132</td>
-                  </tr>
-                  <tr>
-                    <td>##/##/#### #:## am</td>
-                    <td>ITEM WITH A REALLY REALLY REALLY LONG NAME</td>
-                    <td>+-1237954642139</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>##/##/#### #:## am</td>
-                    <td>ITEM WITH A REALLY REALLY REALLY LONG NAME</td>
-                    <td>+-1237954642139</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>##/##/#### #:## am</td>
-                    <td>ITEM WITH A REALLY REALLY REALLY LONG NAME</td>
-                    <td>+-1237954642139</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>##/##/#### #:## am</td>
-                    <td>ITEM WITH A REALLY REALLY REALLY LONG NAME</td>
-                    <td>+-1237954642139</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>##/##/#### #:## am</td>
-                    <td>ITEM WITH A REALLY REALLY REALLY LONG NAME</td>
-                    <td>+-1237954642139</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>##/##/#### #:## am</td>
-                    <td>ITEM WITH A REALLY REALLY REALLY LONG NAME</td>
-                    <td>+-1237954642139</td>
-                    <td>2</td>
-                  </tr>
-                  
-              </table>
-            </div>
+            
+            <table class="search-answer-quantity">
+              <td>Item Name</td>
+              <td>####</td>
+            </table>
+            
           </div>
-          
-          
+          <div class="main-structure-right">
+            <div class="graph">
+              <h2>Stock of searched item the past 2 months</h2>
+              <br>
+              <canvas id="Stockchart"></canvas>
+              </div>
+              <br>
+    
+
+
+          </div>
+          <div class="main-structure-bottom">
+            <h5>Header 5</h5>
+            <p> The idea is that searching the object on the side will pop up that item on the page
+              and be able to pull the information for the chart at the bottom and find the object on the left
+            </p>
+            
+          </div>
         </div>
       </section>
     </main>
@@ -351,68 +184,9 @@ This uses styles.css
         </div>
       </div>
     </div>
-
-    <!-- Edit Modal -->
-    <div id="modal-edit" class="modal stock-modal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit Stock Item</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div id="edit-stock-item-form">
-              <div class="mb-3">
-                <label for="title-edit" class="form-label">Name of Item</label>
-                <input type="text" class="form-control" id="title-edit" />
-              </div>
-              <div class="mb-3">
-                <label for="stock-number-edit" class="form-label"
-                  >What is the current stock of the item?</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  id="stock-number-edit"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="target-stock-edit" class="form-label"
-                  >What is the ideal stock of the item?</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  id="target-stock-edit"
-                />
-              </div>
-              <div class="text-danger" id="msg-edit"></div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              id="close-edit-modal"
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              <i class="bi bi-x"></i> Close
-            </button>
-            <button id="edit-btn" type="button" class="btn btn-warning">
-              <i class="bi bi-check-circle"></i> Yes, Update it
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- Footer -->
     <footer>
-      <hr class="center" />
+      <hr class="center"/>
       <div class="footer-grid">
         <img
           src="IC_Compassion_Logo_big.jpg"
@@ -433,17 +207,16 @@ This uses styles.css
           >For more information</a
         >
       </div>
-      <hr class="center" />
+      <hr class="center"/>
     </footer>
-
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-    ></script>
-    <script src="js/stock.js"></script>
-    <script src="js/formatting.js"></script>
   </body>
 
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"
+  ></script>
+  <script src="js/stock.js"></script>
+  <script src="js/formatting.js"></script>
   <!-- <script src="main.js" defer></script> -->
 </html>
