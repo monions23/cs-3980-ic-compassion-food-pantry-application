@@ -3,7 +3,7 @@ from auth.authenticate import authenticate
 
 from models.scheduling import Scheduling
 
-#ADD LOGGER after updating this model
+# ADD LOGGER after updating this model
 scheduling_router = APIRouter()
 
 
@@ -55,8 +55,11 @@ async def assign_visitor(
 
     return {"message": "Visitor scheduled", "schedule": schedule}
 
+
 @scheduling_router.put("/{schedule_id}")
-async def update_schedule(schedule_id: str, updated: Scheduling, user=Depends(authenticate)):
+async def update_schedule(
+    schedule_id: str, updated: Scheduling, user=Depends(authenticate)
+):
 
     if user.role not in ["Admin", "SuperAdmin"]:
         raise HTTPException(status_code=403, detail="Not authorized")
