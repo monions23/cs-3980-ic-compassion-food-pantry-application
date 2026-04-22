@@ -26,6 +26,9 @@ from models.pantry_record import PantryRecord
 from pymongo import AsyncMongoClient
 from pydantic import BaseModel
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 class Settings(BaseSettings):
     DATABASE_URL: str
@@ -40,7 +43,7 @@ def get_settings():
 
 
 async def init():
-
+    logger.info("Connecting to the database...")
     settings = get_settings()
 
     client = AsyncMongoClient(settings.DATABASE_URL)

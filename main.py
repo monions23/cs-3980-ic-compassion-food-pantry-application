@@ -1,5 +1,5 @@
 from typing import Annotated
-
+import logging
 from fastapi import APIRouter, FastAPI, HTTPException, Path
 from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
@@ -10,11 +10,15 @@ from routers.stock_router import stock_router
 from routers.user_router import user_router
 from routers.scheduling_router import scheduling_router
 from routers.pantry_record_router import pantry_record_router
+from logging_setup import setup_logging
 
+setup_logging()
+logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup logic
+    logger.info("Application starts up...")
     await init()
     print("Database connected")
 
