@@ -2,6 +2,7 @@ const api = "http://127.0.0.1:8000/stock/";
 
 let stockedFood = []; // default of empty array, will be updated with getAllStockItems() upon page load
 let stockIdInEdit = "";
+let stockChart = null;
 
 (() => {
   getAllStockItems();
@@ -31,6 +32,8 @@ document.getElementById("add-btn").addEventListener("click", (e) => {
       const newStockItem = JSON.parse(xhr.response);
       stockedFood.push(newStockItem);
       renderStock(stockedFood);
+      //Update stock chart
+      updateStockChart(stockedFood);
 
       // close modal dialog
       // if using fetch, use "then"
@@ -89,6 +92,9 @@ document.getElementById("edit-btn").addEventListener("click", (e) => {
       oldStockItem.target_quantity = editedStockItem.target_quantity;
       renderStock(stockedFood);
 
+      //update stock chart
+      updateStockChart(stockedFood);
+
       // close modal dialog
       // if using fetch, use "then"
       const closeBtn = document.getElementById("close-edit-modal");
@@ -120,6 +126,9 @@ function deleteStockItem(id) {
     if (xhr.status == 200) {
       stockedFood = stockedFood.filter((x) => x._id != id); // filter ids that are all except the chosen id
       renderStock(stockedFood); // refreshes todos
+
+      //update stock chart
+      updateStockChart(stockedFood);
     }
   };
 
@@ -183,6 +192,9 @@ function getAllStockItems() {
       stockedFood = JSON.parse(xhr.response) || [];
       console.log(stockedFood);
       renderStock(stockedFood);
+
+      //Update the graph in stock
+      updateStockChart(stockedFood);
     }
   };
 
@@ -197,4 +209,94 @@ document.addEventListener("DOMContentLoaded", () => {
     const msgDiv = document.getElementById("msg");
     msgDiv.innerHTML = "";
   });
+  // Clear search input on page load
+  const searchInput = document.getElementById("search-input");
+  const searchResult = document.getElementById("search-result");
+
+  if (searchInput) searchInput.value = "";
+
+  if (searchResult) {
+    searchResult.innerHTML = "";
+  }
 });
+
+
+
+
+//This is to update the chart in the stock.html
+function updateStockChart(data) {
+  const canvas = document.getElementById("Stockchart");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+
+  // API data into chart format
+  const labels = data.map(item => item.item_name);
+  const quantities = data.map(item => item.quantity);
+
+  // clear
+  if (stockChart) {
+    stockChart.destroy();
+  }
+
+  stockChart = new Chart(ctx, {
+    type: "bar", //default is bar chart
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Current Stock",
+        data: quantities,
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true
+    }
+  });
+}
+
+//Search function:
+document.getElementById("search-input").addEventListener("input", (e) => {
+  const value = e.target.value.toLowerCase();
+  const resultBody = document.getElementById("search-result");
+
+  resultBody.innerHTML = "";
+
+  if (!value) {
+    // If empty search → clear table
+    return;
+  }
+
+  const matches = stockedFood.filter(item =>
+    item.item_name.toLowerCase().includes(value)
+  );
+
+  if (matches.length === 0) {
+    resultBody.innerHTML = `
+      <tr>
+        <td colspan="2">No items found</td>
+      </tr>
+    `;
+    return;
+  }
+
+  matches.forEach(item => {
+    resultBody.innerHTML += `
+      <tr>
+        <td>${item.item_name}</td>
+        <td>${item.quantity}</td>
+      </tr>
+    `;
+  });
+
+  // Optional: update chart to match search (VERY nice UX)
+  updateStockChart(matches);
+});
+
+//Reset chart when search is cleared.
+
+if (!value) {
+  resultBody.innerHTML = "";
+  updateStockChart(stockedFood); // reset chart
+  return;
+}

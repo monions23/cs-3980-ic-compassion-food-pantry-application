@@ -368,12 +368,13 @@ strong {
   border: 1px solid #dddddd;
   border-radius: 5px;
   position: relative;
+  
 }
 .client-info {
   justify-self: center;
   display: flex;
   width: 100%;
-  min-height: 115px;
+  min-height: 175px;
   flex-direction: column;
   border: 1px solid #dddddd;
   border-radius: 5px;
@@ -625,3 +626,26 @@ canvas {
 .search-answer-quantity td {
   width: 50%;
 }
+
+.menu button {
+  background-color: #02909d;
+  color:white;
+  margin: 3px;
+
+}
+
+.menu button:hover {
+  background-color: #bc1a38;
+}
+
+.trends-table-right {
+  width: 100%;
+  
+}
+.trends-table-right td {
+  border: #dedede 2px solid;
+  padding: 3px;
+  
+}
+
+
