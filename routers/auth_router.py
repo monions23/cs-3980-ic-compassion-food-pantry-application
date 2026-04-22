@@ -10,10 +10,7 @@ from auth.jwt_handler import TokenData, create_access_token, verify_access_token
 import logging
 
 from auth.hash_password import hash_password, verify_password
-from auth.jwt_handler import create_access_token
 from database import Database
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
 from models.user import User, TokenResponse
 
 
@@ -69,31 +66,9 @@ async def sign_in(
         expiry=expiry,
     )
 
-
-# @auth_router.post("/sign-in", response_model=TokenResponse)
-# async def sign_user_in(user: OAuth2PasswordRequestForm = Depends()) -> dict:
-#     logger.info(f"User [{user.username}] is signing in the system.")
-#     db_user = await User.find_one(User.email == user.username)
-#     if db_user and db_user.active:
-#         if verify_password(user.password, db_user.password):
-#             logger.info(f"\t User [{user.username}] signed in")
-#             (access_token, expiry) = create_access_token(
-#                 {"username": db_user.email, "role": db_user.role}
-#             )
-#             return TokenResponse(
-#                 username=db_user.email,
-#                 role=db_user.role,
-#                 token=access_token,
-#                 expiry=expiry,
-#             )
-
-#     raise HTTPException(
-#         status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid details passed."
-#     )
-
-
 @auth_router.get("/me")
 async def get_me(
     current_user: Annotated[TokenData, Depends(authenticate)],
 ) -> TokenData:
+    logger.info(f"/me accessed by user={current_user.username}")
     return current_user

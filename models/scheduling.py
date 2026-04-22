@@ -3,6 +3,7 @@ from pydantic import Field
 from datetime import datetime
 from typing import Optional
 
+# email of visitor, timeslot they want to come in (date and time)
 class Scheduling(Document):
     date: datetime = Field(..., description="Appointment time")
 

@@ -3,7 +3,7 @@ from auth.authenticate import authenticate
 
 from models.scheduling import Scheduling
 
-
+#ADD LOGGER after updating this model
 scheduling_router = APIRouter()
 
 
