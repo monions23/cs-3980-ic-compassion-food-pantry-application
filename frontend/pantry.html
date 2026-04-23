@@ -1,6 +1,3 @@
-<!--
-This uses styles.css
--->
 <!doctype html>
 <html lang="en">
   <head>
@@ -8,23 +5,26 @@ This uses styles.css
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Food Pantry Tracker</title>
 
-    <!-- Bootstrap Stylesheet -->
+    <!-- Bootstrap -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <!-- Custom Stylesheet(s) -->
+
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="styles.css" />
   </head>
+
   <body>
     <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
-    <!-- Top Bar -->
+
+    <!-- TOP BAR -->
     <section class="topbar">
       <div class="logo">
-        <!-- This is the ☰ Iowa City Compassion in top left-->
-        <span onclick="toggleSidebar()" style="cursor: pointer">☰</span> Iowa
-        City Compassion Food Pantry
+        <span onclick="toggleSidebar()" style="cursor: pointer">☰</span>
+        Iowa City Compassion Food Pantry
       </div>
+
       <div class="user">
         <span>Username</span>
         <img src="https://via.placeholder.com/40" alt="User" />
@@ -32,286 +32,138 @@ This uses styles.css
     </section>
 
     <main class="container">
-      <!-- Sidebar -->
+
+      <!-- SIDEBAR -->
       <aside class="sidebar" id="sidebar">
+        <div class="sidebar-links"><a href="main.html" class="sidebar-button">Homepage</a></div>
+        <div class="sidebar-links"><a href="archive.html" class="sidebar-button">Archive</a></div>
+        <div class="sidebar-links"><a href="trends.html" class="sidebar-button">Trends</a></div>
+        <div class="sidebar-links"><a href="stock.html" class="sidebar-button">Stock</a></div>
+        <div class="sidebar-links"><a href="account.html" class="sidebar-button">Account</a></div>
         <div class="sidebar-links">
-          <a href="main.html" class="sidebar-button">Homepage</a>
+          <a href="downloads.html" class="sidebar-button" active>Files</a>
         </div>
-        <div class="sidebar-links">
-          <a href="archive.html" class="sidebar-button">Archive</a>
-        </div>
-        <div class="sidebar-links">
-          <a href="trends.html" class="sidebar-button">Trends</a>
-        </div>
-        <div class="sidebar-links">
-          <a href="stock.html" class="sidebar-button">Stock</a>
-        </div>
-        <div class="sidebar-links">
-          <a href="account.html" class="sidebar-button">Account</a>
-        </div>
-        <div class="sidebar-links">
-          <a href="tasks.html" class="sidebar-button">Task Manager</a>
-        </div>
-        <div class="sidebar-links">
-          <a href="pantry.html" class="sidebar-button active">Pantry</a>
-        </div>
+        <div class="sidebar-links"><a href="pantry.html" class="sidebar-button active">Pantry</a></div>
         <div class="sidebar-links" onclick="logout()">Log Out</div>
-        <!-- Doesnt do anything yet-->
       </aside>
 
-      <!-- Main Content Table, Can be merged or sorted differently-->
+      <!-- MAIN CONTENT -->
       <section class="main">
         <div class="main-grid">
+
+          <!-- LEFT: FORM -->
           <div class="main-structure-left-two-rows">
-            <h2 class="section-header">Food Pantry Form</h2>
-            <form class="pantry-form">
-              <div class="client-info">
-                <div class="UID">
-                  <label for="UID">Unique ID Number:</label>
-                  <input
-                    type="integer"
-                    id="UID"
-                    name="UID"
-                    placeholder="UID"
-                  />
-                </div>
 
-                <div class="family-members">
-                  <label for="family-members">How many people in family?</label>
-                  <input
-                    type="integer"
-                    id="family-members"
-                    name="family-members"
-                    placeholder="Enter number"
-                  />
-                </div>
+            <form id="pantry-form" class="pantry-form">
+              <h2 class="section-header">Food Pantry Form</h2>
 
-                <button
-                  id="openNewModal"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modal-add"
-                  type="button"
-                  class="pantry-add"
-                >
-                  <i class="bi bi-plus-circle"></i> Add Record
-                </button>
+              <div class="mb-3">
+                <label for="name" class="form-label">Client Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Enter client name"
+                  required
+                />
               </div>
 
-              <button type="submit" class="pantry-submit">Submit</button>
+              <div class="mb-3">
+                <label for="num-in-family" class="form-label">
+                  Number of People in Family
+                </label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="num-in-family"
+                  min="1"
+                  placeholder="e.g. 4"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="user-updater" class="form-label">
+                  Volunteer Email (optional)
+                </label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="user-updater"
+                  placeholder="you@example.com"
+                />
+              </div>
+
+              <div id="msg" class="text-danger mb-2"></div>
+
+              <button type="submit" class="btn btn-primary pantry-submit">
+                Submit Record
+              </button>
             </form>
-            <h3>
-              Note: place where submit button is right now does not feel
-              intuitive to me; might want to edit or add extra
-              padding/instructions to form
-            </h3>
+
           </div>
+
+          <!-- MIDDLE: UPDATES -->
           <div class="main-structure-right">
             <h2 class="section-header">Updates</h2>
-            <form class="pantry-form">
-              <div class="client-info">
-                <p class="pantry-history-info">Family of 4 took bread, milk</p>
 
-                <button class="pantry-close">
-                  <i class="bi bi-plus-circle"></i> X
-                </button>
-                <button class="pantry-edit">
-                  <i class="bi bi-plus-circle"></i> Edit
-                </button>
-              </div>
-            </form>
-            <form class="pantry-form">
-              <div class="client-info">
-                <p class="pantry-history-info">Family of 3 took eggs, onions</p>
-
-                <button class="pantry-close">
-                  <i class="bi bi-plus-circle"></i> X
-                </button>
-                <button class="pantry-edit">
-                  <i class="bi bi-plus-circle"></i> Edit
-                </button>
-              </div>
-            </form>
-            <br />
+            <div id="updates-list">
+              <p class="pantry-history-info">Loading updates...</p>
+            </div>
           </div>
+
+          <!-- RIGHT: (OPTIONAL EMPTY OR FUTURE USE) -->
           <div class="main-structure-right">
-            <h2 class="section-header">Real-Time Stock</h2>
-            <section class="stock-info">
-              <table class="stock-table">
-                <tr>
-                  <th class="stock-header">Item</th>
-                  <th class="stock-header">Stock</th>
-                </tr>
-                <tr>
-                  <td class="stock-table-item">Add through JS</td>
-                  <td class="stock-table-item">Add through JS</td>
-                </tr>
-              </table>
-            </section>
+            <h2 class="section-header">Today's Impact</h2>
+
+            <div class="card p-3 text-center">
+              <h5>People Served Today</h5>
+              <h1 id="today-total" style="font-size: 3rem;">0</h1>
+            </div>
           </div>
-          <div class="main-structure-bottom">
-            <h5>Header 5</h5>
-            <h6>Header 6</h6>
-            <p>
-              These borders are just here to show the containers, they can be
-              merged and hidden, its just for structure. I separated left and
-              right in the table so that if we wanted we can make a middle
-              partition easy.
-            </p>
-          </div>
-        </div>
       </section>
     </main>
 
-    <!-- MODALS -->
-    <!-- modal needs to be in body level -->
-    <!-- modal dialog for adding -->
-    <div id="modal-add" class="modal pantry-record-modal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Add Item to Stock</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div id="new-pantry-record">
-              <div class="mb-3">
-                <label for="id_no" class="form-label">ID Number</label>
-                <input type="text" class="form-control" id="id_no" />
-              </div>
-              <div class="mb-3">
-                <label for="updated-at" class="form-label"
-                  >What is the current date?</label
-                >
-                <input type="datetime" class="form-control" id="updated-at" />
-              </div>
-              <div class="mb-3">
-                <label for="num-in-family" class="form-label"
-                  >How many people are they shopping for?</label
-                >
-                <input type="number" class="form-control" id="num-in-family" />
-              </div>
-              <div class="mb-3">
-                <label for="user-updater" class="form-label"
-                  >Please Input Email of Volunteer Who is Updating Pantry
-                  Record:</label
-                >
-                <input type="email" class="form-control" id="user-updater" />
-              </div>
-              <div class="text-danger" id="msg"></div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              id="close-add-modal"
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              <i class="bi bi-x"></i> Close
-            </button>
-            <button id="add-btn" type="button" class="btn btn-primary">
-              <i class="bi bi-plus-circle"></i> Add
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Edit Modal -->
-    <div id="modal-edit" class="modal stock-modal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit Stock Item</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div id="edit-stock-item-form">
-              <div class="mb-3">
-                <label for="title-edit" class="form-label">Name of Item</label>
-                <input type="text" class="form-control" id="title-edit" />
-              </div>
-              <div class="mb-3">
-                <label for="stock-number-edit" class="form-label"
-                  >What is the current stock of the item?</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  id="stock-number-edit"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="target-stock-edit" class="form-label"
-                  >What is the ideal stock of the item?</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  id="target-stock-edit"
-                />
-              </div>
-              <div class="text-danger" id="msg-edit"></div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              id="close-edit-modal"
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              <i class="bi bi-x"></i> Close
-            </button>
-            <button id="edit-btn" type="button" class="btn btn-warning">
-              <i class="bi bi-check-circle"></i> Yes, Update it
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer>
       <hr class="center" />
+
       <div class="footer-grid">
         <img
           src="IC_Compassion_Logo_big.jpg"
           alt="Iowa City Compassion Logo"
           class="footer-logo"
         />
+
         <div class="footer-pantry-info">
           <p>
             Food Pantry Open 12:00 pm to 5:00 pm Wednesday
+            <br /><br />
+            Email: info@iccompassion.org
             <br />
-            <br />Email: info@iccompassion.org <br />Phone: (319)-330-9883
+            Phone: (319)-330-9883
+            <br /><br />
+            1035 Wade St
             <br />
-            <br />1035 Wade St <br />Iowa City, IA 52240 <br />@ 2026 by IC
-            Compassion
+            Iowa City, IA 52240
+            <br />
+            @ 2026 by IC Compassion
           </p>
         </div>
-        <a href="https://www.iccompassion.org/" class="footer-button"
-          >For more information</a
-        >
+
+        <a href="https://www.iccompassion.org/" class="footer-button">
+          For more information
+        </a>
       </div>
+
       <hr class="center" />
     </footer>
 
+    <!-- SCRIPTS -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
     ></script>
+
     <script src="js/formatting.js"></script>
     <script src="js/pantry.js"></script>
   </body>

@@ -54,6 +54,8 @@
 2026-04-22 20:38:16,799 INFO routers.pantry_record_router:19 Retrieved 1 pantry records
 2026-04-22 20:38:57,404 INFO main:21 Application starts up...
 2026-04-22 20:38:57,404 INFO database:46 Connecting to the database...
+2026-04-22 20:38:57,404 INFO main:21 Application starts up...
+2026-04-22 20:38:57,404 INFO database:46 Connecting to the database...
 2026-04-22 20:47:37,947 INFO main:21 Application starts up...
 2026-04-22 20:47:37,949 INFO database:46 Connecting to the database...
 2026-04-22 20:49:50,331 INFO routers.pantry_record_router:16 Fetching all pantry records
@@ -68,3 +70,365 @@
 2026-04-23 00:06:30,715 INFO database:46 Connecting to the database...
 2026-04-23 00:08:00,523 INFO main:21 Application starts up...
 2026-04-23 00:08:00,523 INFO database:46 Connecting to the database...
+2026-04-22 21:13:56,440 INFO main:21 Application starts up...
+2026-04-22 21:13:56,441 INFO database:46 Connecting to the database...
+2026-04-22 21:14:08,894 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:14:08,898 INFO routers.pantry_record_router:19 Retrieved 0 pantry records
+2026-04-22 21:16:03,282 INFO main:21 Application starts up...
+2026-04-22 21:16:03,283 INFO database:46 Connecting to the database...
+2026-04-22 21:16:51,853 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:16:51,857 INFO routers.pantry_record_router:19 Retrieved 0 pantry records
+2026-04-22 21:16:59,823 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:16:59,827 INFO routers.pantry_record_router:19 Retrieved 0 pantry records
+2026-04-22 21:17:11,582 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:17:11,585 INFO routers.pantry_record_router:19 Retrieved 0 pantry records
+2026-04-22 21:19:10,180 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:19:10,191 INFO routers.pantry_record_router:19 Retrieved 0 pantry records
+2026-04-22 21:20:04,672 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:20:04,679 INFO routers.pantry_record_router:19 Retrieved 0 pantry records
+2026-04-22 21:22:20,534 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:22:20,540 INFO routers.pantry_record_router:19 Retrieved 0 pantry records
+2026-04-22 21:23:42,396 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:23:42,399 INFO routers.pantry_record_router:19 Retrieved 0 pantry records
+2026-04-22 21:34:20,368 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:34:20,372 INFO routers.pantry_record_router:19 Retrieved 0 pantry records
+2026-04-22 21:34:54,500 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:34:54,503 INFO routers.pantry_record_router:19 Retrieved 0 pantry records
+2026-04-22 21:35:54,355 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 21:35:54,421 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e9858aca8d0b81b4a456b6
+2026-04-22 21:35:59,417 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:35:59,430 INFO routers.pantry_record_router:19 Retrieved 1 pantry records
+2026-04-22 21:38:31,725 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:38:31,728 INFO routers.pantry_record_router:19 Retrieved 1 pantry records
+2026-04-22 21:38:48,668 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 21:38:48,671 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e98638ca8d0b81b4a456b7
+2026-04-22 21:39:10,562 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 21:39:10,565 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e9864eca8d0b81b4a456b8
+2026-04-22 21:39:20,858 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:39:20,864 INFO routers.pantry_record_router:19 Retrieved 3 pantry records
+2026-04-22 21:42:05,048 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:42:05,052 INFO routers.pantry_record_router:19 Retrieved 3 pantry records
+2026-04-22 21:42:13,274 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:42:13,278 INFO routers.pantry_record_router:19 Retrieved 3 pantry records
+2026-04-22 21:45:58,438 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:45:58,442 INFO routers.pantry_record_router:19 Retrieved 3 pantry records
+2026-04-22 21:49:16,961 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:49:16,967 INFO routers.pantry_record_router:19 Retrieved 3 pantry records
+2026-04-22 21:51:50,689 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:51:50,692 INFO routers.pantry_record_router:19 Retrieved 3 pantry records
+2026-04-22 21:51:52,110 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:51:52,113 INFO routers.pantry_record_router:19 Retrieved 3 pantry records
+2026-04-22 21:53:35,580 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:53:35,583 INFO routers.pantry_record_router:19 Retrieved 3 pantry records
+2026-04-22 21:53:36,338 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:53:36,340 INFO routers.pantry_record_router:19 Retrieved 3 pantry records
+2026-04-22 21:53:36,937 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:53:36,940 INFO routers.pantry_record_router:19 Retrieved 3 pantry records
+2026-04-22 21:53:47,868 INFO main:21 Application starts up...
+2026-04-22 21:53:47,868 INFO database:46 Connecting to the database...
+2026-04-22 21:53:53,058 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:53:53,061 INFO routers.pantry_record_router:19 Retrieved 3 pantry records
+2026-04-22 21:53:55,258 INFO routers.pantry_record_router:73 Attempting to delete pantry record id=69e9864eca8d0b81b4a456b8
+2026-04-22 21:53:55,270 INFO routers.pantry_record_router:81 Pantry record deleted successfully id=69e9864eca8d0b81b4a456b8
+2026-04-22 21:54:09,315 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 21:54:09,318 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e989d1d89899f5bcd9881b
+2026-04-22 21:54:53,259 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 21:54:53,263 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e989fdd89899f5bcd9881c
+2026-04-22 21:54:56,890 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:54:56,894 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 21:54:58,734 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:54:58,737 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 21:54:59,286 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:54:59,289 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 21:54:59,803 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:54:59,806 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 21:55:05,053 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:55:05,057 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 21:55:09,511 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:55:09,514 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 21:57:26,672 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:57:26,675 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 21:57:50,953 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 21:57:50,957 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e98aaed89899f5bcd9881d
+2026-04-22 21:59:24,035 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:59:24,038 INFO routers.pantry_record_router:19 Retrieved 5 pantry records
+2026-04-22 21:59:37,181 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 21:59:37,184 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e98b19d89899f5bcd9881e
+2026-04-22 21:59:46,427 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 21:59:46,430 INFO routers.pantry_record_router:19 Retrieved 6 pantry records
+2026-04-22 22:02:42,420 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:02:42,423 INFO routers.pantry_record_router:19 Retrieved 6 pantry records
+2026-04-22 22:03:10,084 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 22:03:10,086 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e98beed89899f5bcd9881f
+2026-04-22 22:03:17,123 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:03:17,126 INFO routers.pantry_record_router:19 Retrieved 7 pantry records
+2026-04-22 22:05:44,190 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:05:44,193 INFO routers.pantry_record_router:19 Retrieved 7 pantry records
+2026-04-22 22:06:10,997 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:06:11,000 INFO routers.pantry_record_router:19 Retrieved 7 pantry records
+2026-04-22 22:07:18,408 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:07:18,412 INFO routers.pantry_record_router:19 Retrieved 7 pantry records
+2026-04-22 22:07:26,904 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 22:07:26,907 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e98ceed89899f5bcd98820
+2026-04-22 22:08:10,662 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:08:10,666 INFO routers.pantry_record_router:19 Retrieved 8 pantry records
+2026-04-22 22:10:00,250 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:10:00,253 INFO routers.pantry_record_router:19 Retrieved 8 pantry records
+2026-04-22 22:10:49,491 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 22:10:49,494 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e98db9d89899f5bcd98821
+2026-04-22 22:10:52,026 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:10:52,030 INFO routers.pantry_record_router:19 Retrieved 9 pantry records
+2026-04-22 22:11:04,262 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 22:11:04,265 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e98dc8d89899f5bcd98822
+2026-04-22 22:11:11,428 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:11:11,433 INFO routers.pantry_record_router:19 Retrieved 10 pantry records
+2026-04-22 22:12:37,662 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:12:37,666 INFO routers.pantry_record_router:19 Retrieved 10 pantry records
+2026-04-22 22:12:44,461 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 22:12:44,465 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e98e2cd89899f5bcd98823
+2026-04-22 22:12:47,527 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:12:47,531 INFO routers.pantry_record_router:19 Retrieved 11 pantry records
+2026-04-22 22:13:31,486 INFO main:21 Application starts up...
+2026-04-22 22:13:31,486 INFO database:46 Connecting to the database...
+2026-04-22 22:14:00,105 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:14:00,109 INFO routers.pantry_record_router:19 Retrieved 11 pantry records
+2026-04-22 22:14:01,323 INFO routers.pantry_record_router:73 Attempting to delete pantry record id=69e98e2cd89899f5bcd98823
+2026-04-22 22:14:01,328 INFO routers.pantry_record_router:81 Pantry record deleted successfully id=69e98e2cd89899f5bcd98823
+2026-04-22 22:14:01,621 INFO routers.pantry_record_router:73 Attempting to delete pantry record id=69e98dc8d89899f5bcd98822
+2026-04-22 22:14:01,626 INFO routers.pantry_record_router:81 Pantry record deleted successfully id=69e98dc8d89899f5bcd98822
+2026-04-22 22:14:01,795 INFO routers.pantry_record_router:73 Attempting to delete pantry record id=69e98db9d89899f5bcd98821
+2026-04-22 22:14:01,800 INFO routers.pantry_record_router:81 Pantry record deleted successfully id=69e98db9d89899f5bcd98821
+2026-04-22 22:14:01,955 INFO routers.pantry_record_router:73 Attempting to delete pantry record id=69e98ceed89899f5bcd98820
+2026-04-22 22:14:01,959 INFO routers.pantry_record_router:81 Pantry record deleted successfully id=69e98ceed89899f5bcd98820
+2026-04-22 22:14:02,123 INFO routers.pantry_record_router:73 Attempting to delete pantry record id=69e98beed89899f5bcd9881f
+2026-04-22 22:14:02,127 INFO routers.pantry_record_router:81 Pantry record deleted successfully id=69e98beed89899f5bcd9881f
+2026-04-22 22:14:02,290 INFO routers.pantry_record_router:73 Attempting to delete pantry record id=69e98b19d89899f5bcd9881e
+2026-04-22 22:14:02,295 INFO routers.pantry_record_router:81 Pantry record deleted successfully id=69e98b19d89899f5bcd9881e
+2026-04-22 22:14:02,443 INFO routers.pantry_record_router:73 Attempting to delete pantry record id=69e98aaed89899f5bcd9881d
+2026-04-22 22:14:02,447 INFO routers.pantry_record_router:81 Pantry record deleted successfully id=69e98aaed89899f5bcd9881d
+2026-04-22 22:14:02,610 INFO routers.pantry_record_router:73 Attempting to delete pantry record id=69e989fdd89899f5bcd9881c
+2026-04-22 22:14:02,615 INFO routers.pantry_record_router:81 Pantry record deleted successfully id=69e989fdd89899f5bcd9881c
+2026-04-22 22:14:02,820 INFO routers.pantry_record_router:73 Attempting to delete pantry record id=69e989d1d89899f5bcd9881b
+2026-04-22 22:14:02,825 INFO routers.pantry_record_router:81 Pantry record deleted successfully id=69e989d1d89899f5bcd9881b
+2026-04-22 22:14:03,105 INFO routers.pantry_record_router:73 Attempting to delete pantry record id=69e98638ca8d0b81b4a456b7
+2026-04-22 22:14:03,110 INFO routers.pantry_record_router:81 Pantry record deleted successfully id=69e98638ca8d0b81b4a456b7
+2026-04-22 22:14:03,503 INFO routers.pantry_record_router:73 Attempting to delete pantry record id=69e9858aca8d0b81b4a456b6
+2026-04-22 22:14:03,507 INFO routers.pantry_record_router:81 Pantry record deleted successfully id=69e9858aca8d0b81b4a456b6
+2026-04-22 22:14:10,402 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 22:14:10,405 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e98e82ea79fdf79f35eb4c
+2026-04-22 22:14:15,412 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 22:14:15,416 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e98e87ea79fdf79f35eb4d
+2026-04-22 22:14:23,818 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 22:14:23,821 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e98e8fea79fdf79f35eb4e
+2026-04-22 22:14:30,058 INFO routers.pantry_record_router:26 Attempting to create new pantry record
+2026-04-22 22:14:30,061 INFO routers.pantry_record_router:33 Pantry record created successfully with id=69e98e96ea79fdf79f35eb4f
+2026-04-22 22:14:33,716 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:14:33,719 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 22:15:00,749 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:15:00,752 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 22:17:00,523 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:17:00,525 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 22:17:55,752 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:17:55,755 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 22:18:42,994 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:18:42,997 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 22:21:16,902 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:21:16,905 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 22:21:18,502 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:21:18,505 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 22:28:39,986 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:28:39,989 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 22:29:25,899 INFO main:21 Application starts up...
+2026-04-22 22:29:25,900 INFO database:46 Connecting to the database...
+2026-04-22 22:29:36,436 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:29:36,440 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 22:32:13,937 INFO main:21 Application starts up...
+2026-04-22 22:32:13,938 INFO database:46 Connecting to the database...
+2026-04-22 22:40:37,901 INFO main:21 Application starts up...
+2026-04-22 22:40:37,902 INFO database:46 Connecting to the database...
+2026-04-22 22:40:40,230 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 22:40:40,234 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 22:42:06,956 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 22:42:06,959 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 22:42:09,510 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 22:42:09,513 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 22:43:32,871 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 22:43:32,875 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 22:43:36,262 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 22:43:36,265 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 22:43:46,518 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 22:43:46,521 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 22:45:37,193 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 22:45:37,196 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 22:45:42,729 INFO routers.stock_router:44 Attempting to update stock item id=69e91fddce1a8e1cc1bb945b
+2026-04-22 22:45:42,742 INFO routers.stock_router:57 Stock item updated successfully id=69e91fddce1a8e1cc1bb945b
+2026-04-22 22:46:00,138 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:46:00,142 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 22:46:21,947 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:46:21,951 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 22:46:55,183 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 22:46:55,186 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 22:51:09,587 INFO main:21 Application starts up...
+2026-04-22 22:51:09,588 INFO database:46 Connecting to the database...
+2026-04-22 22:51:10,359 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 22:51:10,363 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 22:54:59,742 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:54:59,744 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 22:54:59,746 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 22:54:59,754 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 22:57:17,334 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:57:17,337 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 22:57:17,339 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 22:57:17,342 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 22:59:22,620 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 22:59:22,623 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 22:59:22,625 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 22:59:22,628 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:01:01,079 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:01:01,082 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:01:01,084 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:01:01,087 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:02:14,062 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:02:14,065 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:02:14,068 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:02:14,070 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:02:14,074 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:02:14,076 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:02:14,079 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:02:14,082 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:02:48,431 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:02:48,434 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:04:58,858 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:04:58,861 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:05:29,491 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:05:29,494 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:05:40,529 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:05:40,531 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:05:40,534 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:05:40,537 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:05:40,540 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:05:40,543 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:05:40,546 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:05:40,548 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:06:38,856 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:06:38,859 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:06:38,861 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:06:38,864 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:06:38,867 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:06:38,868 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:06:38,870 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:06:38,873 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:06:55,352 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:06:55,354 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:06:55,357 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:06:55,360 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:06:55,364 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:06:55,366 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:06:55,369 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:06:55,372 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:08:33,064 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:08:33,067 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:08:33,069 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:08:33,072 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:08:33,075 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:08:33,078 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:08:33,080 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:08:33,083 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:08:39,990 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:08:39,992 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:08:39,995 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:08:39,997 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:08:40,001 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:08:40,004 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:08:40,006 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:08:40,008 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:08:47,027 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:08:47,029 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:08:47,032 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:08:47,035 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:08:47,038 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:08:47,040 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:08:47,042 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:08:47,045 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:08:51,848 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:08:51,851 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:08:51,853 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:08:51,856 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:08:51,858 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:08:51,860 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:08:51,862 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:08:51,865 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:09:00,993 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:09:00,996 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:09:00,998 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:09:01,000 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:09:01,003 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:09:01,005 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:09:01,008 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:09:01,011 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:09:29,677 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:09:29,679 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:09:29,680 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:09:29,683 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:09:29,687 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:09:29,689 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:09:29,691 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:09:29,693 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:09:51,729 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:09:51,731 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:09:51,734 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:09:51,737 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:09:51,740 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:09:51,742 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:09:51,744 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:09:51,746 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:10:04,303 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:10:04,305 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:10:04,307 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:10:04,310 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:10:04,313 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:10:04,315 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:10:04,317 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:10:04,319 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:10:15,547 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:10:15,550 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:10:15,552 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:10:15,554 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:10:15,557 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:10:15,560 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:10:15,561 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:10:15,564 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:10:33,373 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:10:33,376 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:10:33,378 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:10:33,380 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:10:33,383 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:10:33,385 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:10:33,388 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:10:33,390 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:11:37,627 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:11:37,629 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:11:37,632 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:11:37,634 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:11:37,637 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:11:37,639 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:11:37,641 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:11:37,644 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:12:15,566 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:12:15,568 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:12:15,571 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:12:15,573 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:12:15,576 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:12:15,579 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:12:15,581 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:12:15,583 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:12:33,089 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:12:33,092 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:12:33,095 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:12:33,098 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:12:33,102 INFO routers.pantry_record_router:16 Fetching all pantry records
+2026-04-22 23:12:33,104 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:12:33,106 INFO routers.pantry_record_router:19 Retrieved 4 pantry records
+2026-04-22 23:12:33,108 INFO routers.stock_router:18 Retrieved 12 stock items
+2026-04-22 23:12:49,444 INFO routers.stock_router:16 Fetching all stock items
+2026-04-22 23:12:49,447 INFO routers.stock_router:18 Retrieved 12 stock items
