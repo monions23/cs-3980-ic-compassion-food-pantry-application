@@ -292,18 +292,7 @@ hr.center {
   grid-column: 1 / 13;
 }
 
-/* Graph */
-.graph {
-  border: 2px solid #111;
-  text-align: center;
-  background-color: #65bac2;
-  margin: 0 auto;
 
-  /* Size of graphs, I dunno 
-  if this will be the size for all graphs */
-  /* width: 400px; */
-  height: 200px;
-}
 
 /* Text titles */
 p {
@@ -379,12 +368,13 @@ strong {
   border: 1px solid #dddddd;
   border-radius: 5px;
   position: relative;
+  
 }
 .client-info {
   justify-self: center;
   display: flex;
   width: 100%;
-  min-height: 115px;
+  min-height: 175px;
   flex-direction: column;
   border: 1px solid #dddddd;
   border-radius: 5px;
@@ -582,3 +572,80 @@ strong {
   width: 50%;
   height: auto;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Graph */
+canvas {
+      background: white;
+      padding: 20px;
+      
+      height:100%;
+      width:100%;
+      border: solid #65bac2 2px;
+    }
+
+
+
+
+.graph {
+  text-align: center;
+  
+  margin: 0 auto;
+
+  /* Size of graphs, I dunno 
+  if this will be the size for all graphs */
+  /* width: 400px; */
+  height: 100%;
+  width: 100%;
+}
+#chart {
+   
+  height: 80%;
+  width: 100%;
+}
+
+
+
+.search-answer-quantity {
+  border: solid black 1px;
+  width:100%;
+  padding: 3px;
+}
+
+.search-answer-quantity td {
+  width: 50%;
+}
+
+.menu button {
+  background-color: #02909d;
+  color:white;
+  margin: 3px;
+
+}
+
+.menu button:hover {
+  background-color: #bc1a38;
+}
+
+.trends-table-right {
+  width: 100%;
+  
+}
+.trends-table-right td {
+  border: #dedede 2px solid;
+  padding: 3px;
+  
+}
+
+

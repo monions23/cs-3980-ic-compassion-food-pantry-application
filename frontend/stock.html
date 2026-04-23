@@ -8,6 +8,7 @@ This uses styles.css
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Food Pantry Tracker</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Bootstrap Stylesheet -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -21,9 +22,9 @@ This uses styles.css
     <!-- Top Bar -->
     <section class="topbar">
       <div class="logo">
-        <!-- This is the &#9776; Iowa City Compassion in top left -->
-        <span onclick="toggleSidebar()" style="cursor: pointer">&#9776;</span>
-        Iowa City Compassion Food Pantry
+        <!-- This is the ☰ Iowa City Compassion in top left-->
+        <span onclick="toggleSidebar()" style="cursor: pointer">☰</span> Iowa
+        City Compassion Food Pantry
       </div>
       <div class="user">
         <span>Username</span>
@@ -44,7 +45,7 @@ This uses styles.css
           <a href="trends.html" class="sidebar-button">Trends</a>
         </div>
         <div class="sidebar-links">
-          <a href="stock.html" class="sidebar-button active">Stock</a>
+          <a href="stock.html" class="sidebar-button" active>Stock</a>
         </div>
         <div class="sidebar-links">
           <a href="account.html" class="sidebar-button">Account</a>
@@ -63,9 +64,7 @@ This uses styles.css
       <section class="main">
         <div class="main-grid">
           <div class="main-structure-left-two-rows">
-            <p>
-              This is to add items to stock to show on website and in archive
-            </p>
+            
             <div class="stock-title">
               <h2 class="section-header">Current Stock</h2>
               <button
@@ -93,26 +92,44 @@ This uses styles.css
             </section>
           </div>
           <div class="main-structure-right">
-            <div class="graph">
-              <p>
-                A Table to search through the stock and list the number here
-              </p>
-            </div>
+            <label for="search-input">Search items:</label>
+            <input list="items" id="search-input" name="search-input" placeholder="Type to search...">
+            
+            <datalist id="items">
+              <option value="Apple">
+              <option value="Banana">
+              <option value="Cherry">
+              <option value="Date">
+            </datalist>
+            <br>
+            <br>
+            
+            <table class="search-answer-quantity">
+              <tr>
+                <th>Item Name</th>
+                <th>Quantity</th>
+              </tr>
+              <tbody id="search-result"></tbody>
+            </table>
+            
           </div>
           <div class="main-structure-right">
             <div class="graph">
-              <p>A graph showing change in stock within past two months</p>
-            </div>
+              <h2>Stock of searched item the past 2 months</h2>
+              <br>
+              <canvas id="Stockchart"></canvas>
+              </div>
+              <br>
+    
+
+
           </div>
           <div class="main-structure-bottom">
             <h5>Header 5</h5>
-            <h6>Header 6</h6>
-            <p>
-              These borders are just here to show the containers, they can be
-              merged and hidden, its just for structure. I separated left and
-              right in the table so that if we wanted we can make a middle
-              partition easy.
+            <p> The idea is that searching the object on the side will pop up that item on the page
+              and be able to pull the information for the chart at the bottom and find the object on the left
             </p>
+            
           </div>
         </div>
       </section>
@@ -170,68 +187,9 @@ This uses styles.css
         </div>
       </div>
     </div>
-
-    <!-- Edit Modal -->
-    <div id="modal-edit" class="modal stock-modal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit Stock Item</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div id="edit-stock-item-form">
-              <div class="mb-3">
-                <label for="title-edit" class="form-label">Name of Item</label>
-                <input type="text" class="form-control" id="title-edit" />
-              </div>
-              <div class="mb-3">
-                <label for="stock-number-edit" class="form-label"
-                  >What is the current stock of the item?</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  id="stock-number-edit"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="target-stock-edit" class="form-label"
-                  >What is the ideal stock of the item?</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  id="target-stock-edit"
-                />
-              </div>
-              <div class="text-danger" id="msg-edit"></div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              id="close-edit-modal"
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              <i class="bi bi-x"></i> Close
-            </button>
-            <button id="edit-btn" type="button" class="btn btn-warning">
-              <i class="bi bi-check-circle"></i> Yes, Update it
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- Footer -->
     <footer>
-      <hr class="center" />
+      <hr class="center"/>
       <div class="footer-grid">
         <img
           src="IC_Compassion_Logo_big.jpg"
@@ -252,17 +210,16 @@ This uses styles.css
           >For more information</a
         >
       </div>
-      <hr class="center" />
+      <hr class="center"/>
     </footer>
-
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-    ></script>
-    <script src="js/stock.js"></script>
-    <script src="js/formatting.js"></script>
   </body>
 
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"
+  ></script>
+  <script src="js/stock.js"></script>
+  <script src="js/formatting.js"></script>
   <!-- <script src="main.js" defer></script> -->
 </html>
