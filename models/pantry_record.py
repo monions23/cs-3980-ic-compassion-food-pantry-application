@@ -7,6 +7,10 @@ from datetime import datetime, timezone
 
 class PantryRecord(Document):
     id: Optional[PydanticObjectId] = Field(default=None, alias="_id")
+    name: str = Field(..., description="Name of the person associated with the this pantry record")
+    num_ppl_in_families: int = Field(
+        ..., ge=0, description="Number of people in families served"
+    )
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc),
         description="When the record was created",
@@ -16,13 +20,9 @@ class PantryRecord(Document):
         description="When the record was last updated",
     )
 
-    num_ppl_in_families: int = Field(
-        ..., ge=0, description="Number of people in families served"
-    )
-
-    updated_by: str = Field(
-        ..., description="Email of the user/admin who updated this record"
-    )
+    # updated_by: str = Field(
+    #     ..., description="Email of the user/admin who updated this record"
+    # )
 
     class Settings:
         name = "pantry_records"
@@ -30,4 +30,4 @@ class PantryRecord(Document):
 
 class PantryRecordUpdate(BaseModel):
     num_ppl_in_families: Optional[int] = None
-    updated_by: Optional[str] = None
+    # updated_by: Optional[str] = None

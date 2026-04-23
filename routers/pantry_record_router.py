@@ -27,7 +27,7 @@ async def create_new_pantry_record(item: PantryRecord) -> PantryRecord:
     item.id = None
     now = datetime.now(timezone.utc)
     item.created_at = now
-    item.updated_at = now
+    # item.updated_at = now
 
     await item.insert()
     logger.info(f"Pantry record created successfully with id={item.id}")
@@ -48,7 +48,7 @@ async def get_pantry_record(item_id: str):
 
 # Update a record
 @pantry_record_router.put("/{item_id}")
-async def update_stock(item_id: str, update: PantryRecordUpdate):
+async def update_pantry_record(item_id: str, update: PantryRecordUpdate):
     logger.info(f"Attempting to update pantry record id={item_id}")
     item = await PantryRecord.get(item_id)
     if not item:
@@ -69,7 +69,7 @@ async def update_stock(item_id: str, update: PantryRecordUpdate):
 
 # Delete a record
 @pantry_record_router.delete("/{item_id}")
-async def delete_stock(item_id: str):
+async def delete_pantry_record(item_id: str):
     logger.info(f"Attempting to delete pantry record id={item_id}")
 
     item = await PantryRecord.get(item_id)
