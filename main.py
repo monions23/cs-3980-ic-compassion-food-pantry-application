@@ -15,6 +15,7 @@ from logging_setup import setup_logging
 setup_logging()
 logger = logging.getLogger(__name__)
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup logic
@@ -35,6 +36,17 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or ["http://127.0.0.1:5500"] if using Live Server
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 @app.get("/")
 async def home():
     return FileResponse("frontend/main.html")
@@ -44,7 +56,9 @@ app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(stock_router, prefix="/stock", tags=["Stock"])
 app.include_router(user_router, prefix="/users", tags=["Users"])
 app.include_router(scheduling_router, prefix="/scheduling", tags=["Scheduling"])
-app.include_router(pantry_record_router, prefix="/pantry-records", tags=["Pantry Records"])
+app.include_router(
+    pantry_record_router, prefix="/pantry-records", tags=["Pantry Records"]
+)
 
 
 app.mount("/", StaticFiles(directory="frontend"), name="static")

@@ -7,6 +7,7 @@ This uses styles.css
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Food Pantry Tracker</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 
     <!-- Bootstrap Stylesheet -->
     <link
@@ -15,6 +16,9 @@ This uses styles.css
     />
     <!-- Custom Stylesheet(s) -->
     <link rel="stylesheet" href="styles.css" />
+
+    <!-- This is for the scheduling form to only allow wednesdays-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   </head>
   <body>
     <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
@@ -56,114 +60,30 @@ This uses styles.css
               OUT
             </h1>
           </div>
-          <div class="main-structure-left">
-            <table class="main-menu">
-              <tr>
-                <h3 class="menu-title">Menu</h3>
-              </tr>
-              <tr>
-                <h6 style="text-align: center">Last Updated ##/##/## ##:##</h6>
-              </tr>
-              <th>New items</th>
-              <th>
-                <table class="menu-section">
-                  <td>Items from DB</td>
-                  <td>Items from DB</td>
-                  <tr>
-                    <td>Items from DB</td>
-                    <td>Items from DB</td>
-                  </tr>
-                  <tr>
-                    <td>Items from DB</td>
-                    <td>Items from DB</td>
-                  </tr>
-                  <tr>
-                    <td>Items from DB</td>
-                    <td>Items from DB</td>
-                  </tr>
-                </table>
-              </th>
-              <tr></tr>
-              <td>Fruit</td>
-              <th>
-                <table class="menu-section">
-                  <td>Items from DB</td>
-                  <td>Items from DB</td>
-                  <tr>
-                    <td>Items from DB</td>
-                    <td>Items from DB</td>
-                  </tr>
-                  <tr>
-                    <td>Items from DB</td>
-                    <td>Items from DB</td>
-                  </tr>
-                  <tr>
-                    <td>Items from DB</td>
-                    <td>Items from DB</td>
-                  </tr>
-                </table>
-              </th>
-              <tr></tr>
-              <td>Vegetables</td>
-              <th>
-                <table class="menu-section">
-                  <td>Items from DB</td>
-                  <td>Items from DB</td>
-                  <tr>
-                    <td>Items from DB</td>
-                    <td>Items from DB</td>
-                  </tr>
-                  <tr>
-                    <td>Items from DB</td>
-                    <td>Items from DB</td>
-                  </tr>
-                  <tr>
-                    <td>Items from DB</td>
-                    <td>Items from DB</td>
-                  </tr>
-                </table>
-              </th>
-              <tr></tr>
-              <td>Pantry Items</td>
-              <th>
-                <table class="menu-section">
-                  <td>Items from DB</td>
-                  <td>Items from DB with a really really long name</td>
-                  <tr>
-                    <td>Items from DB</td>
-                    <td>Items from DB</td>
-                  </tr>
-                  <tr>
-                    <td>Items from DB</td>
-                    <td>Items from DB</td>
-                  </tr>
-                  <tr>
-                    <td>Items from DB</td>
-                    <td>Items from DB</td>
-                  </tr>
-                </table>
-              </th>
-            </table>
-          </div>
-          <div class="main-structure-right">
-            <br />
-            <br />
-            <br />
+          
+          <div class="main-structure-bottom">
             <form id="schedule-form" action="/submit-appointment" method="POST">
-              <h2>Book a time to stop in</h2>
-              <hr />
-              Food Pantry Open 12:00 pm to 5:00 pm Wednesday
-              <br />
-              <label for="date">Preferred Date:</label>
+  <h2>Book a time to stop in</h2>
+  <hr />
+  Food Pantry Open 12:00 pm to 5:00 pm Wednesday
+  <br />
 
-              <input type="date" id="date" name="date" required />
-              <br />
-              <label for="time">Preferred Time:</label>
-              <input type="time" id="time" name="time" required />
-              <br />
-              <br />
-              <button type="submit">Schedule</button>
-            </form>
+  <label for="date">Preferred Date:</label>
+  <input type="text" id="date" name="date" placeholder="Select a Wednesday" required />
+  <br />
+
+  <label for="time-slot">Preferred Time:</label>
+<select id="time-slot" name="time" required>
+  <option value="">Select a time slot</option>
+</select>
+  <br /><br />
+
+  <button type="submit">Schedule</button>
+</form>
+<div id="schedule-message" style="margin-top: 10px;"></div>
+
+<a href="main.html" >Temporary Link to go to the logged in to check if it is updating the table</a>
+
           </div>
         </div>
       </section>
@@ -200,6 +120,10 @@ This uses styles.css
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"
   ></script>
-  <script src="js/formatting.js"></script>
-  <!-- <script src="main.js" defer></script> -->
+  <!-- For the scheduling form -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="js/formatting.js" defer></script>
+  <script src="js/scheduling.js" defer></script>
+
+  
 </html>

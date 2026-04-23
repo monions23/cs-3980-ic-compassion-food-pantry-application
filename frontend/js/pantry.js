@@ -1,7 +1,10 @@
 const api = "http://127.0.0.1:8000/pantry-records/";
 
 /* =========================
-   STATE
+   STATE (something is deeply wrong with the dates for the updates in this one.
+    look at this later if yall have a chance
+   the updates on the right are ordered by newest to oldest top to bottom but the date for today isnt changing and 
+   somehow we are living in the future because it is storing yesterdays values as today somehow)
 ========================= */
 let pantryRecords = [];
 
@@ -124,10 +127,10 @@ function renderUpdates(data) {
     return;
   }
 
-  // sort newest first
-  const sorted = [...data].sort(
-    (a, b) => new Date(b.created_at) - new Date(a.created_at)
-  );
+  const sorted = [...data].sort((a, b) => {
+    return new Date(b.created_at || 0).getTime() -
+           new Date(a.created_at || 0).getTime();
+  });
 
   container.innerHTML = "";
 
@@ -135,7 +138,9 @@ function renderUpdates(data) {
     const div = document.createElement("div");
     div.classList.add("pantry-update");
 
-    const date = new Date(record.created_at).toLocaleString();
+    const date = record.created_at
+      ? new Date(record.created_at).toLocaleString()
+      : "No date";
 
     div.innerHTML = `
       <div class="update-card">

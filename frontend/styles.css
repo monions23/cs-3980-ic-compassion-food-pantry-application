@@ -421,13 +421,7 @@ strong {
   right: 0;
   top: 0;
 }
-.pantry-submit {
-  width: 25%;
-  padding: 5px;
-  margin-top: 5px;
-  margin-bottom: 0;
-  right:0;
-}
+
 
 .pantry-history-info {
   margin-left: 10px;
@@ -554,28 +548,46 @@ strong {
 }
 
 .icon-span {
-  padding: 2px;
-  border: black solid 2px;
+  padding: 5px;
+  border-top: black solid 2px;
   line-height: 78px;
+  width:97%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; 
 }
 
 .icon-span img {
-  padding: 2px;
+  padding: 5px;
   border: black solid 2px;
-  width: 75px;
-  height: 75px;
+  width: 100px;
+  height: 100px;
+  margin: 4px;
+  
 }
 
+.main-arrivals-table-box {
+  border-radius: 7px;
+   display: flex;
+  justify-content: center; 
+  align-items: center;
+  background-color:#02909db9;
+}
 .main-arrivals-table {
   justify-content:center;
   border: black solid 2px;
   width: 70%;
   height: auto;
+  background-color: white;
+  
 }
+
 .main-arrivals-table th {
   border: black solid 2px;
   width: 50%;
   height: auto;
+    font-size: 16px;
+
 }
 
 
@@ -664,7 +676,14 @@ canvas {
 /* Button color fixes */
 
 .btn.btn-primary.pantry-submit {
-  background-color:#02909d
+  background-color:#02909d;
+  
+  width: 50%;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 0;
+  right:0;
+
 }
 .btn.btn-primary.pantry-submit:hover {
   background-color:#65bac2
@@ -681,4 +700,20 @@ canvas {
 }
 #print-btn:hover {
   background-color: #65bac2;
+}
+
+#updates-list {
+  border: solid black 2px;
+  padding: 5px;
+  width:100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; 
+}
+
+.update-card {
+  width:100%;
+  border: black solid 1px;
+  padding: 2px;
+  font-size: 16px;
 }

@@ -12,7 +12,6 @@ async def create_schedule(schedule: Scheduling, user=Depends(authenticate)):
 
     if user.role not in ["Admin", "SuperAdmin"]:
         raise HTTPException(status_code=403, detail="Not authorized")
-
     return await Scheduling.insert_one(schedule)
 
 
