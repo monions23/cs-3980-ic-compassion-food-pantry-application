@@ -7,7 +7,9 @@ from datetime import datetime, timezone
 
 class PantryRecord(Document):
     id: Optional[PydanticObjectId] = Field(default=None, alias="_id")
-    name: str = Field(..., description="Name of the person associated with the this pantry record")
+    name: str = Field(
+        ..., description="Name of the person associated with the this pantry record"
+    )
     num_ppl_in_families: int = Field(
         ..., ge=0, description="Number of people in families served"
     )
