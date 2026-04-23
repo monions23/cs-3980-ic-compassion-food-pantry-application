@@ -93,7 +93,7 @@ This uses styles.css
                   type="button"
                   class="pantry-add"
                 >
-                  <i class="bi bi-plus-circle"></i> Add Food Item
+                  <i class="bi bi-plus-circle"></i> Add Record
                 </button>
               </div>
 
@@ -162,6 +162,125 @@ This uses styles.css
       </section>
     </main>
 
+    <!-- MODALS -->
+    <!-- modal needs to be in body level -->
+    <!-- modal dialog for adding -->
+    <div id="modal-add" class="modal pantry-record-modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Item to Stock</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="new-pantry-record">
+              <div class="mb-3">
+                <label for="id_no" class="form-label">ID Number</label>
+                <input type="text" class="form-control" id="id_no" />
+              </div>
+              <div class="mb-3">
+                <label for="updated-at" class="form-label"
+                  >What is the current date?</label
+                >
+                <input type="datetime" class="form-control" id="updated-at" />
+              </div>
+              <div class="mb-3">
+                <label for="num-in-family" class="form-label"
+                  >How many people are they shopping for?</label
+                >
+                <input type="number" class="form-control" id="num-in-family" />
+              </div>
+              <div class="mb-3">
+                <label for="user-updater" class="form-label"
+                  >Please Input Email of Volunteer Who is Updating Pantry
+                  Record:</label
+                >
+                <input type="email" class="form-control" id="user-updater" />
+              </div>
+              <div class="text-danger" id="msg"></div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              id="close-add-modal"
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              <i class="bi bi-x"></i> Close
+            </button>
+            <button id="add-btn" type="button" class="btn btn-primary">
+              <i class="bi bi-plus-circle"></i> Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="modal-edit" class="modal stock-modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Stock Item</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="edit-stock-item-form">
+              <div class="mb-3">
+                <label for="title-edit" class="form-label">Name of Item</label>
+                <input type="text" class="form-control" id="title-edit" />
+              </div>
+              <div class="mb-3">
+                <label for="stock-number-edit" class="form-label"
+                  >What is the current stock of the item?</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="stock-number-edit"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="target-stock-edit" class="form-label"
+                  >What is the ideal stock of the item?</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="target-stock-edit"
+                />
+              </div>
+              <div class="text-danger" id="msg-edit"></div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              id="close-edit-modal"
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              <i class="bi bi-x"></i> Close
+            </button>
+            <button id="edit-btn" type="button" class="btn btn-warning">
+              <i class="bi bi-check-circle"></i> Yes, Update it
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Footer -->
     <footer>
       <hr class="center" />
@@ -187,12 +306,13 @@ This uses styles.css
       </div>
       <hr class="center" />
     </footer>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="js/formatting.js"></script>
+    <script src="js/pantry.js"></script>
   </body>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-    crossorigin="anonymous"
-  ></script>
-  <script src="js/formatting.js"></script>
-  <!-- <script src="main.js" defer></script> -->
 </html>
