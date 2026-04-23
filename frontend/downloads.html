@@ -50,7 +50,7 @@ This uses styles.css
           <a href="account.html" class="sidebar-button">Account</a>
         </div>
         <div class="sidebar-links">
-          <a href="tasks.html" class="sidebar-button" active>Task Manager</a>
+          <a href="downloads.html" class="sidebar-button" active>Files</a>
         </div>
         <div class="sidebar-links">
           <a href="pantry.html" class="sidebar-button">Pantry</a>
@@ -63,33 +63,16 @@ This uses styles.css
       <section class="main">
         <div class="main-grid">
           <div class="main-structure-left">
-            <h1>Tasks</h1>
-            <p><strong>p strong</strong></p>
-            <p>
-              A big paragraph, A big paragraph, A big paragraph, A big
-              paragraph, A big paragraph, A big paragraph, A big paragraph, A
-              big paragraph, A big paragraph, A big paragraph, A big paragraph,
-              A big paragraph, A big paragraph, A big paragraph, A big
-              paragraph, A big paragraph, A big paragraph, A big paragraph, A
-              big paragraph, A big paragraph, A big paragraph, A big paragraph,
-              A big paragraph, A big paragraph, A big paragraph, A big
-              paragraph, A big paragraph, A big paragraph, A big paragraph, A
-              big paragraph, A big paragraph, A big paragraph, A big paragraph,
-              A big paragraph, A big paragraph, A big paragraph, A big
-              paragraph, A big paragraph, A big paragraph, A big paragraph, A
-              big paragraph, A big paragraph, A big paragraph, A big paragraph,
-              A big paragraph, A big paragraph, A big paragraph, A big
-              paragraph, A big paragraph, A big paragraph, A big paragraph, A
-              big paragraph, A big paragraph, A big paragraph, A big paragraph,
-              A big paragraph, A big paragraph, A big paragraph, A big
-              paragraph, A big paragraph, A big paragraph, A big paragraph, A
-              big paragraph, A big paragraph, A big paragraph, A big paragraph
-            </p>
+            <h1>Upload and Download files</h1>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+              <input type="file" name="myFile">
+              <button type="submit">Upload</button>
+            </form>
+            This doesnt work yet
           </div>
           <div class="main-structure-right">
             <h2>Header 2</h2>
-            <br />
-            <p>p</p>
+            <p>This is where we can put a table to store all of the files alphabetically and by type</p>
             <hr />
             <h4>h4</h4>
           </div>

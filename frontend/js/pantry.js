@@ -1,200 +1,193 @@
 const api = "http://127.0.0.1:8000/pantry-records/";
 
-let pantryRecords = []; // default of empty array, will be updated with getAllStockItems() upon page load
-let stockIdInEdit = "";
+/* =========================
+   STATE
+========================= */
+let pantryRecords = [];
 
-(() => {
-  getAllStockItems();
-})();
-
-document.getElementById("add-btn").addEventListener("click", (e) => {
-  e.preventDefault();
-
-  // get id from form input in modal and assign to what will be added by using .value
-  const msgDiv = document.getElementById("msg");
-  const itemNameInput = document.getElementById("title");
-  const stockInput = document.getElementById("stock-number");
-  const targetQuantityInput = document.getElementById("target-stock");
-
-  // check that all input fields are non-empty, otherwise display an error message
-  if (!itemNameInput.value || !stockInput.value || !targetQuantityInput.value) {
-    msgDiv.innerHTML =
-      "Please provide non-empty fields when adding a new Reagent";
-    return;
-  }
-
-  const xhr = new XMLHttpRequest();
-
-  xhr.onload = () => {
-    if (xhr.status === 201) {
-      // get the new stocked item and updated the stockedFood array
-      const newStockItem = JSON.parse(xhr.response);
-      pantryRecords.push(newStockItem);
-      renderPantry(pantryRecords);
-
-      // close modal dialog
-      // if using fetch, use "then"
-      const closeBtn = document.getElementById("close-add-modal");
-      closeBtn.click();
-
-      // clean up error message
-      msgDiv.innerHTML = "";
-      itemNameInput.value = "";
-      stockInput.value = "";
-      targetQuantityInput.value = "";
-    }
-
-    console.log(stockedFood);
-  };
-
-  // with POST, need to send a body with post
-  xhr.open("POST", api, true);
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhr.send(
-    JSON.stringify({
-      item_name: itemNameInput.value,
-      quantity: parseInt(stockInput.value),
-      target_quantity: parseInt(targetQuantityInput.value),
-    }),
-  );
-});
-
-document.getElementById("edit-btn").addEventListener("click", (e) => {
-  e.preventDefault();
-
-  // get id from form input in modal and assign to what will be added by using .value
-  const msgDiv = document.getElementById("msg-edit");
-  const itemNameInput = document.getElementById("title-edit");
-  const stockInput = document.getElementById("stock-number-edit");
-  const targetQuantityInput = document.getElementById("target-stock-edit");
-
-  // check that all input fields are non-empty, otherwise display an error message
-  if (!itemNameInput.value || !stockInput.value || !targetQuantityInput.value) {
-    msgDiv.innerHTML =
-      "Please provide non-empty fields when adding a new Reagent";
-    return;
-  }
-
-  const xhr = new XMLHttpRequest();
-
-  xhr.onload = () => {
-    if (xhr.status === 200) {
-      // get old and updated stock items
-      const editedStockItem = JSON.parse(xhr.response);
-      const oldStockItem = stockedFood.find((s) => s._id == stockIdInEdit);
-
-      // set stock values to the edited values
-      oldStockItem.item_name = editedStockItem.item_name;
-      oldStockItem.quantity = editedStockItem.quantity;
-      oldStockItem.target_quantity = editedStockItem.target_quantity;
-      renderStock(stockedFood);
-
-      // close modal dialog
-      // if using fetch, use "then"
-      const closeBtn = document.getElementById("close-edit-modal");
-      closeBtn.click();
-
-      // clean up error message
-      msgDiv.innerHTML = "";
-      itemNameInput.value = "";
-      stockInput.value = "";
-      targetQuantityInput.value = "";
-    }
-  };
-
-  // with POST, need to send a body with post
-  xhr.open("PUT", api + stockIdInEdit, true);
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhr.send(
-    JSON.stringify({
-      item_name: itemNameInput.value,
-      quantity: parseInt(stockInput.value),
-      target_quantity: parseInt(targetQuantityInput.value),
-    }),
-  );
-});
-
-function deleteStockItem(id) {
-  const xhr = new XMLHttpRequest();
-  xhr.onload = () => {
-    if (xhr.status == 200) {
-      stockedFood = stockedFood.filter((x) => x._id != id); // filter ids that are all except the chosen id
-      renderStock(stockedFood); // refreshes todos
-    }
-  };
-
-  // get api link from docs on page. need to open and send xhr request
-  xhr.open("DELETE", api + id, true);
-  xhr.send();
-}
-
-function setStockItemInEdit(id) {
-  // find item with the corresponding id
-  stockIdInEdit = id;
-  const stockItem = stockedFood.find((s) => s._id == id);
-
-  // set the input values in the edit modal to the current values of the stock item being edited
-  document.getElementById("title-edit").value = stockItem.item_name;
-  document.getElementById("stock-number-edit").value = stockItem.quantity;
-  document.getElementById("target-stock-edit").value =
-    stockItem.target_quantity;
-}
-
-/* Render stock data */
-function renderStock(data) {
-  // get the div where the stock data is rendered
-  const stockDiv = document.getElementById("stock-table-data");
-  stockDiv.innerHTML = ""; // clear before rerendering to avoid duplications
-
-  // display data in descending order of quantity
-  data
-    .sort((a, b) => b.quantity - a.quantity)
-    .forEach((x) => {
-      // render each stock item as a row in the table
-      stockDiv.innerHTML += `
-        <tr id = "stock-item-${x._id}" class="stock-table-row">
-            <td class = "stock-table-item">${x.item_name}</td>
-            <td class = "stock-table-item">${x.quantity}</td>
-            <td class = "stock-table-item">${x.target_quantity}</td>
-            <td class = "stock-table-item">
-                <button type="button" class = "btn btn-success btn-sm"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modal-edit"
-                    onClick="setStockItemInEdit('${x._id}')">
-                    <i class="bi bi-pencil-square"></i>
-                    Edit
-                </button>
-                <button type="button" class = "btn btn-danger btn-sm"
-                    onClick="deleteStockItem('${x._id}')">
-                    <i class="bi bi-trash"></i>
-                Delete
-                </button>
-            </td>
-        </tr>
-        `;
-    });
-}
-
-/* Get all stock items from backend and render on page */
-function getAllStockItems() {
-  const xhr = new XMLHttpRequest();
-  xhr.onload = () => {
-    if (xhr.status == 200) {
-      stockedFood = JSON.parse(xhr.response) || [];
-      console.log(stockedFood);
-      renderStock(stockedFood);
-    }
-  };
-
-  // get api link from docs on page. need to open and send xhr request
-  xhr.open("GET", api, true);
-  xhr.send();
-}
-
+/* =========================
+   INIT
+========================= */
 document.addEventListener("DOMContentLoaded", () => {
-  const addModalClear = document.getElementById("modal-add");
-  addModalClear.addEventListener("hidden.bs.modal", () => {
-    const msgDiv = document.getElementById("msg");
-    msgDiv.innerHTML = "";
-  });
+  loadRecords();
+  setupForm();
+  document.getElementById("name").focus();
 });
+
+/* =========================
+   LOAD RECORDS
+========================= */
+async function loadRecords() {
+  try {
+    const res = await fetch(api);
+    const data = await res.json();
+
+    console.log("Loaded records:", data); // 👈 DEBUG LINE
+
+    pantryRecords = data;
+
+    renderUpdates(pantryRecords);
+
+    // ✅ MUST be AFTER data is assigned
+    updateTodayTotal(pantryRecords);
+
+  } catch (err) {
+    console.error("Error loading records:", err);
+  }
+}
+
+/* =========================
+   SETUP FORM SUBMIT
+========================= */
+function setupForm() {
+  const form = document.getElementById("pantry-form");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const msgDiv = document.getElementById("msg");
+
+    const nameInput = document.getElementById("name");
+    const familyInput = document.getElementById("num-in-family");
+    const userInput = document.getElementById("user-updater");
+
+    if (!nameInput.value || !familyInput.value) {
+      msgDiv.innerHTML = "Please fill in required fields";
+      return;
+    }
+
+    try {
+      const res = await fetch(api, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: nameInput.value,
+          num_ppl_in_families: parseInt(familyInput.value),
+          // created_at handled by backend
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to create record");
+
+      const newRecord = await res.json();
+
+      // update UI immediately
+      pantryRecords.unshift(newRecord);
+      renderUpdates(pantryRecords);
+      updateTodayTotal(pantryRecords);
+
+    
+     // reset form after submit
+     form.reset();
+     msgDiv.innerHTML = "";
+     // focus back to first field
+     document.getElementById("name").focus();
+
+    } catch (err) {
+      console.error(err);
+      msgDiv.innerHTML = "Error creating record";
+    }
+  });
+}
+
+/* =========================
+   DELETE RECORD
+========================= */
+async function deleteRecord(id) {
+  try {
+    const res = await fetch(api + id, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) throw new Error("Delete failed");
+
+    pantryRecords = pantryRecords.filter(r => r._id !== id);
+    renderUpdates(pantryRecords);
+    updateTodayTotal(pantryRecords);
+
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/* =========================
+   RENDER UPDATES LIST
+========================= */
+function renderUpdates(data) {
+  const container = document.getElementById("updates-list");
+
+  if (!data.length) {
+    container.innerHTML =
+      `<p class="pantry-history-info">No records yet</p>`;
+    return;
+  }
+
+  // sort newest first
+  const sorted = [...data].sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
+
+  container.innerHTML = "";
+
+  sorted.forEach(record => {
+    const div = document.createElement("div");
+    div.classList.add("pantry-update");
+
+    const date = new Date(record.created_at).toLocaleString();
+
+    div.innerHTML = `
+      <div class="update-card">
+        <strong>${record.name}</strong><br>
+        People Served: ${record.num_ppl_in_families}<br>
+        <small>${date}</small><br>
+
+        <button class="btn btn-sm btn-danger mt-1"
+          onclick="deleteRecord('${record._id}')">
+          Delete
+        </button>
+      </div>
+      <hr/>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+//INFO TABLE
+function updateTodayTotal(records) {
+  if (!records || !records.length) {
+    document.getElementById("today-total").textContent = 0;
+    return;
+  }
+
+  const now = new Date();
+
+  // UTC to match backend
+  const startOfDayUTC = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate()
+  ));
+
+  const endOfDayUTC = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate() + 1
+  ));
+
+  let total = 0;
+
+  records.forEach(r => {
+    if (!r.created_at) return;
+
+    const recordDate = new Date(r.created_at);
+
+    if (recordDate >= startOfDayUTC && recordDate < endOfDayUTC) {
+      total += r.num_ppl_in_families || 0;
+    }
+  });
+
+  document.getElementById("today-total").textContent = total;
+}

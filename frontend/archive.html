@@ -50,7 +50,7 @@ This uses styles.css
           <a href="account.html" class="sidebar-button">Account</a>
         </div>
         <div class="sidebar-links">
-          <a href="tasks.html" class="sidebar-button">Task Manager</a>
+          <a href="downloads.html" class="sidebar-button" active>Files</a>
         </div>
         <div class="sidebar-links">
           <a href="pantry.html" class="sidebar-button">Pantry</a>
@@ -63,24 +63,25 @@ This uses styles.css
       <section class="main">
         <div class="main-grid">
           <section class="archive-title">
-            <h1>Archive</h1>
+            <h1 style="display: inline-block">Archive</h1>
+            <button id="print-btn" class="archive-print-button">
+              Print recent logs
+            </button> 
+          <br><br>
           </section>
           <section class="archive-info">
             <table class="archive-table">
-              <tr>
-                <th class="archive-header">Month and Year</th>
-                <th class="archive-header">
-                  Average Number of Families Supported
-                </th>
-                <th class="archive-header">Most Popular Item</th>
-              </tr>
-              <tr>
-                <td class="archive-table-item">Add through JS</td>
-                <td class="archive-table-item">Add through JS</td>
-                <td class="archive-table-item">Add through JS</td>
-              </tr>
-            </table>
-            <button class="archive-print-button">Print recent logs</button>
+  <thead>
+    <tr>
+      <th class="archive-header">Month and Year</th>
+      <th class="archive-header">Average Number of Families Supported</th>
+      <th class="archive-header">Most Stocked Item</th>
+    </tr>
+  </thead>
+  <tbody id="archive-table-body"></tbody>
+</table> 
+<br>
+
           </section>
         </div>
       </section>
@@ -118,5 +119,5 @@ This uses styles.css
     crossorigin="anonymous"
   ></script>
   <script src="js/formatting.js"></script>
-  <!-- <script src="main.js" defer></script> -->
+  <script src="js/archive.js"></script> <!-- <script src="main.js" defer></script> -->
 </html>

@@ -45,13 +45,13 @@ This uses styles.css
           <a href="trends.html" class="sidebar-button">Trends</a>
         </div>
         <div class="sidebar-links">
-          <a href="stock.html" class="sidebar-button" active>Stock</a>
+          <a href="stock.html" class="sidebar-button">Stock</a>
         </div>
         <div class="sidebar-links">
           <a href="account.html" class="sidebar-button">Account</a>
         </div>
         <div class="sidebar-links">
-          <a href="tasks.html" class="sidebar-button">Task Manager</a>
+          <a href="downloads.html" class="sidebar-button" active>Files</a>
         </div>
         <div class="sidebar-links">
           <a href="pantry.html" class="sidebar-button">Pantry</a>
@@ -115,7 +115,7 @@ This uses styles.css
           </div>
           <div class="main-structure-right">
             <div class="graph">
-              <h2>Stock of searched item the past 2 months</h2>
+              
               <br>
               <canvas id="Stockchart"></canvas>
               </div>
@@ -124,13 +124,7 @@ This uses styles.css
 
 
           </div>
-          <div class="main-structure-bottom">
-            <h5>Header 5</h5>
-            <p> The idea is that searching the object on the side will pop up that item on the page
-              and be able to pull the information for the chart at the bottom and find the object on the left
-            </p>
-            
-          </div>
+          
         </div>
       </section>
     </main>
@@ -187,6 +181,39 @@ This uses styles.css
         </div>
       </div>
     </div>
+    <div id="modal-edit" class="modal stock-modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5>Edit Item</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="mb-2">
+          <input id="title-edit" class="form-control" placeholder="Item Name">
+        </div>
+        <div class="mb-2">
+          <input id="stock-number-edit" type="number" class="form-control" placeholder="Quantity">
+        </div>
+        <div class="mb-2">
+          <input id="target-stock-edit" type="number" class="form-control" placeholder="Target Quantity">
+        </div>
+
+        <div id="msg-edit" class="text-danger"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="close-edit-modal" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button id="edit-btn" class="btn btn-primary">
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
     <!-- Footer -->
     <footer>
       <hr class="center"/>

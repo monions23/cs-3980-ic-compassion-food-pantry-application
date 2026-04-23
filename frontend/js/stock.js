@@ -1,26 +1,77 @@
 const api = "http://127.0.0.1:8000/stock/";
 
-let stockedFood = []; // default of empty array, will be updated with getAllStockItems() upon page load
+let stockedFood = [];
 let stockIdInEdit = "";
 let stockChart = null;
 
-(() => {
+/* =========================
+   INIT (SAFE ENTRY POINT)
+========================= */
+document.addEventListener("DOMContentLoaded", () => {
   getAllStockItems();
-})();
 
-document.getElementById("add-btn").addEventListener("click", (e) => {
+  // ADD BUTTON
+  const addBtn = document.getElementById("add-btn");
+  if (addBtn) {
+    addBtn.addEventListener("click", handleAdd);
+  }
+
+  // EDIT BUTTON
+  const editBtn = document.getElementById("edit-btn");
+  if (editBtn) {
+    editBtn.addEventListener("click", handleEdit);
+  }
+
+  // SEARCH INPUT
+  const searchInput = document.getElementById("search-input");
+  if (searchInput) {
+    searchInput.addEventListener("input", handleSearch);
+  }
+
+  // CLEAR MODAL ERROR ON CLOSE
+  const modalAdd = document.getElementById("modal-add");
+  if (modalAdd) {
+    modalAdd.addEventListener("hidden.bs.modal", () => {
+      const msgDiv = document.getElementById("msg");
+      if (msgDiv) msgDiv.innerHTML = "";
+    });
+  }
+});
+
+/* =========================
+   GET ALL STOCK ITEMS
+========================= */
+function getAllStockItems() {
+  const xhr = new XMLHttpRequest();
+
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      stockedFood = JSON.parse(xhr.response) || [];
+
+      renderStock(stockedFood);
+      updateStockChart(stockedFood);
+    }
+  };
+
+  xhr.open("GET", api, true);
+  xhr.send();
+}
+
+/* =========================
+   ADD ITEM
+========================= */
+function handleAdd(e) {
   e.preventDefault();
 
-  // get id from form input in modal and assign to what will be added by using .value
   const msgDiv = document.getElementById("msg");
   const itemNameInput = document.getElementById("title");
   const stockInput = document.getElementById("stock-number");
-  const targetQuantityInput = document.getElementById("target-stock");
+  const targetInput = document.getElementById("target-stock");
 
-  // check that all input fields are non-empty, otherwise display an error message
-  if (!itemNameInput.value || !stockInput.value || !targetQuantityInput.value) {
-    msgDiv.innerHTML =
-      "Please provide non-empty fields when adding a new Reagent";
+  if (!itemNameInput || !stockInput || !targetInput) return;
+
+  if (!itemNameInput.value || !stockInput.value || !targetInput.value) {
+    msgDiv.innerHTML = "Please fill all fields";
     return;
   }
 
@@ -28,53 +79,48 @@ document.getElementById("add-btn").addEventListener("click", (e) => {
 
   xhr.onload = () => {
     if (xhr.status === 201) {
-      // get the new stocked item and updated the stockedFood array
-      const newStockItem = JSON.parse(xhr.response);
-      stockedFood.push(newStockItem);
+      const newItem = JSON.parse(xhr.response);
+      stockedFood.push(newItem);
+
       renderStock(stockedFood);
-      //Update stock chart
       updateStockChart(stockedFood);
 
-      // close modal dialog
-      // if using fetch, use "then"
-      const closeBtn = document.getElementById("close-add-modal");
-      closeBtn.click();
+      document.getElementById("close-add-modal")?.click();
 
-      // clean up error message
       msgDiv.innerHTML = "";
       itemNameInput.value = "";
       stockInput.value = "";
-      targetQuantityInput.value = "";
+      targetInput.value = "";
     }
-
-    console.log(stockedFood);
   };
 
-  // with POST, need to send a body with post
   xhr.open("POST", api, true);
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
   xhr.send(
     JSON.stringify({
       item_name: itemNameInput.value,
       quantity: parseInt(stockInput.value),
-      target_quantity: parseInt(targetQuantityInput.value),
-    }),
+      target_quantity: parseInt(targetInput.value),
+    })
   );
-});
+}
 
-document.getElementById("edit-btn").addEventListener("click", (e) => {
+/* =========================
+   EDIT ITEM
+========================= */
+function handleEdit(e) {
   e.preventDefault();
 
-  // get id from form input in modal and assign to what will be added by using .value
   const msgDiv = document.getElementById("msg-edit");
   const itemNameInput = document.getElementById("title-edit");
   const stockInput = document.getElementById("stock-number-edit");
-  const targetQuantityInput = document.getElementById("target-stock-edit");
+  const targetInput = document.getElementById("target-stock-edit");
 
-  // check that all input fields are non-empty, otherwise display an error message
-  if (!itemNameInput.value || !stockInput.value || !targetQuantityInput.value) {
-    msgDiv.innerHTML =
-      "Please provide non-empty fields when adding a new Reagent";
+  if (!itemNameInput || !stockInput || !targetInput) return;
+
+  if (!itemNameInput.value || !stockInput.value || !targetInput.value) {
+    msgDiv.innerHTML = "Please fill all fields";
     return;
   }
 
@@ -82,188 +128,161 @@ document.getElementById("edit-btn").addEventListener("click", (e) => {
 
   xhr.onload = () => {
     if (xhr.status === 200) {
-      // get old and updated stock items
-      const editedStockItem = JSON.parse(xhr.response);
-      const oldStockItem = stockedFood.find((s) => s._id == stockIdInEdit);
+      const updated = JSON.parse(xhr.response);
+      const item = stockedFood.find(s => s._id === stockIdInEdit);
 
-      // set stock values to the edited values
-      oldStockItem.item_name = editedStockItem.item_name;
-      oldStockItem.quantity = editedStockItem.quantity;
-      oldStockItem.target_quantity = editedStockItem.target_quantity;
+      if (item) {
+        item.item_name = updated.item_name;
+        item.quantity = updated.quantity;
+        item.target_quantity = updated.target_quantity;
+      }
+
       renderStock(stockedFood);
-
-      //update stock chart
       updateStockChart(stockedFood);
 
-      // close modal dialog
-      // if using fetch, use "then"
-      const closeBtn = document.getElementById("close-edit-modal");
-      closeBtn.click();
+      document.getElementById("close-edit-modal")?.click();
 
-      // clean up error message
       msgDiv.innerHTML = "";
-      itemNameInput.value = "";
-      stockInput.value = "";
-      targetQuantityInput.value = "";
     }
   };
 
-  // with POST, need to send a body with post
   xhr.open("PUT", api + stockIdInEdit, true);
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
   xhr.send(
     JSON.stringify({
       item_name: itemNameInput.value,
       quantity: parseInt(stockInput.value),
-      target_quantity: parseInt(targetQuantityInput.value),
-    }),
+      target_quantity: parseInt(targetInput.value),
+    })
   );
-});
+}
 
+/* =========================
+   DELETE ITEM
+========================= */
 function deleteStockItem(id) {
   const xhr = new XMLHttpRequest();
-  xhr.onload = () => {
-    if (xhr.status == 200) {
-      stockedFood = stockedFood.filter((x) => x._id != id); // filter ids that are all except the chosen id
-      renderStock(stockedFood); // refreshes todos
 
-      //update stock chart
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      stockedFood = stockedFood.filter(x => x._id !== id);
+
+      renderStock(stockedFood);
       updateStockChart(stockedFood);
     }
   };
 
-  // get api link from docs on page. need to open and send xhr request
   xhr.open("DELETE", api + id, true);
   xhr.send();
 }
 
+/* =========================
+   EDIT PREFILL
+========================= */
 function setStockItemInEdit(id) {
-  // find item with the corresponding id
   stockIdInEdit = id;
-  const stockItem = stockedFood.find((s) => s._id == id);
 
-  // set the input values in the edit modal to the current values of the stock item being edited
-  document.getElementById("title-edit").value = stockItem.item_name;
-  document.getElementById("stock-number-edit").value = stockItem.quantity;
-  document.getElementById("target-stock-edit").value =
-    stockItem.target_quantity;
+  const item = stockedFood.find(s => s._id === id);
+  if (!item) return;
+
+  document.getElementById("title-edit").value = item.item_name;
+  document.getElementById("stock-number-edit").value = item.quantity;
+  document.getElementById("target-stock-edit").value = item.target_quantity;
 }
 
-/* Render stock data */
+/* =========================
+   RENDER TABLE
+========================= */
 function renderStock(data) {
-  // get the div where the stock data is rendered
-  const stockDiv = document.getElementById("stock-table-data");
-  stockDiv.innerHTML = ""; // clear before rerendering to avoid duplications
+  const table = document.getElementById("stock-table-data");
+  if (!table) return;
 
-  // display data in descending order of quantity
+  table.innerHTML = "";
+
   data
     .sort((a, b) => b.quantity - a.quantity)
-    .forEach((x) => {
-      // render each stock item as a row in the table
-      stockDiv.innerHTML += `
-        <tr id = "stock-item-${x._id}" class="stock-table-row">
-            <td class = "stock-table-item">${x.item_name}</td>
-            <td class = "stock-table-item">${x.quantity}</td>
-            <td class = "stock-table-item">${x.target_quantity}</td>
-            <td class = "stock-table-item">
-                <button type="button" class = "btn btn-success btn-sm"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modal-edit"
-                    onClick="setStockItemInEdit('${x._id}')">
-                    <i class="bi bi-pencil-square"></i>
-                    Edit
-                </button>
-                <button type="button" class = "btn btn-danger btn-sm"
-                    onClick="deleteStockItem('${x._id}')">
-                    <i class="bi bi-trash"></i>
-                Delete
-                </button>
-            </td>
+    .forEach(x => {
+      table.innerHTML += `
+        <tr class="stock-table-row">
+          <td>${x.item_name}</td>
+          <td>${x.quantity}</td>
+          <td>${x.target_quantity}</td>
+          <td>
+            <button class="btn btn-success btn-sm"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-edit"
+              onclick="setStockItemInEdit('${x._id}')">
+              Edit
+            </button>
+
+            <button class="btn btn-danger btn-sm"
+              onclick="deleteStockItem('${x._id}')">
+              Delete
+            </button>
+          </td>
         </tr>
-        `;
+      `;
     });
 }
 
-/* Get all stock items from backend and render on page */
-function getAllStockItems() {
-  const xhr = new XMLHttpRequest();
-  xhr.onload = () => {
-    if (xhr.status == 200) {
-      stockedFood = JSON.parse(xhr.response) || [];
-      console.log(stockedFood);
-      renderStock(stockedFood);
-
-      //Update the graph in stock
-      updateStockChart(stockedFood);
-    }
-  };
-
-  // get api link from docs on page. need to open and send xhr request
-  xhr.open("GET", api, true);
-  xhr.send();
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const addModalClear = document.getElementById("modal-add");
-  addModalClear.addEventListener("hidden.bs.modal", () => {
-    const msgDiv = document.getElementById("msg");
-    msgDiv.innerHTML = "";
-  });
-  // Clear search input on page load
-  const searchInput = document.getElementById("search-input");
-  const searchResult = document.getElementById("search-result");
-
-  if (searchInput) searchInput.value = "";
-
-  if (searchResult) {
-    searchResult.innerHTML = "";
-  }
-});
-
-
-
-
-//This is to update the chart in the stock.html
+/* =========================
+   CHART 
+========================= */
 function updateStockChart(data) {
   const canvas = document.getElementById("Stockchart");
   if (!canvas) return;
 
   const ctx = canvas.getContext("2d");
 
-  // API data into chart format
   const labels = data.map(item => item.item_name);
   const quantities = data.map(item => item.quantity);
+  const targets = data.map(item => item.target_quantity);
 
-  // clear
-  if (stockChart) {
-    stockChart.destroy();
-  }
+  if (stockChart) stockChart.destroy();
 
   stockChart = new Chart(ctx, {
-    type: "bar", //default is bar chart
+    type: "bar",
     data: {
       labels: labels,
-      datasets: [{
-        label: "Current Stock",
-        data: quantities,
-        borderWidth: 2
-      }]
+      datasets: [
+        {
+          label: "Current Stock",
+          data: quantities,
+          backgroundColor: "#65bac2"
+        },
+        {
+          label: "Target Stock",
+          data: targets,
+          backgroundColor: "#bc1a38"
+        }
+      ]
     },
     options: {
-      responsive: true
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
     }
   });
 }
 
-//Search function:
-document.getElementById("search-input").addEventListener("input", (e) => {
+/* =========================
+   SEARCH
+========================= */
+function handleSearch(e) {
   const value = e.target.value.toLowerCase();
   const resultBody = document.getElementById("search-result");
+
+  if (!resultBody) return;
 
   resultBody.innerHTML = "";
 
   if (!value) {
-    // If empty search → clear table
+    updateStockChart(stockedFood);
     return;
   }
 
@@ -272,11 +291,7 @@ document.getElementById("search-input").addEventListener("input", (e) => {
   );
 
   if (matches.length === 0) {
-    resultBody.innerHTML = `
-      <tr>
-        <td colspan="2">No items found</td>
-      </tr>
-    `;
+    resultBody.innerHTML = `<tr><td colspan="2">No items found</td></tr>`;
     return;
   }
 
@@ -289,14 +304,5 @@ document.getElementById("search-input").addEventListener("input", (e) => {
     `;
   });
 
-  // Optional: update chart to match search (VERY nice UX)
   updateStockChart(matches);
-});
-
-//Reset chart when search is cleared.
-
-if (!value) {
-  resultBody.innerHTML = "";
-  updateStockChart(stockedFood); // reset chart
-  return;
 }
