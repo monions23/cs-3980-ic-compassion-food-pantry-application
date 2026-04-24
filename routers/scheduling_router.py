@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from auth.authenticate import authenticate
 
-from models import user
+from models.user import User
 from models.scheduling import Scheduling
 
 # ADD LOGGER after updating this model
@@ -10,8 +10,8 @@ scheduling_router = APIRouter()
 
 @scheduling_router.post("/")
 async def create_schedule(schedule: Scheduling, user=Depends(authenticate)):
-    schedule.email = user.email # this ensures that the emails match
-    return await Scheduling.insert_one(schedule)
+    schedule.email = user.username
+    return await schedule.insert()
 
 # only want admins to be able to see all schedules, but users can see their own schedule
 @scheduling_router.get("/")
@@ -24,7 +24,7 @@ async def get_all_schedules(user=Depends(authenticate)):
 # a user can get their own schedule
 @scheduling_router.get("/me")
 async def get_my_schedule(user=Depends(authenticate)):
-    schedules = await Scheduling.find(Scheduling.email == user.email).to_list()
+    schedules = await Scheduling.find(Scheduling.email == user.username).to_list()
 
     if not schedules:
         raise HTTPException(status_code=404, detail="No schedules found")
@@ -33,38 +33,34 @@ async def get_my_schedule(user=Depends(authenticate)):
 
 @scheduling_router.get("/user/{email}")
 async def get_user_schedule(email: str):
-    schedules = await Scheduling.find(Scheduling.user_email == email).to_list()
-
-    if not schedules:
-        raise HTTPException(status_code=404, detail="No schedules found")
-
+    schedules = await Scheduling.find(Scheduling.email == email).to_list()
     return schedules
 
 # only admins can assign visitors
-@scheduling_router.put("/assign/{schedule_id}")
-async def assign_visitor(
-    schedule_id: str,
-    email: str,
-    name: str,
-    user=Depends(authenticate),
-):
-    if user.role not in ["Admin", "SuperAdmin"]:
-        raise HTTPException(status_code=403, detail="Not authorized")
+# @scheduling_router.put("/assign/{schedule_id}")
+# async def assign_visitor(
+#     schedule_id: str,
+#     email: str,
+#     name: str,
+#     user=Depends(authenticate),
+# ):
+#     if user.role not in ["Admin"]:
+#         raise HTTPException(status_code=403, detail="Not authorized")
 
-    schedule = await Scheduling.get(schedule_id)
+#     schedule = await Scheduling.get(schedule_id)
 
-    if not schedule:
-        raise HTTPException(status_code=404, detail="Schedule not found")
+#     if not schedule:
+#         raise HTTPException(status_code=404, detail="Schedule not found")
 
-    if schedule.email is not None:
-        raise HTTPException(status_code=400, detail="Slot already filled")
+#     if schedule.email is not None:
+#         raise HTTPException(status_code=400, detail="Slot already filled")
 
-    schedule.email = email
-    schedule.name = name
+#     schedule.email = email
+#     schedule.name = name
 
-    await schedule.save()
+#     await schedule.save()
 
-    return {"message": "Visitor scheduled", "schedule": schedule}
+#     return {"message": "Visitor scheduled", "schedule": schedule}
 
 # admin or users can update their own scheduled time
 @scheduling_router.put("/{schedule_id}")
@@ -84,7 +80,7 @@ async def update_schedule(
         return schedule
 
     # USER can ONLY edit their own
-    if schedule.email != user.email:
+    if schedule.email != user.username:
         raise HTTPException(status_code=403, detail="Not authorized")
 
     # Prevent user from changing ownership
@@ -102,12 +98,12 @@ async def delete_schedule(schedule_id: str, user=Depends(authenticate)):
         raise HTTPException(status_code=404, detail="Not found")
 
     # ADMIN can delete anything
-    if user.role in ["Admin", "SuperAdmin"]:
+    if user.role in ["Admin"]:
         await schedule.delete()
         return {"message": "Deleted"}
 
     # USER can ONLY delete their own
-    if schedule.email != user.email:
+    if schedule.email != user.username:
         raise HTTPException(status_code=403, detail="Not authorized")
 
     await schedule.delete()
