@@ -10,6 +10,7 @@ from routers.stock_router import stock_router
 from routers.user_router import user_router
 from routers.scheduling_router import scheduling_router
 from routers.pantry_record_router import pantry_record_router
+from routers.files_router import files_router
 from logging_setup import setup_logging
 
 setup_logging()
@@ -56,9 +57,8 @@ app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(stock_router, prefix="/stock", tags=["Stock"])
 app.include_router(user_router, prefix="/users", tags=["Users"])
 app.include_router(scheduling_router, prefix="/scheduling", tags=["Scheduling"])
-app.include_router(
-    pantry_record_router, prefix="/pantry-records", tags=["Pantry Records"]
-)
+app.include_router(pantry_record_router, prefix="/pantry-records", tags=["Pantry Records"])
+app.include_router(files_router, tags=["File Upload"])
 
 
 app.mount("/", StaticFiles(directory="frontend"), name="static")
