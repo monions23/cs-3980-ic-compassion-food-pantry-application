@@ -56,11 +56,11 @@ async def sign_in(
     logger.info(f"\tUser [{user.username}] signed in")
 
     access_token, expiry = create_access_token(
-        {"username": db_user.email, "role": str(db_user.role)}
+        {"email": db_user.email, "role": str(db_user.role)}
     )
 
     return TokenResponse(
-        username=db_user.email,
+        email=db_user.email,
         role=str(db_user.role),
         access_token=access_token,
         expiry=expiry,
@@ -70,5 +70,5 @@ async def sign_in(
 async def get_me(
     current_user: Annotated[TokenData, Depends(authenticate)],
 ) -> TokenData:
-    logger.info(f"/me accessed by user={current_user.username}")
+    logger.info(f"/me accessed by user={current_user.email}")
     return current_user

@@ -7,8 +7,7 @@ This uses styles.css
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Food Pantry Tracker</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Bootstrap Stylesheet -->
@@ -18,7 +17,6 @@ This uses styles.css
     />
     <!-- Custom Stylesheet(s) -->
     <link rel="stylesheet" href="styles.css" />
-    
   </head>
   <body>
     <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
@@ -67,7 +65,6 @@ This uses styles.css
       <section class="main">
         <div class="main-grid">
           <div class="main-structure-left-two-rows">
-            
             <div class="stock-title">
               <h2 class="section-header">Current Stock</h2>
               <button
@@ -96,17 +93,22 @@ This uses styles.css
           </div>
           <div class="main-structure-right">
             <label for="search-input">Search items:</label>
-            <input list="items" id="search-input" name="search-input" placeholder="Type to search...">
-            
+            <input
+              list="items"
+              id="search-input"
+              name="search-input"
+              placeholder="Type to search..."
+            />
+
             <datalist id="items">
-              <option value="Apple">
-              <option value="Banana">
-              <option value="Cherry">
-              <option value="Date">
+              <option value="Apple"></option>
+              <option value="Banana"></option>
+              <option value="Cherry"></option>
+              <option value="Date"></option>
             </datalist>
-            <br>
-            <br>
-            
+            <br />
+            <br />
+
             <table class="search-answer-quantity">
               <tr>
                 <th>Item Name</th>
@@ -114,20 +116,14 @@ This uses styles.css
               </tr>
               <tbody id="search-result"></tbody>
             </table>
-            
           </div>
           <div class="main-structure-right">
             <div class="graph">
-              
-              <br>
+              <br />
               <canvas id="Stockchart"></canvas>
-              </div>
-              <br>
-    
-
-
+            </div>
+            <br />
           </div>
-          
         </div>
       </section>
     </main>
@@ -185,41 +181,66 @@ This uses styles.css
       </div>
     </div>
     <div id="modal-edit" class="modal stock-modal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5>Edit Item</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5>Edit Item</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
 
-      <div class="modal-body">
-        <div class="mb-2">
-          <input id="title-edit" class="form-control" placeholder="Item Name">
-        </div>
-        <div class="mb-2">
-          <input id="stock-number-edit" type="number" class="form-control" placeholder="Quantity">
-        </div>
-        <div class="mb-2">
-          <input id="target-stock-edit" type="number" class="form-control" placeholder="Target Quantity">
-        </div>
+          <div class="modal-body">
+            <div class="mb-2">
+              <label for="title-edit" class="form-label">Name of Item</label>
+              <input
+                id="title-edit"
+                class="form-control"
+                placeholder="Item Name"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="stock-number-edit" class="form-label">Quantity</label>
+              <input
+                id="stock-number-edit"
+                type="number"
+                class="form-control"
+                placeholder="Quantity"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="target-stock-edit" class="form-label"
+                >Target Quantity</label
+              >
+              <input
+                id="target-stock-edit"
+                type="number"
+                class="form-control"
+                placeholder="Target Quantity"
+              />
+            </div>
 
-        <div id="msg-edit" class="text-danger"></div>
-      </div>
+            <div id="msg-edit" class="text-danger"></div>
+          </div>
 
-      <div class="modal-footer">
-        <button id="close-edit-modal" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-        <button id="edit-btn" class="btn btn-primary">
-          Save Changes
-        </button>
+          <div class="modal-footer">
+            <button
+              id="close-edit-modal"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button id="edit-btn" class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
     <!-- Footer -->
     <footer>
-      <hr class="center"/>
+      <hr class="center" />
       <div class="footer-grid">
         <img
           src="IC_Compassion_Logo_big.jpg"
@@ -240,7 +261,7 @@ This uses styles.css
           >For more information</a
         >
       </div>
-      <hr class="center"/>
+      <hr class="center" />
     </footer>
   </body>
 

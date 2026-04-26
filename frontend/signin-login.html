@@ -7,7 +7,7 @@ This uses styles.css
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Food Pantry Tracker</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <!-- Bootstrap Stylesheet -->
     <link
@@ -55,14 +55,14 @@ This uses styles.css
           </div>
           <div class="main-structure-left">
             <h2>Sign in</h2>
-            <form action="/login-process" method="POST">
+            <form action="/login-process" id="login-form" method="POST">
               <div class="form-group">
-                <label for="username">Username:</label><br />
+                <label for="email">Email:</label><br />
                 <input
                   type="text"
-                  id="username"
-                  name="username"
-                  placeholder="Enter Username"
+                  id="sign-in-email"
+                  name="sign-in-email"
+                  placeholder="Enter Email"
                   required
                 /><br />
               </div>
@@ -71,8 +71,8 @@ This uses styles.css
                 <label for="password">Password:</label><br />
                 <input
                   type="password"
-                  id="password"
-                  name="password"
+                  id="sign-in-password"
+                  name="sign-in-password"
                   placeholder="Enter Password"
                   required
                 /><br />
@@ -81,35 +81,26 @@ This uses styles.css
               <button type="submit">Sign In</button><br />
               <div class="extra-options">
                 <br />
-                <label>
-                  <input type="checkbox" name="remember" /> Remember me<br /> </label
-                ><br />
                 <a href="#">Forgot password?</a>
               </div>
             </form>
           </div>
           <div class="main-structure-right">
-            <form action="/submit-signup" method="POST">
+            <form action="/submit-signup" id="signup-form" method="POST">
               <h2>Create Account</h2>
-              <label for="username">Username:</label><br />
-              <input
-                type="text"
-                id="username"
-                name="username"
-                required
-              /><br /><br />
+              <br />
               <label for="email">Email:</label><br />
               <input
                 type="email"
-                id="email"
-                name="email"
+                id="sign-up-email"
+                name="sign-up-email"
                 required
               /><br /><br />
               <label for="password">Password:</label><br />
               <input
                 type="password"
-                id="password"
-                name="password"
+                id="sign-up-password"
+                name="sign-up-password"
                 required
               /><br /><br />
               <button type="submit">Sign Up</button>
@@ -151,5 +142,5 @@ This uses styles.css
     crossorigin="anonymous"
   ></script>
   <script src="js/formatting.js"></script>
-  <!-- <script src="main.js" defer></script> -->
+  <script src="js/signup_login.js"></script>
 </html>

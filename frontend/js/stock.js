@@ -1,6 +1,5 @@
 const api = "http://127.0.0.1:8000/stock/";
 
-let stockedFood = [];
 let stockIdInEdit = "";
 let stockChart = null;
 
@@ -8,7 +7,7 @@ let stockChart = null;
    INIT (SAFE ENTRY POINT)
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
-  getAllStockItems();
+  getAllStockedItems();
 
   // ADD BUTTON
   const addBtn = document.getElementById("add-btn");
@@ -41,19 +40,34 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =========================
    GET ALL STOCK ITEMS
 ========================= */
-function getAllStockItems() {
+function getAllStockedItems() {
   const xhr = new XMLHttpRequest();
 
   xhr.onload = () => {
     if (xhr.status === 200) {
       stockedFood = JSON.parse(xhr.response) || [];
-
       renderStock(stockedFood);
       updateStockChart(stockedFood);
     }
   };
 
   xhr.open("GET", api, true);
+  xhr.send();
+}
+
+/* =========================
+   GET STOCK ITEM BY ID
+========================= */
+function getStockItem(id) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      stockedFood = JSON.parse(xhr.response) || [];
+    }
+  };
+
+  xhr.open("GET", api + id, true);
   xhr.send();
 }
 
@@ -80,10 +94,7 @@ function handleAdd(e) {
   xhr.onload = () => {
     if (xhr.status === 201) {
       const newItem = JSON.parse(xhr.response);
-      stockedFood.push(newItem);
-
-      renderStock(stockedFood);
-      updateStockChart(stockedFood);
+      getAllStockedItems(); // Refresh the list from the server to ensure consistency
 
       document.getElementById("close-add-modal")?.click();
 
@@ -102,7 +113,7 @@ function handleAdd(e) {
       item_name: itemNameInput.value,
       quantity: parseInt(stockInput.value),
       target_quantity: parseInt(targetInput.value),
-    })
+    }),
   );
 }
 
@@ -129,7 +140,7 @@ function handleEdit(e) {
   xhr.onload = () => {
     if (xhr.status === 200) {
       const updated = JSON.parse(xhr.response);
-      const item = stockedFood.find(s => s._id === stockIdInEdit);
+      const item = getStockItem(stockIdInEdit);
 
       if (item) {
         item.item_name = updated.item_name;
@@ -137,10 +148,8 @@ function handleEdit(e) {
         item.target_quantity = updated.target_quantity;
       }
 
-      renderStock(stockedFood);
-      updateStockChart(stockedFood);
-
       document.getElementById("close-edit-modal")?.click();
+      getAllStockedItems(); // Refresh the list from the server to ensure consistency
 
       msgDiv.innerHTML = "";
     }
@@ -154,7 +163,7 @@ function handleEdit(e) {
       item_name: itemNameInput.value,
       quantity: parseInt(stockInput.value),
       target_quantity: parseInt(targetInput.value),
-    })
+    }),
   );
 }
 
@@ -166,7 +175,7 @@ function deleteStockItem(id) {
 
   xhr.onload = () => {
     if (xhr.status === 200) {
-      stockedFood = stockedFood.filter(x => x._id !== id);
+      stockedFood = stockedFood.filter((x) => x.public_id !== id);
 
       renderStock(stockedFood);
       updateStockChart(stockedFood);
@@ -183,7 +192,7 @@ function deleteStockItem(id) {
 function setStockItemInEdit(id) {
   stockIdInEdit = id;
 
-  const item = stockedFood.find(s => s._id === id);
+  const item = stockedFood.find((s) => s.public_id === id);
   if (!item) return;
 
   document.getElementById("title-edit").value = item.item_name;
@@ -202,7 +211,7 @@ function renderStock(data) {
 
   data
     .sort((a, b) => b.quantity - a.quantity)
-    .forEach(x => {
+    .forEach((x) => {
       table.innerHTML += `
         <tr class="stock-table-row">
           <td>${x.item_name}</td>
@@ -212,12 +221,12 @@ function renderStock(data) {
             <button class="btn btn-success btn-sm"
               data-bs-toggle="modal"
               data-bs-target="#modal-edit"
-              onclick="setStockItemInEdit('${x._id}')">
+              onclick="setStockItemInEdit('${x.public_id}')">
               Edit
             </button>
 
             <button class="btn btn-danger btn-sm"
-              onclick="deleteStockItem('${x._id}')">
+              onclick="deleteStockItem('${x.public_id}')">
               Delete
             </button>
           </td>
@@ -235,9 +244,9 @@ function updateStockChart(data) {
 
   const ctx = canvas.getContext("2d");
 
-  const labels = data.map(item => item.item_name);
-  const quantities = data.map(item => item.quantity);
-  const targets = data.map(item => item.target_quantity);
+  const labels = data.map((item) => item.item_name);
+  const quantities = data.map((item) => item.quantity);
+  const targets = data.map((item) => item.target_quantity);
 
   if (stockChart) stockChart.destroy();
 
@@ -249,24 +258,24 @@ function updateStockChart(data) {
         {
           label: "Current Stock",
           data: quantities,
-          backgroundColor: "#65bac2"
+          backgroundColor: "#65bac2",
         },
         {
           label: "Target Stock",
           data: targets,
-          backgroundColor: "#bc1a38"
-        }
-      ]
+          backgroundColor: "#bc1a38",
+        },
+      ],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
         y: {
-          beginAtZero: true
-        }
-      }
-    }
+          beginAtZero: true,
+        },
+      },
+    },
   });
 }
 
@@ -286,8 +295,8 @@ function handleSearch(e) {
     return;
   }
 
-  const matches = stockedFood.filter(item =>
-    item.item_name.toLowerCase().includes(value)
+  const matches = stockedFood.filter((item) =>
+    item.item_name.toLowerCase().includes(value),
   );
 
   if (matches.length === 0) {
@@ -295,7 +304,7 @@ function handleSearch(e) {
     return;
   }
 
-  matches.forEach(item => {
+  matches.forEach((item) => {
     resultBody.innerHTML += `
       <tr>
         <td>${item.item_name}</td>

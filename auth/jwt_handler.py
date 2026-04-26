@@ -10,7 +10,7 @@ ALGORITHM = "HS256"
 
 
 class TokenData(BaseModel):
-    username: str
+    email: str
     role: str
     exp_datetime: datetime
 
@@ -42,7 +42,7 @@ def verify_access_token(token: str) -> TokenData:
         )
 
         return TokenData(
-            username=data.get("username"),
+            email=data.get("email"),
             role=data.get("role"),
             exp_datetime=exp_datetime,
         )

@@ -29,7 +29,7 @@ class User(Document):
 
 
 class TokenResponse(BaseModel):
-    username: str                                                                                                                                                                                                                                          
+    email: str                                                                                                                                                                                                                                          
     role: str
     access_token: str
     expiry: datetime

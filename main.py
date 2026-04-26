@@ -49,7 +49,7 @@ app.add_middleware(
 
 @app.get("/")
 async def home():
-    return FileResponse("frontend/main.html")
+    return FileResponse("frontend/main-logged-out.html")
 
 
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])

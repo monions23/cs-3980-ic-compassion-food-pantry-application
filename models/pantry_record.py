@@ -1,4 +1,6 @@
 # app/models/pantry_record.py
+from uuid import uuid4
+
 from beanie import Document, PydanticObjectId
 from pydantic import BaseModel, Field
 from typing import Optional
@@ -7,6 +9,7 @@ from datetime import datetime, timezone
 
 class PantryRecord(Document):
     id: Optional[PydanticObjectId] = Field(default=None, alias="_id")
+    public_id: str = Field(default_factory=lambda: uuid4().hex)
     name: str = Field(
         ..., description="Name of the person associated with the this pantry record"
     )
@@ -28,7 +31,6 @@ class PantryRecord(Document):
 
     class Settings:
         name = "pantry_records"
-
 
 class PantryRecordUpdate(BaseModel):
     num_ppl_in_families: Optional[int] = None

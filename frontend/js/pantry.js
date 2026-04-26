@@ -33,7 +33,6 @@ async function loadRecords() {
 
     // ✅ MUST be AFTER data is assigned
     updateTodayTotal(pantryRecords);
-
   } catch (err) {
     console.error("Error loading records:", err);
   }
@@ -54,6 +53,9 @@ function setupForm() {
     const familyInput = document.getElementById("num-in-family");
     const userInput = document.getElementById("user-updater");
 
+    console.log(nameInput);
+    var name_words = nameInput.value.split(" ");
+    var name_data = name_words[0].at(0) + name_words[1];
     if (!nameInput.value || !familyInput.value) {
       msgDiv.innerHTML = "Please fill in required fields";
       return;
@@ -66,7 +68,7 @@ function setupForm() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: nameInput.value,
+          name: name_data,
           num_ppl_in_families: parseInt(familyInput.value),
           // created_at handled by backend
         }),
@@ -81,13 +83,11 @@ function setupForm() {
       renderUpdates(pantryRecords);
       updateTodayTotal(pantryRecords);
 
-    
-     // reset form after submit
-     form.reset();
-     msgDiv.innerHTML = "";
-     // focus back to first field
-     document.getElementById("name").focus();
-
+      // reset form after submit
+      form.reset();
+      msgDiv.innerHTML = "";
+      // focus back to first field
+      document.getElementById("name").focus();
     } catch (err) {
       console.error(err);
       msgDiv.innerHTML = "Error creating record";
@@ -106,10 +106,9 @@ async function deleteRecord(id) {
 
     if (!res.ok) throw new Error("Delete failed");
 
-    pantryRecords = pantryRecords.filter(r => r._id !== id);
+    pantryRecords = pantryRecords.filter((r) => r.public_id !== id);
     renderUpdates(pantryRecords);
     updateTodayTotal(pantryRecords);
-
   } catch (err) {
     console.error(err);
   }
@@ -122,19 +121,20 @@ function renderUpdates(data) {
   const container = document.getElementById("updates-list");
 
   if (!data.length) {
-    container.innerHTML =
-      `<p class="pantry-history-info">No records yet</p>`;
+    container.innerHTML = `<p class="pantry-history-info">No records yet</p>`;
     return;
   }
 
   const sorted = [...data].sort((a, b) => {
-    return new Date(b.created_at || 0).getTime() -
-           new Date(a.created_at || 0).getTime();
+    return (
+      new Date(b.created_at || 0).getTime() -
+      new Date(a.created_at || 0).getTime()
+    );
   });
 
   container.innerHTML = "";
 
-  sorted.forEach(record => {
+  sorted.forEach((record) => {
     const div = document.createElement("div");
     div.classList.add("pantry-update");
 
@@ -144,12 +144,11 @@ function renderUpdates(data) {
 
     div.innerHTML = `
       <div class="update-card">
-        <strong>${record.name}</strong><br>
-        People Served: ${record.num_ppl_in_families}<br>
+        <strong>Family of ${record.num_ppl_in_families}</strong><br>
         <small>${date}</small><br>
 
         <button class="btn btn-sm btn-danger mt-1"
-          onclick="deleteRecord('${record._id}')">
+          onclick="deleteRecord('${record.public_id}')">
           Delete
         </button>
       </div>
@@ -170,21 +169,17 @@ function updateTodayTotal(records) {
   const now = new Date();
 
   // UTC to match backend
-  const startOfDayUTC = new Date(Date.UTC(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate()
-  ));
+  const startOfDayUTC = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+  );
 
-  const endOfDayUTC = new Date(Date.UTC(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate() + 1
-  ));
+  const endOfDayUTC = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1),
+  );
 
   let total = 0;
 
-  records.forEach(r => {
+  records.forEach((r) => {
     if (!r.created_at) return;
 
     const recordDate = new Date(r.created_at);
