@@ -17,16 +17,18 @@ function Account() {
         <Sidebar active={active}></Sidebar>
 
         {/* Main Content Table, Can be merged or sorted differently*/}
-        <section className="main">
-          <div className="main-grid">
-            <div className="main-structure-left">
+        <section class="main">
+          <div class="main-grid">
+            <div class="main-structure-left">
               <h1>Account USER OR ADMIN ONLY</h1>
               <hr />
-              <table className="account-table">
-                <th>
-                  <strong>Username:</strong>
-                </th>
-                <td>######</td>
+              <table class="account-table">
+                <tr>
+                  <th>
+                    <strong>Username:</strong>
+                  </th>
+                  <td>######</td>
+                </tr>
                 <tr>
                   <th>
                     <strong>Email:</strong>
@@ -37,15 +39,15 @@ function Account() {
                   <th>
                     <strong>Status:</strong>
                   </th>
-                  <td>Admin/User/Veiwer</td>
-                  {/* Admin can change permissions
+                  <td>Admin/User/Viewer</td>
+                  {/* <Admin can change permissions
                  User can veiw all pages but cant change permissions
                  Veiwer is someone who mistakenly logged in. 
-                 Maybe they can see the trends? */}
+                 Maybe they cann see the trends? */}
                 </tr>
               </table>
             </div>
-            <div className="main-structure-right">
+            <div class="main-structure-right">
               <h2>Header 2</h2>
               <br />
               <p>Reset password</p>
@@ -60,12 +62,12 @@ function Account() {
               <br />
               <br />
             </div>
-            <div className="main-structure-left">
+            <div class="main-structure-left">
               <h3>Header 3</h3>
               <p>Table with changing permissions in Admin Veiw</p>
               <hr />
             </div>
-            <div className="main-structure-right"></div>
+            <div class="main-structure-right"></div>
           </div>
         </section>
       </main>
