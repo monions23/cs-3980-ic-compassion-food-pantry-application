@@ -7,7 +7,7 @@ This uses styles.css
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Food Pantry Tracker</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <!-- Bootstrap Stylesheet -->
     <link
@@ -64,52 +64,63 @@ This uses styles.css
       <section class="main">
         <div class="main-grid">
           <div class="main-structure-top">
-            <h1>
-              Welcome to IC Compassion Food Pantry Tracker! 
-            </h1>
+            <h1>Welcome to IC Compassion Food Pantry Tracker!</h1>
           </div>
           <div class="main-structure-left">
             <h2>Dashboard</h2>
-            <hr><br>
+            <hr />
+            <br />
             <div class="icon-span">
               <a href="archive.html">
-                <img src="icons/archive-logo.svg" alt="Icon Homepage Links" /> 
+                <img src="icons/archive-logo.svg" alt="Icon Homepage Links" />
               </a>
               <a href="trends.html">
-              <img src="icons/trends-logo.svg" alt="Icon Homepage Links" />
+                <img src="icons/trends-logo.svg" alt="Icon Homepage Links" />
               </a>
-              <a href="stock.html" >
-              <img src="icons/stock-logo.svg" alt="Icon Homepage Links" />
+              <a href="stock.html">
+                <img src="icons/stock-logo.svg" alt="Icon Homepage Links" />
               </a>
               <a href="account.html">
-              <img src="icons/solid-user-logo.svg" alt="Icon Homepage Links" />
+                <img
+                  src="icons/solid-user-logo.svg"
+                  alt="Icon Homepage Links"
+                />
               </a>
-              <a href="downloads.html" >
-              <img src="icons/solid-file-logo.svg" alt="Icon Homepage Links" />
+              <a href="downloads.html">
+                <img
+                  src="icons/solid-file-logo.svg"
+                  alt="Icon Homepage Links"
+                />
               </a>
               <a href="pantry.html">
-              <img src="icons/pantry-logo.svg" alt="Icon Homepage Links" />
+                <img src="icons/pantry-logo.svg" alt="Icon Homepage Links" />
               </a>
-              <img src="icons/logout-logo.svg" alt="Icon Homepage Links" onclick="logout()" />
+              <img
+                src="icons/logout-logo.svg"
+                alt="Icon Homepage Links"
+                onclick="logout()"
+              />
             </div>
-            <br>
+            <br />
             <div class="card p-3 text-center">
               <h5>People Served This Month</h5>
-              <h1 id="month-total" style="font-size: 3rem;">0</h1>
+              <h1 id="month-total" style="font-size: 3rem">0</h1>
             </div>
           </div>
           <div class="main-structure-right">
             <h2>When to expect people</h2>
-              <hr /> <br>
+            <hr />
+            <br />
             <div class="main-arrivals-table-box">
-              
               <table class="main-arrivals-table" id="schedule-table"></table>
             </div>
           </div>
           <div class="main-structure-bottom">
             <h5>Reminders of low stock</h5>
             <h6>Header 6</h6>
-            <a href="main-logged-out.html"> Temporary link to check if the scheduling is working</a>
+            <a href="main-logged-out.html">
+              Temporary link to check if the scheduling is working</a
+            >
           </div>
         </div>
       </section>
@@ -149,4 +160,5 @@ This uses styles.css
   <script src="js/formatting.js"></script>
   <script src="js/main.js" defer></script>
   <script src="js/scheduling.js"></script>
+  <script src="js/logout.js"></script>
 </html>

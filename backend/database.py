@@ -23,6 +23,7 @@ from models.stock import Stock
 from models.user import User
 from models.scheduling import Scheduling
 from models.pantry_record import PantryRecord
+from models.files import FileRecord
 from pymongo import AsyncMongoClient
 from pydantic import BaseModel
 
@@ -49,7 +50,7 @@ async def init():
     client = AsyncMongoClient(settings.DATABASE_URL)
     await init_beanie(
         database=client.get_default_database(),
-        document_models=[User, Stock, PantryRecord, Scheduling],
+        document_models=[User, Stock, PantryRecord, Scheduling, FileRecord],
     )
 
 

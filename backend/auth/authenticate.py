@@ -6,7 +6,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/sign-in")
 
 
 async def authenticate(token: str = Depends(oauth2_scheme)) -> TokenData:
-    print("TOKEN:", token)
+    # print("TOKEN:", token)
     if not token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Sign in for access"
@@ -17,5 +17,5 @@ async def authenticate(token: str = Depends(oauth2_scheme)) -> TokenData:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Sign in for access"
         )
-    print("TOKEN RECEIVED:", token)
+    # print("TOKEN RECEIVED:", token)
     return token_data

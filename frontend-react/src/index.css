@@ -1,0 +1,81 @@
+/* 
+  This is for template.html
+ 
+ 
+ FONT FAMILIES TAKEN FROM ICC WEBSITE
+
+  This one is for p
+  font-family: 'anton';
+  font-style: normal;
+  font-weight: 400;
+
+  I dunno about this one yet
+  font-family: 'noticia text';
+  font-style: normal;
+  font-weight: 400;
+
+  TITLES h1, h2,h3
+  font-family: 'nunito sans';
+  font-style: normal;
+  font-weight: 700;
+  
+  Highlighted p
+  font-family: 'open sans';
+  font-style: italic;
+  font-weight: 700;
+  */
+
+/*
+  Color schemes from website
+  The IC Compassion red #bc1a38
+  The IC Compassion blue #65BAC2
+
+  */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  color: #111;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* Text titles */
+p {
+  font-family: "anton";
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "nunito sans";
+  font-style: normal;
+  font-weight: 700;
+}
+h1,
+h3,
+h5 {
+  color: #bc1a38;
+}
+strong {
+  color: #2f6e74;
+}
+
+hr {
+  border-top: 2px solid #02909d;
+  width: 200px;
+}
+
+hr.center {
+  margin: 7px auto;
+  border-top: 2px solid #02909d;
+  width: 200px;
+}

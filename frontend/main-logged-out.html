@@ -7,7 +7,7 @@ This uses styles.css
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Food Pantry Tracker</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <!-- Bootstrap Stylesheet -->
     <link
@@ -18,7 +18,10 @@ This uses styles.css
     <link rel="stylesheet" href="styles.css" />
 
     <!-- This is for the scheduling form to only allow wednesdays-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
   </head>
   <body>
     <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
@@ -47,43 +50,19 @@ This uses styles.css
         <div class="sidebar-links">
           <a href="signin-login.html" class="sidebar-button">Sign in</a>
         </div>
-
-        <!-- Doesnt do anything yet-->
       </aside>
 
       <!-- Main Content Table, Can be merged or sorted differently-->
       <section class="main">
         <div class="main-grid">
           <div class="main-structure-top">
-            <h1>
-              Welcome to IC Compassion Food Pantry Tracker! THIS IS USER LOGGED
-              OUT
-            </h1>
+            <h1>Welcome to the IC Compassion Food Pantry Online Service!</h1>
           </div>
-          
           <div class="main-structure-bottom">
-            <form id="schedule-form" action="/submit-appointment" method="POST">
-  <h2>Book a time to stop in</h2>
-  <hr />
-  Food Pantry Open 12:00 pm to 5:00 pm Wednesday
-  <br />
-
-  <label for="date">Preferred Date:</label>
-  <input type="text" id="date" name="date" placeholder="Select a Wednesday" required />
-  <br />
-
-  <label for="time-slot">Preferred Time:</label>
-<select id="time-slot" name="time" required>
-  <option value="">Select a time slot</option>
-</select>
-  <br /><br />
-
-  <button type="submit">Schedule</button>
-</form>
-<div id="schedule-message" style="margin-top: 10px;"></div>
-
-<a href="main.html" >Temporary Link to go to the logged in to check if it is updating the table</a>
-
+            <h2>
+              Our Food Pantry is open from 12:00 pm to 5:00 pm on Wednesdays.
+            </h2>
+            <h2>Please sign in to book an appointment.</h2>
           </div>
         </div>
       </section>
@@ -124,6 +103,4 @@ This uses styles.css
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="js/formatting.js" defer></script>
   <script src="js/scheduling.js" defer></script>
-
-  
 </html>

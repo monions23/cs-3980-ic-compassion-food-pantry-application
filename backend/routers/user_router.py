@@ -1,5 +1,3 @@
-
-
 import logging
 
 from beanie import PydanticObjectId
@@ -11,6 +9,7 @@ from models.user import User
 logger = logging.getLogger(__name__)
 
 user_router = APIRouter()
+
 
 @user_router.post("/")
 async def create_user(user: User):
@@ -24,6 +23,7 @@ async def create_user(user: User):
     logger.info(f"User created successfully with id={user.id}, email={user.email}")
     return user
 
+
 @user_router.get("/{user_id}")
 async def get_user(user_id: PydanticObjectId):
     logger.info(f"Fetching user with id={user_id}")
@@ -34,12 +34,14 @@ async def get_user(user_id: PydanticObjectId):
     logger.info(f"User retrieved successfully with id={user_id}")
     return user
 
+
 @user_router.get("/")
 async def list_users():
     logger.info("Fetching all users")
     users = await User.find_all().to_list()
     logger.info(f"Retrieved {len(users)} users")
     return users
+
 
 @user_router.delete("/{user_id}")
 async def delete_user(user_id: PydanticObjectId):
@@ -52,6 +54,7 @@ async def delete_user(user_id: PydanticObjectId):
     await user.delete()
     logger.info(f"User deleted successfully with id={user_id}")
     return {"message": "User deleted"}
+
 
 @user_router.put("/{user_id}")
 async def update_user(user_id: PydanticObjectId, update_data: dict):
@@ -66,4 +69,3 @@ async def update_user(user_id: PydanticObjectId, update_data: dict):
     await user.update({"$set": update_data})
     logger.info(f"User updated successfully with id={user_id}")
     return await User.get(user_id)
-

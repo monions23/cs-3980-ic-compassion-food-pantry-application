@@ -32,17 +32,6 @@
 
   */
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #ffffff;
-  color: #111;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-}
-
 /* Top Bar */
 .topbar {
   display: flex;
@@ -119,17 +108,6 @@ footer {
 }
 .footer-button:hover {
   background-color: #bc1a38;
-}
-
-hr {
-  border-top: 2px solid #02909d;
-  width: 200px;
-}
-
-hr.center {
-  margin: 7px auto;
-  border-top: 2px solid #02909d;
-  width: 200px;
 }
 
 .logo span {
@@ -292,30 +270,17 @@ hr.center {
   grid-column: 1 / 13;
 }
 
-/* Text titles */
-p {
-  font-family: "anton";
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "nunito sans";
-  font-style: normal;
-  font-weight: 700;
-}
-h1,
-h3,
-h5 {
-  color: #bc1a38;
-}
-strong {
-  color: #2f6e74;
+/* Graph */
+.graph {
+  border: 2px solid #111;
+  text-align: center;
+  background-color: #65bac2;
+  margin: 0 auto;
+
+  /* Size of graphs, I dunno 
+  if this will be the size for all graphs */
+  /* width: 400px; */
+  height: 200px;
 }
 
 /* For archive page */
@@ -371,7 +336,7 @@ strong {
   justify-self: center;
   display: flex;
   width: 100%;
-  min-height: 175px;
+  min-height: 115px;
   flex-direction: column;
   border: 1px solid #dddddd;
   border-radius: 5px;
@@ -416,6 +381,13 @@ strong {
   position: absolute;
   right: 0;
   top: 0;
+}
+.pantry-submit {
+  width: 25%;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 0;
+  right: 0;
 }
 
 .pantry-history-info {
@@ -534,154 +506,29 @@ strong {
   vertical-align: center;
   border-bottom: #2f6e74 solid 3px;
   height: 60%;
-  width: 37%;
-
-  margin: 0 auto;
 }
 
 .icon-span {
-  padding: 5px;
-  border-top: black solid 2px;
+  padding: 2px;
+  border: black solid 2px;
   line-height: 78px;
-  width: 97%;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
 }
 
 .icon-span img {
-  padding: 5px;
+  padding: 2px;
   border: black solid 2px;
-  width: 100px;
-  height: 100px;
-  margin: 4px;
+  width: 75px;
+  height: 75px;
 }
 
-.main-arrivals-table-box {
-  border-radius: 7px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #02909db9;
-}
 .main-arrivals-table {
   justify-content: center;
   border: black solid 2px;
   width: 70%;
   height: auto;
-  background-color: white;
 }
-
 .main-arrivals-table th {
   border: black solid 2px;
   width: 50%;
   height: auto;
-  font-size: 16px;
-}
-
-/* Graph */
-.graph {
-  height: 350px;
-  width: 100%;
-  position: relative;
-}
-
-canvas {
-  width: 100%;
-  height: 100%;
-}
-#chart {
-  height: 80%;
-  width: 100%;
-}
-
-.search-answer-quantity {
-  border: solid black 1px;
-  width: 100%;
-  padding: 3px;
-}
-
-.search-answer-quantity td {
-  width: 50%;
-}
-
-.menu button {
-  background-color: #02909d;
-  color: white;
-  margin: 3px;
-}
-
-.menu button:hover {
-  background-color: #bc1a38;
-}
-
-.trends-table-right {
-  width: 100%;
-}
-.trends-table-right td {
-  border: #dedede 2px solid;
-  padding: 3px;
-}
-
-/* Archive print button NOT FINAL*/
-@media print {
-  body * {
-    visibility: hidden;
-  }
-
-  .archive-info,
-  .archive-info * {
-    visibility: visible;
-  }
-
-  .archive-info {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-  }
-}
-
-/* Button color fixes */
-
-.btn.btn-primary.pantry-submit {
-  background-color: #02909d;
-
-  width: 50%;
-  padding: 5px;
-  margin-top: 5px;
-  margin-bottom: 0;
-  right: 0;
-}
-.btn.btn-primary.pantry-submit:hover {
-  background-color: #65bac2;
-}
-
-#print-btn {
-  background-color: #2f6e74;
-  color: white;
-  border-radius: 10px;
-  padding: 3px;
-  width: 200px;
-  float: right;
-  margin: 5px;
-}
-#print-btn:hover {
-  background-color: #65bac2;
-}
-
-#updates-list {
-  border: solid black 2px;
-  padding: 5px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.update-card {
-  width: 100%;
-  border: black solid 1px;
-  padding: 2px;
-  font-size: 16px;
 }

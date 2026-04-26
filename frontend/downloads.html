@@ -7,7 +7,7 @@ This uses styles.css
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Food Pantry Tracker</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <!-- Bootstrap Stylesheet -->
     <link
@@ -17,6 +17,7 @@ This uses styles.css
     <!-- Custom Stylesheet(s) -->
     <link rel="stylesheet" href="styles.css" />
   </head>
+
   <body>
     <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
     <!-- Top Bar -->
@@ -65,15 +66,24 @@ This uses styles.css
         <div class="main-grid">
           <div class="main-structure-left">
             <h1>Upload and Download files</h1>
-            <form action="/upload" method="POST" enctype="multipart/form-data">
-              <input type="file" name="myFile">
+            <form id="uploadForm">
+              <input type="file" name="file" />
               <button type="submit">Upload</button>
             </form>
-            This doesnt work yet
           </div>
           <div class="main-structure-right">
-            <h2>Header 2</h2>
-            <p>This is where we can put a table to store all of the files alphabetically and by type</p>
+            <h2>File Viewer</h2>
+            <p>Select a file to download or open it.</p>
+            <table id="fileTable" class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Filename</th>
+                  <th>Uploaded By</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
             <hr />
             <h4>h4</h4>
           </div>
@@ -131,5 +141,6 @@ This uses styles.css
     crossorigin="anonymous"
   ></script>
   <script src="js/formatting.js"></script>
-  <!-- <script src="main.js" defer></script> -->
+  <script src="js/files.js"></script>
+  <script src="js/logout.js"></script>
 </html>

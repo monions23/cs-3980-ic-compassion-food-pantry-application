@@ -7,7 +7,7 @@ This uses styles.css
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Food Pantry Tracker</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Bootstrap Stylesheet -->
@@ -67,19 +67,17 @@ This uses styles.css
           <div class="main-structure-left">
             <h1>Trends</h1>
             <!-- Mini Menu to choose between different graphs -->
-             
 
             <!-- Graph Container -->
-          <canvas id="trends-graph"></canvas>
-
+            <canvas id="trends-graph"></canvas>
           </div>
           <div class="main-structure-right">
             <table class="trends-table-right">
-              <br>
+              <br />
               <tr>
                 <td>
                   <div class="menu">
-                    Type of Graph: <br>
+                    Type of Graph: <br />
                     <button onclick="changeGraph('bar')">Bar</button>
                     <button onclick="changeGraph('line')">Line</button>
                     <button onclick="changeGraph('pie')">Pie</button>
@@ -110,7 +108,7 @@ This uses styles.css
               <tr>
                 <td>
                   <div class="menu">
-                    Data Range: <br>
+                    Data Range: <br />
                     <button onclick="changeRange('month')">Past Month</button>
                     <button onclick="changeRange('year')">Past Year</button>
                   </div>
@@ -119,7 +117,7 @@ This uses styles.css
               <tr>
                 <td>
                   <div class="menu">
-                    Visitors or families helped: <br>
+                    Visitors or families helped: <br />
                     <button onclick="setMode('visits')">Visitors</button>
                     <button onclick="setMode('people')">People Served</button>
                   </div>
@@ -127,7 +125,7 @@ This uses styles.css
               </tr>
             </table>
           </div>
-          
+
           <div class="main-structure-bottom">
             <h2>Data Table</h2>
             <table class="table table-striped" id="trends-table">
@@ -146,7 +144,7 @@ This uses styles.css
 
     <!-- Footer -->
     <footer>
-      <hr class="center"/>
+      <hr class="center" />
       <div class="footer-grid">
         <img
           src="IC_Compassion_Logo_big.jpg"
@@ -167,7 +165,7 @@ This uses styles.css
           >For more information</a
         >
       </div>
-      <hr class="center"/>
+      <hr class="center" />
     </footer>
   </body>
   <script
@@ -177,5 +175,5 @@ This uses styles.css
   ></script>
   <script src="js/formatting.js"></script>
   <script src="js/trends.js"></script>
-  
+  <script src="js/logout.js"></script>
 </html>
