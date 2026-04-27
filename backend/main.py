@@ -50,7 +50,7 @@ app.add_middleware(
 
 @app.get("/")
 async def home():
-    return FileResponse("frontend/main-logged-out.html")
+    return FileResponse("../frontend/main-logged-out.html")
 
 
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
@@ -63,7 +63,7 @@ app.include_router(
 app.include_router(files_router, tags=["File Upload"])
 
 
-app.mount("/", StaticFiles(directory="frontend"), name="static")
+app.mount("/", StaticFiles(directory="../frontend"), name="static")
 
 
 @app.exception_handler(HTTPException)

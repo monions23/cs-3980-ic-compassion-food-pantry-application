@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 from fastapi import APIRouter, HTTPException
 
-from backend.models.pantry_record import PantryRecord, PantryRecordUpdate
+from models.pantry_record import PantryRecord, PantryRecordUpdate
 
 logger = logging.getLogger(__name__)
 
