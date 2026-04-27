@@ -16,12 +16,6 @@ This uses styles.css
     />
     <!-- Custom Stylesheet(s) -->
     <link rel="stylesheet" href="styles.css" />
-
-    <!-- This is for the scheduling form to only allow wednesdays-->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-    />
   </head>
   <body>
     <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
@@ -77,31 +71,59 @@ This uses styles.css
       <section class="main">
         <div class="main-grid">
           <div class="main-structure-top">
-            <h1>Welcome to the IC Compassion Food Pantry Online Service!</h1>
+            <h1>Welcome to IC Compassion Food Pantry Tracker!</h1>
+          </div>
+          <div class="main-structure-left">
+            <h2>Dashboard</h2>
+            <hr />
+            <br />
+            <div class="icon-span">
+              <a href="archive.html">
+                <img src="icons/archive-logo.svg" alt="Icon Homepage Links" />
+              </a>
+              <a href="trends.html">
+                <img src="icons/trends-logo.svg" alt="Icon Homepage Links" />
+              </a>
+              <a href="stock.html">
+                <img src="icons/stock-logo.svg" alt="Icon Homepage Links" />
+              </a>
+              <a href="account.html">
+                <img
+                  src="icons/solid-user-logo.svg"
+                  alt="Icon Homepage Links"
+                />
+              </a>
+              <a href="downloads.html">
+                <img
+                  src="icons/solid-file-logo.svg"
+                  alt="Icon Homepage Links"
+                />
+              </a>
+              <a href="pantry.html">
+                <img src="icons/pantry-logo.svg" alt="Icon Homepage Links" />
+              </a>
+              <img
+                src="icons/logout-logo.svg"
+                alt="Icon Homepage Links"
+                onclick="logout()"
+              />
+            </div>
+            <br />
+            
+          </div>
+          <div class="main-structure-right">
+            <h2>When to expect people</h2>
+            <hr />
+            <br />
+            <div class="main-arrivals-table-box">
+              <table class="main-arrivals-table" id="schedule-table"></table>
+            </div>
           </div>
           <div class="main-structure-bottom">
-            <h2>
-              Our Food Pantry is open from 12:00 pm to 5:00 pm on Wednesdays.
-            </h2>
-            <h2>Please sign in to book an appointment.</h2>
-
-            <div class="scheduler">
-              <h2>Schedule an Appointment</h2>
-              <hr>
-
-              <label for="date">Select a Wednesday:</label> <br>
-              <input type="date" id="date"><br> <br>
-
-              <label for="time">Select a Time:</label> <br>
-              <select id="time"></select> <br> <br>
-
-              <button id="scheduler-submit">Book</button> <br>
-
-            <p id="scheduler-message"></p>
-          </div>
-
-
-
+            <div class="card p-3 text-center">
+              <h5>People Served This Month</h5>
+              <h1 id="month-total" style="font-size: 3rem">0</h1>
+            </div>
           </div>
         </div>
       </section>
@@ -138,8 +160,8 @@ This uses styles.css
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"
   ></script>
-  <!-- For the scheduling form -->
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="js/formatting.js" defer></script>
-  <script src="js/scheduler.js" defer></script>
+  <script src="js/formatting.js"></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/main-admin-scheduling-table.js"></script>
+  <script src="js/logout.js"></script>
 </html>

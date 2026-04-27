@@ -527,17 +527,7 @@ strong {
 .menu-section td {
   width: 50%;
 }
-#schedule-form {
-  background-color: rgb(244, 250, 255);
-  border: black 2px solid;
-  padding: 5px;
-  vertical-align: center;
-  border-bottom: #2f6e74 solid 3px;
-  height: 60%;
-  width: 37%;
 
-  margin: 0 auto;
-}
 
 .icon-span {
   padding: 5px;
@@ -684,4 +674,29 @@ canvas {
   border: black solid 1px;
   padding: 2px;
   font-size: 16px;
+}
+
+<!-- Schedule logged out page
+
+.scheduler {
+  background-color: rgb(244, 250, 255);
+  border: black 2px solid;
+  padding: 5px;
+  vertical-align: center;
+  border-bottom: #2f6e74 solid 3px;
+  height: 60%;
+  width: 37%;
+
+  margin: 0 auto;
+}
+
+#scheduler-mesasge {
+   margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+#scheduler-submit {
+  background-color: #02909d;
+  border: black solid 2px;
 }
