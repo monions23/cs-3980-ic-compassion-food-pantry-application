@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 from fastapi import APIRouter, HTTPException
 
-from models.pantry_record import PantryRecord, PantryRecordUpdate
+from backend.models.pantry_record import PantryRecord, PantryRecordUpdate
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +36,10 @@ async def create_new_pantry_record(item: PantryRecord):
     now = datetime.now(timezone.utc)
     item.created_at = now
     # item.updated_at = now
+
+    person = await PantryRecord.find_one({"name": item.name})
+    if person:
+        item.public_id = person.public_id
 
     await item.insert()
     logger.info(f"Pantry record created successfully with id={item.id}")
