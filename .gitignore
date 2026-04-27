@@ -1,0 +1,9 @@
+# Ignore Python bytecode cache across the whole repository
+__pycache__/
+*.pyc
+
+# Ignore local Python virtual environments
+venv/
+
+# Ignore generated logs
+logs/
