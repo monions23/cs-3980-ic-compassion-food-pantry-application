@@ -32,6 +32,7 @@ class PantryRecord(Document):
     class Settings:
         name = "pantry_records"
 
+
 class PantryRecordUpdate(BaseModel):
     num_ppl_in_families: Optional[int] = None
     # updated_by: Optional[str] = None

@@ -50,13 +50,14 @@ function buildDataset(range) {
   let labels = [];
   let visits = [];
   let people = [];
+  const filtered = filterRecordsByRange(records, range);
 
   if (range === "month") {
     labels = ["Week 1", "Week 2", "Week 3", "Week 4"];
     visits = [0, 0, 0, 0];
     people = [0, 0, 0, 0];
 
-    records.forEach(r => {
+    filtered.forEach(r => {
       if (!r.created_at) return;
 
       const week = getWeekOfMonth(r.created_at);
@@ -86,64 +87,6 @@ function buildDataset(range) {
   }
 
   return { labels, visits, people };
-}
-
-/* =========================
-   GROUP VISITORS BY PERIOD
-========================= */
-function groupVisitorsByPeriod(records, range) {
-  const groups = {};
-
-  records.forEach(r => {
-    if (!r.created_at || !r.name) return;
-
-    const date = new Date(r.created_at);
-
-    let key;
-    if (range === "year") {
-      key = date.getMonth();
-    } else {
-      key = Math.floor((date.getDate() - 1) / 7);
-    }
-
-    const name = r.name.trim().toLowerCase();
-
-    if (!groups[key]) {
-      groups[key] = new Set();
-    }
-
-    groups[key].add(name);
-  });
-
-  return groups;
-}
-
-/* =========================
-   RETURNING VISITORS LOGIC
-========================= */
-function calculateReturningVisitors(records, range) {
-  const groups = groupVisitorsByPeriod(records, range);
-
-  let returningSet = new Set();
-  let seenBefore = new Set();
-
-  const sortedKeys = Object.keys(groups)
-    .map(Number)
-    .sort((a, b) => a - b);
-
-  sortedKeys.forEach(key => {
-    const currentGroup = groups[key];
-
-    currentGroup.forEach(name => {
-      if (seenBefore.has(name)) {
-        returningSet.add(name);
-      }
-    });
-
-    currentGroup.forEach(name => seenBefore.add(name));
-  });
-
-  return returningSet.size;
 }
 
 /* =========================
@@ -198,7 +141,33 @@ function changeRange(range) {
 function changeGraph(type) {
   chart.config.type = type;
   chart.update();
+} 
+/*=================================
+
+====================================*/
+function filterRecordsByRange(records, range) {
+  const now = new Date();
+
+  return records.filter(r => {
+    if (!r.created_at) return false;
+
+    const date = new Date(r.created_at);
+
+    if (range === "month") {
+      return (
+        date.getMonth() === now.getMonth() &&
+        date.getFullYear() === now.getFullYear()
+      );
+    }
+
+    if (range === "year") {
+      return date.getFullYear() === now.getFullYear();
+    }
+
+    return true;
+  });
 }
+
 
 /* =========================
    UPDATE DASHBOARD
@@ -213,17 +182,16 @@ function updateDashboard() {
     currentMode === "visits" ? "Visits" : "People Served";
 
   chart.data.labels = data.labels;
-chart.data.datasets[0].data = selectedData;
-chart.data.datasets[0].label = label;
+  chart.data.datasets[0].data = selectedData;
+  chart.data.datasets[0].label = label;
+  chart.data.datasets[0].backgroundColor =
+    COLORS.slice(0, data.labels.length);
 
-// colors per bar
-chart.data.datasets[0].backgroundColor =
-  COLORS.slice(0, data.labels.length);
-
-chart.update();
+  chart.update();
 
   updateTable(data.labels, selectedData);
-  updateInsights(records);
+  const filteredRecords = filterRecordsByRange(records, currentRange);
+  updateInsights(filteredRecords);
 }
 
 /* =========================
@@ -246,53 +214,44 @@ function updateTable(labels, values) {
 }
 
 /* =========================
-   INSIGHTS (FIXED)
+   INSIGHTS (FINAL FIXED)
 ========================= */
 function updateInsights(records) {
   if (!records.length) return;
 
-  // TOTAL VISITS
+  /* =========================
+     BUILD VISIT COUNTS
+  ========================= */
+  const visitCounts = {};
+  records.forEach(r => {
+    const key = r.public_id;
+    if (!key) return;
+    visitCounts[key] = (visitCounts[key] || 0) + 1;
+  });
+
+  function normalizeName(name) {
+  return name
+    ?.toLowerCase()
+    .trim()
+    .replace(/\s+/g, " "); // collapse multiple spaces
+}
+  /* =========================
+     CORE METRICS
+  ========================= */
   const totalVisits = records.length;
+  const uniqueVisitors = Object.keys(visitCounts).length;
 
-  // UNIQUE VISITORS
-  const uniqueSet = new Set(
-    records.map(r => r.name?.trim().toLowerCase()).filter(Boolean)
-  );
-  const uniqueVisitors = uniqueSet.size;
+  const returningVisitors = Object.values(visitCounts)
+    .filter(count => count > 1).length;
 
-  // RETURNING VISITORS (ACROSS TIME)
-  const returningVisitors = calculateReturningVisitors(records, currentRange);
-
-  // TOTAL PEOPLE SERVED
   const totalPeople = records.reduce(
     (sum, r) => sum + (r.num_ppl_in_families || 0),
     0
   );
 
-  document.getElementById("unique-visitors").textContent =
-    `Unique visitors: ${uniqueVisitors}`;
-
-  document.getElementById("returning-visitors").textContent =
-    `Returning visitors: ${returningVisitors}`;
-
-  document.getElementById("total-visitors").textContent =
-    `Total visits: ${totalVisits}`;
-
-  document.getElementById("family-total").textContent =
-    `Total people served: ${totalPeople}`;
-
   /* =========================
      VISIT FREQUENCY
   ========================= */
-  const visitCounts = {};
-
-  records.forEach(r => {
-    const key = r.name?.trim().toLowerCase();
-    if (!key) return;
-
-    visitCounts[key] = (visitCounts[key] || 0) + 1;
-  });
-
   let once = 0, twice = 0, three = 0, fourPlus = 0;
 
   Object.values(visitCounts).forEach(count => {
@@ -302,15 +261,17 @@ function updateInsights(records) {
     else fourPlus++;
   });
 
-  document.getElementById("visit-once").textContent =
-    `Visited once: ${once}`;
+  /* =========================
+     UPDATE UI (NUMBERS ONLY)
+  ========================= */
+  document.getElementById("unique-visitors").textContent = uniqueVisitors;
+  document.getElementById("returning-visitors").textContent = returningVisitors;
+  document.getElementById("total-visitors").textContent = totalVisits;
 
-  document.getElementById("visit-twice").textContent =
-    `Visited twice: ${twice}`;
+  document.getElementById("visit-once").textContent = once;
+  document.getElementById("visit-twice").textContent = twice;
+  document.getElementById("visit-three").textContent = three;
+  document.getElementById("visit-four").textContent = fourPlus;
 
-  document.getElementById("visit-three").textContent =
-    `Visited three times: ${three}`;
-
-  document.getElementById("visit-four").textContent =
-    `Visited four+ times: ${fourPlus}`;
+  document.getElementById("family-total").textContent = totalPeople;
 }
