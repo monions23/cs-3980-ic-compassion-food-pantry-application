@@ -34,15 +34,37 @@ This uses styles.css
     <main class="container">
       <!-- Sidebar -->
       <aside class="sidebar" id="sidebar">
-        <div class="sidebar-links">
-          <a href="main-logged-out.html" class="sidebar-button active">Homepage</a>
+        <div class="sidebar-links" data-role="all">
+          <a href="#" onclick="goToHomepage(event)" class="sidebar-button">Homepage</a>
         </div>
-        
-        <div class="sidebar-links">
+
+        <div class="sidebar-links" data-role="guest">
           <a href="signin-login.html" class="sidebar-button">Sign in</a>
         </div>
-        
-        <!-- Doesnt do anything yet-->
+
+        <div class="sidebar-links" data-role="user">
+          <a href="account.html" class="sidebar-button">Account</a>
+        </div>
+
+        <div class="sidebar-links" data-role="user">
+          <a href="downloads.html" class="sidebar-button">Files</a>
+        </div>
+
+        <div class="sidebar-links" data-role="admin">
+          <a href="stock.html" class="sidebar-button">Stock</a>
+        </div>
+
+        <div class="sidebar-links" data-role="admin">
+          <a href="pantry.html" class="sidebar-button">Pantry</a>
+        </div>
+
+        <div class="sidebar-links" data-role="admin">
+          <a href="archive.html" class="sidebar-button">Archive</a>
+        </div>
+
+        <div class="sidebar-links" data-role="user">
+          <div onclick="logout()">Log Out</div>
+        </div>
       </aside>
 
       <!-- Main Content Table, Can be merged or sorted differently-->

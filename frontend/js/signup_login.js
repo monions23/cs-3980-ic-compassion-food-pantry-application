@@ -1,80 +1,151 @@
 const API_BASE = "http://127.0.0.1:8000";
 
-document.getElementById("login-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const email = document.getElementById("sign-in-email").value;
-  const password = document.getElementById("sign-in-password").value;
-  const msg = document.getElementById("msg");
-
-  try {
-    const res = await fetch(`${API_BASE}/auth/sign-in`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        username: email,
-        password: password,
-      }),
-    });
-
-    if (!res.ok) {
-      msg.textContent = "Login failed";
-      return;
-    }
-
-    const data = await res.json();
-    // assuming backend returns: { "access_token": "...", "token_type": "bearer" }
-    localStorage.setItem("access_token", data.access_token);
-
-    window.location.href = "/main.html";
-
-    msg.textContent = "Logged in!";
-  } catch (err) {
-    msg.textContent = "Error logging in";
-  }
+// ==========================
+// SAFE INIT
+// ==========================
+document.addEventListener("DOMContentLoaded", () => {
+  setupLogin();
+  setupSignup();
 });
 
-// Example of calling a protected route using the token:
-async function callProtected() {
-  const token = localStorage.getItem("access_token");
-  const res = await fetch(`${API_BASE}/shows`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+// ==========================
+// LOGIN
+// ==========================
+function setupLogin() {
+  const form = document.getElementById("login-form");
+  if (!form) return; // prevents crash
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("sign-in-email").value;
+    const password = document.getElementById("sign-in-password").value;
+    const msg = document.getElementById("msg");
+
+    try {
+      const res = await fetch(`${API_BASE}/auth/sign-in`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          username: email,
+          password: password,
+        }),
+      });
+
+      if (!res.ok) {
+        msg.textContent = "Login failed";
+        return;
+      }
+
+      const data = await res.json();
+
+      localStorage.setItem("access_token", data.access_token);
+
+      console.log("Token saved:", data.access_token); // debug
+
+      redirectBasedOnRole();
+
+    } catch (err) {
+      console.error(err);
+      msg.textContent = "Error logging in";
+    }
   });
-  console.log(await res.json());
 }
 
-document.getElementById("signup-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
+// ==========================
+// SIGNUP
+// ==========================
+function setupSignup() {
+  const form = document.getElementById("signup-form");
+  if (!form) return; //  prevents crash
 
-  const email = document.getElementById("sign-up-email").value;
-  const password = document.getElementById("sign-up-password").value;
-  const msg = document.getElementById("msg");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  try {
-    const res = await fetch(`${API_BASE}/auth/signup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    });
+    const email = document.getElementById("sign-up-email").value;
+    const password = document.getElementById("sign-up-password").value;
+    const msg = document.getElementById("msg");
 
-    if (!res.ok) {
-      msg.textContent = "Signup failed";
-      return;
+    try {
+      const res = await fetch(`${API_BASE}/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+
+      if (!res.ok) {
+        msg.textContent = "Signup failed";
+        return;
+      }
+
+      const data = await res.json();
+
+      localStorage.setItem("access_token", data.access_token);
+
+      console.log("Token saved:", data.access_token); // debug
+
+      redirectBasedOnRole();
+
+    } catch (err) {
+      console.error(err);
+      msg.textContent = "Error signing up";
     }
+  });
+}
 
-    const data = await res.json();
-    // assuming backend returns: { "access_token": "...", "token_type": "bearer" }
-    localStorage.setItem("access_token", data.access_token);
+// ==========================
+// REDIRECT LOGIC
+// ==========================
+function redirectBasedOnRole() {
+  const token = localStorage.getItem("access_token");
 
-    window.location.href = "/main.html";
-
-    msg.textContent = "Signed up and logged in!";
-  } catch (err) {
-    msg.textContent = "Error signing up";
+  if (!token) {
+    window.location.href = "/main-logged-out.html";
+    return;
   }
-});
+
+  const user = parseJwt(token);
+
+  if (!user) {
+    window.location.href = "/main-logged-out.html";
+    return;
+  }
+
+  console.log("Decoded user:", user); //  debug
+
+  // IMPORTANT: adjust this depending on your backend payload
+  const role = user.role || user.sub_role || user.user_role;
+
+  if (role === "SuperAdmin") {
+    window.location.href = "main-admin.html";
+  } else if (role === "BasicUser") {
+    window.location.href = "main-BasicUser.html";
+  } else {
+    // fallback
+    window.location.href = "main-logged-out.html";
+  }
+}
+
+// ==========================
+// JWT PARSER (REQUIRED)
+// ==========================
+function parseJwt(token) {
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    console.error("Invalid token:", e);
+    return null;
+  }
+}
