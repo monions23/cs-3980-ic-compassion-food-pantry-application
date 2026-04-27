@@ -28,8 +28,7 @@ This uses styles.css
         City Compassion Food Pantry
       </div>
       <div class="user">
-        <span>Username</span>
-        <img src="https://via.placeholder.com/40" alt="User" />
+        <span id="user-email">Loading...</span>
       </div>
     </section>
 
@@ -86,25 +85,52 @@ This uses styles.css
                 <!-- RIGHT SIDE spans ALL rows -->
                 <td rowspan="3">
                   <h5>Visitor Insights</h5>
+<table class="trends-table-right">
+  <tr>
+    <td>Unique Visitors</td>
+    <td id="unique-visitors"></td>
+  </tr>
+  <tr>
+    <td>Returning Visitors</td>
+    <td id="returning-visitors"></td>
+  </tr>
+  <tr>
+    <td>Total Visits</td>
+    <td id="total-visitors"></td>
+  </tr>
+</table>
 
-                  <p id="unique-visitors"></p>
-                  <p id="returning-visitors"></p>
-                  <p id="total-visitors"></p>
+<hr />
 
-                  <hr />
+<h6>Visit Frequency</h6>
+<table class="trends-table-right">
+  <tr>
+    <td>Visited Once</td>
+    <td id="visit-once"></td>
+  </tr>
+  <tr>
+    <td>Visited Twice</td>
+    <td id="visit-twice"></td>
+  </tr>
+  <tr>
+    <td>Visited 3 Times</td>
+    <td id="visit-three"></td>
+  </tr>
+  <tr>
+    <td>Visited 4+ Times</td>
+    <td id="visit-four"></td>
+  </tr>
+</table>
 
-                  <h6>Visit Frequency</h6>
-                  <p id="visit-once"></p>
-                  <p id="visit-twice"></p>
-                  <p id="visit-three"></p>
-                  <p id="visit-four"></p>
+<hr />
 
-                  <hr />
-
-                  <h6>Family Impact</h6>
-                  <p id="family-total"></p>
-                </td>
-              </tr>
+<h6>Family Impact</h6>
+<table class="trends-table-right">
+  <tr>
+    <td>Total People Served</td>
+    <td id="family-total"></td>
+  </tr>
+</table>
               <tr>
                 <td>
                   <div class="menu">

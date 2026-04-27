@@ -25,13 +25,14 @@ async function loadRecords() {
     const res = await fetch(api);
     const data = await res.json();
 
-    console.log("Loaded records:", data); // 👈 DEBUG LINE
+    console.log("Loaded records:", data); 
 
     pantryRecords = data;
 
-    renderUpdates(pantryRecords);
+    const recentRecords = filterLastHour(pantryRecords);
+    renderUpdates(recentRecords);
 
-    // ✅ MUST be AFTER data is assigned
+    // MUST be AFTER data is assigned
     updateTodayTotal(pantryRecords);
   } catch (err) {
     console.error("Error loading records:", err);
@@ -80,7 +81,8 @@ function setupForm() {
 
       // update UI immediately
       pantryRecords.unshift(newRecord);
-      renderUpdates(pantryRecords);
+      const recentRecords = filterLastHour(pantryRecords);
+      renderUpdates(recentRecords);
       updateTodayTotal(pantryRecords);
 
       // reset form after submit
@@ -107,7 +109,8 @@ async function deleteRecord(id) {
     if (!res.ok) throw new Error("Delete failed");
 
     pantryRecords = pantryRecords.filter((r) => r.public_id !== id);
-    renderUpdates(pantryRecords);
+    const recentRecords = filterLastHour(pantryRecords);
+    renderUpdates(recentRecords);
     updateTodayTotal(pantryRecords);
   } catch (err) {
     console.error(err);
@@ -138,9 +141,17 @@ function renderUpdates(data) {
     const div = document.createElement("div");
     div.classList.add("pantry-update");
 
+    //Date in local time instead of UTC
     const date = record.created_at
-      ? new Date(record.created_at).toLocaleString()
-      : "No date";
+  ? new Date(record.created_at).toLocaleString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      second: "2-digit",
+    })
+  : "No date";
 
     div.innerHTML = `
       <div class="update-card">
@@ -190,4 +201,20 @@ function updateTodayTotal(records) {
   });
 
   document.getElementById("today-total").textContent = total;
+}
+
+//To filter only the last hour
+function filterLastHour(records) {
+  const now = new Date();
+
+  return records.filter(r => {
+    if (!r.created_at) return false;
+
+    const created = new Date(r.created_at);
+    const diffMs = now - created;
+
+    const oneHour = 60 * 60 * 1000;
+
+    return diffMs <= oneHour;
+  });
 }
