@@ -36,36 +36,30 @@ This uses styles.css
       <!-- Sidebar -->
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-links" data-role="all">
-          <a href="#" onclick="goToHomepage(event)" class="sidebar-button">Homepage</a>
+          <a href="#" onclick="goToHomepage(event)" class="sidebar-button"
+            >Homepage</a
+          >
         </div>
 
-        <div class="sidebar-links" data-role="guest">
-          <a href="signin-login.html" class="sidebar-button">Sign in</a>
-        </div>
-
-        <div class="sidebar-links" data-role="user">
-          <a href="account.html" class="sidebar-button">Account</a>
-        </div>
-
-        <div class="sidebar-links" data-role="user">
-          <a href="downloads.html" class="sidebar-button">Files</a>
-        </div>
-
-        <div class="sidebar-links" data-role="admin">
-          <a href="stock.html" class="sidebar-button">Stock</a>
-        </div>
-
-        <div class="sidebar-links" data-role="admin">
-          <a href="pantry.html" class="sidebar-button">Pantry</a>
-        </div>
-
-        <div class="sidebar-links" data-role="admin">
+        <div class="sidebar-links">
           <a href="archive.html" class="sidebar-button">Archive</a>
         </div>
-
-        <div class="sidebar-links" data-role="user">
-          <div onclick="logout()">Log Out</div>
+        <div class="sidebar-links">
+          <a href="trends.html" class="sidebar-button">Trends</a>
         </div>
+        <div class="sidebar-links">
+          <a href="stock.html" class="sidebar-button">Stock</a>
+        </div>
+        <div class="sidebar-links">
+          <a href="account.html" class="sidebar-button">Account</a>
+        </div>
+        <div class="sidebar-links">
+          <a href="downloads.html" class="sidebar-button" active>Files</a>
+        </div>
+        <div class="sidebar-links">
+          <a href="pantry.html" class="sidebar-button">Pantry</a>
+        </div>
+        <div class="sidebar-links" onclick="logout()">Log Out</div>
       </aside>
 
       <!-- Main Content Table, Can be merged or sorted differently-->
@@ -93,68 +87,74 @@ This uses styles.css
                 <!-- RIGHT SIDE spans ALL rows -->
                 <td rowspan="3">
                   <h5>Visitor Insights</h5>
-<table class="trends-table-right">
-  <tr>
-    <td>Unique Visitors</td>
-    <td id="unique-visitors"></td>
-  </tr>
-  <tr>
-    <td>Returning Visitors</td>
-    <td id="returning-visitors"></td>
-  </tr>
-  <tr>
-    <td>Total Visits</td>
-    <td id="total-visitors"></td>
-  </tr>
-</table>
+                  <table class="trends-table-right">
+                    <tr>
+                      <td>Unique Visitors</td>
+                      <td id="unique-visitors"></td>
+                    </tr>
+                    <tr>
+                      <td>Returning Visitors</td>
+                      <td id="returning-visitors"></td>
+                    </tr>
+                    <tr>
+                      <td>Total Visits</td>
+                      <td id="total-visitors"></td>
+                    </tr>
+                  </table>
 
-<hr />
+                  <hr />
 
-<h6>Visit Frequency</h6>
-<table class="trends-table-right">
-  <tr>
-    <td>Visited Once</td>
-    <td id="visit-once"></td>
-  </tr>
-  <tr>
-    <td>Visited Twice</td>
-    <td id="visit-twice"></td>
-  </tr>
-  <tr>
-    <td>Visited 3 Times</td>
-    <td id="visit-three"></td>
-  </tr>
-  <tr>
-    <td>Visited 4+ Times</td>
-    <td id="visit-four"></td>
-  </tr>
-</table>
+                  <h6>Visit Frequency</h6>
+                  <table class="trends-table-right">
+                    <tr>
+                      <td>Visited Once</td>
+                      <td id="visit-once"></td>
+                    </tr>
+                    <tr>
+                      <td>Visited Twice</td>
+                      <td id="visit-twice"></td>
+                    </tr>
+                    <tr>
+                      <td>Visited 3 Times</td>
+                      <td id="visit-three"></td>
+                    </tr>
+                    <tr>
+                      <td>Visited 4+ Times</td>
+                      <td id="visit-four"></td>
+                    </tr>
+                  </table>
 
-<hr />
+                  <hr />
 
-<h6>Family Impact</h6>
-<table class="trends-table-right">
-  <tr>
-    <td>Total People Served</td>
-    <td id="family-total"></td>
-  </tr>
-</table>
-              <tr>
-                <td>
-                  <div class="menu">
-                    Data Range: <br />
-                    <button onclick="changeRange('month')">Past Month</button>
-                    <button onclick="changeRange('year')">Past Year</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="menu">
-                    Visitors or families helped: <br />
-                    <button onclick="setMode('visits')">Visitors</button>
-                    <button onclick="setMode('people')">People Served</button>
-                  </div>
+                  <h6>Family Impact</h6>
+                  <table class="trends-table-right">
+                    <tr>
+                      <td>Total People Served</td>
+                      <td id="family-total"></td>
+                    </tr>
+                  </table>
+                  <tr>
+                    <td>
+                      <div class="menu">
+                        Data Range: <br />
+                        <button onclick="changeRange('month')">
+                          Past Month
+                        </button>
+                        <button onclick="changeRange('year')">Past Year</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="menu">
+                        Visitors or families helped: <br />
+                        <button onclick="setMode('visits')">Visitors</button>
+                        <button onclick="setMode('people')">
+                          People Served
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
                 </td>
               </tr>
             </table>

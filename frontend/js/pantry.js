@@ -25,7 +25,7 @@ async function loadRecords() {
     const res = await fetch(api);
     const data = await res.json();
 
-    console.log("Loaded records:", data); 
+    console.log("Loaded records:", data);
 
     pantryRecords = data;
 
@@ -54,9 +54,13 @@ function setupForm() {
     const familyInput = document.getElementById("num-in-family");
     const userInput = document.getElementById("user-updater");
 
+    // Process name input for database
     console.log(nameInput);
     var name_words = nameInput.value.split(" ");
     var name_data = name_words[0].at(0) + name_words[1];
+    var name_data = name_data.toLowerCase();
+
+    // Make sure all fields are filled in
     if (!nameInput.value || !familyInput.value) {
       msgDiv.innerHTML = "Please fill in required fields";
       return;
@@ -143,15 +147,15 @@ function renderUpdates(data) {
 
     //Date in local time instead of UTC
     const date = record.created_at
-  ? new Date(record.created_at).toLocaleString(undefined, {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-      second: "2-digit",
-    })
-  : "No date";
+      ? new Date(record.created_at).toLocaleString(undefined, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      : "No date";
 
     div.innerHTML = `
       <div class="update-card">
@@ -207,7 +211,7 @@ function updateTodayTotal(records) {
 function filterLastHour(records) {
   const now = new Date();
 
-  return records.filter(r => {
+  return records.filter((r) => {
     if (!r.created_at) return false;
 
     const created = new Date(r.created_at);

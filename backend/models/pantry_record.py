@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 class PantryRecord(Document):
     id: Optional[PydanticObjectId] = Field(default=None, alias="_id")
     public_id: str = Field(default_factory=lambda: uuid4().hex)
+    name_id: str = Field(default_factory=lambda: uuid4().hex)
     name: str = Field(
         ..., description="Name of the person associated with the this pantry record"
     )

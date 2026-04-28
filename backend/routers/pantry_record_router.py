@@ -20,6 +20,7 @@ async def get_all_pantry_records():
     return [
         {
             "public_id": item.public_id,
+            "name_id": item.name_id,
             "num_ppl_in_families": item.num_ppl_in_families,
             "created_at": item.created_at,
             "updated_at": item.updated_at
@@ -39,12 +40,13 @@ async def create_new_pantry_record(item: PantryRecord):
 
     person = await PantryRecord.find_one({"name": item.name})
     if person:
-        item.public_id = person.public_id
+        item.name_id = person.name_id
 
     await item.insert()
     logger.info(f"Pantry record created successfully with id={item.id}")
     return {
         "public_id": item.public_id,
+        "name_id": item.name_id,
         "num_ppl_in_families": item.num_ppl_in_families,
         "created_at": item.created_at,
         "updated_at": item.updated_at
@@ -62,6 +64,7 @@ async def get_pantry_record(item_id: str):
     logger.info(f"Pantry record retrieved id={item_id}")
     return {
         "public_id": item.public_id,
+        "name_id": item.name_id,
         "num_ppl_in_families": item.num_ppl_in_families,
         "created_at": item.created_at,
         "updated_at": item.updated_at
@@ -90,6 +93,7 @@ async def update_pantry_record(item_id: str, update: PantryRecordUpdate):
     return [
         {
             "public_id": updated_item.public_id,
+            "name_id": updated_item.name_id,
             "num_ppl_in_families": updated_item.num_ppl_in_families,
             "created_at": updated_item.created_at,
             "updated_at": updated_item.updated_at

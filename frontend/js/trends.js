@@ -4,8 +4,8 @@ const api = "http://127.0.0.1:8000/pantry-records/";
    STATE
 ========================= */
 let records = [];
-let currentMode = "visits";     // visits | people
-let currentRange = "month";     // month | year
+let currentMode = "visits"; // visits | people
+let currentRange = "month"; // month | year
 
 let chart;
 
@@ -57,7 +57,7 @@ function buildDataset(range) {
     visits = [0, 0, 0, 0];
     people = [0, 0, 0, 0];
 
-    filtered.forEach(r => {
+    filtered.forEach((r) => {
       if (!r.created_at) return;
 
       const week = getWeekOfMonth(r.created_at);
@@ -70,14 +70,24 @@ function buildDataset(range) {
 
   if (range === "year") {
     labels = [
-      "Jan","Feb","Mar","Apr","May","Jun",
-      "Jul","Aug","Sep","Oct","Nov","Dec"
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
     ];
 
     visits = new Array(12).fill(0);
     people = new Array(12).fill(0);
 
-    records.forEach(r => {
+    records.forEach((r) => {
       if (!r.created_at) return;
 
       const month = getMonthIndex(r.created_at);
@@ -93,9 +103,18 @@ function buildDataset(range) {
    CHART INIT
 ========================= */
 const COLORS = [
-  "#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
-  "#59a14f", "#edc948", "#b07aa1", "#ff9da7",
-  "#9c755f", "#bab0ab", "#86bc86", "#ffbe7d"
+  "#4e79a7",
+  "#f28e2b",
+  "#e15759",
+  "#76b7b2",
+  "#59a14f",
+  "#edc948",
+  "#b07aa1",
+  "#ff9da7",
+  "#9c755f",
+  "#bab0ab",
+  "#86bc86",
+  "#ffbe7d",
 ];
 
 function initChart() {
@@ -107,20 +126,22 @@ function initChart() {
     type: "bar",
     data: {
       labels: data.labels,
-      datasets: [{
-        label: "Visits",
-        data: data.visits,
-        backgroundColor: COLORS.slice(0, data.labels.length),
-      }]
+      datasets: [
+        {
+          label: "Visits",
+          data: data.visits,
+          backgroundColor: COLORS.slice(0, data.labels.length),
+        },
+      ],
     },
     options: {
       responsive: true,
       plugins: {
         legend: {
-          display: true
-        }
-      }
-    }
+          display: true,
+        },
+      },
+    },
   });
 }
 
@@ -141,14 +162,14 @@ function changeRange(range) {
 function changeGraph(type) {
   chart.config.type = type;
   chart.update();
-} 
+}
 /*=================================
 
 ====================================*/
 function filterRecordsByRange(records, range) {
   const now = new Date();
 
-  return records.filter(r => {
+  return records.filter((r) => {
     if (!r.created_at) return false;
 
     const date = new Date(r.created_at);
@@ -168,24 +189,20 @@ function filterRecordsByRange(records, range) {
   });
 }
 
-
 /* =========================
    UPDATE DASHBOARD
 ========================= */
 function updateDashboard() {
   const data = buildDataset(currentRange);
 
-  const selectedData =
-    currentMode === "visits" ? data.visits : data.people;
+  const selectedData = currentMode === "visits" ? data.visits : data.people;
 
-  const label =
-    currentMode === "visits" ? "Visits" : "People Served";
+  const label = currentMode === "visits" ? "Visits" : "People Served";
 
   chart.data.labels = data.labels;
   chart.data.datasets[0].data = selectedData;
   chart.data.datasets[0].label = label;
-  chart.data.datasets[0].backgroundColor =
-    COLORS.slice(0, data.labels.length);
+  chart.data.datasets[0].backgroundColor = COLORS.slice(0, data.labels.length);
 
   chart.update();
 
@@ -223,38 +240,39 @@ function updateInsights(records) {
      BUILD VISIT COUNTS
   ========================= */
   const visitCounts = {};
-  records.forEach(r => {
-    const key = r.public_id;
+  records.forEach((r) => {
+    const key = r.name_id; // use name_id for counting unique visitors instead of public_id
     if (!key) return;
     visitCounts[key] = (visitCounts[key] || 0) + 1;
   });
 
   function normalizeName(name) {
-  return name
-    ?.toLowerCase()
-    .trim()
-    .replace(/\s+/g, " "); // collapse multiple spaces
-}
+    return name?.toLowerCase().trim().replace(/\s+/g, " "); // collapse multiple spaces
+  }
   /* =========================
      CORE METRICS
   ========================= */
   const totalVisits = records.length;
   const uniqueVisitors = Object.keys(visitCounts).length;
 
-  const returningVisitors = Object.values(visitCounts)
-    .filter(count => count > 1).length;
+  const returningVisitors = Object.values(visitCounts).filter(
+    (count) => count > 1,
+  ).length;
 
   const totalPeople = records.reduce(
     (sum, r) => sum + (r.num_ppl_in_families || 0),
-    0
+    0,
   );
 
   /* =========================
      VISIT FREQUENCY
   ========================= */
-  let once = 0, twice = 0, three = 0, fourPlus = 0;
+  let once = 0,
+    twice = 0,
+    three = 0,
+    fourPlus = 0;
 
-  Object.values(visitCounts).forEach(count => {
+  Object.values(visitCounts).forEach((count) => {
     if (count === 1) once++;
     else if (count === 2) twice++;
     else if (count === 3) three++;

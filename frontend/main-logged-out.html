@@ -41,35 +41,13 @@ This uses styles.css
       <!-- Sidebar -->
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-links" data-role="all">
-          <a href="#" onclick="goToHomepage(event)" class="sidebar-button">Homepage</a>
+          <a href="#" onclick="goToHomepage(event)" class="sidebar-button"
+            >Homepage</a
+          >
         </div>
 
         <div class="sidebar-links" data-role="guest">
           <a href="signin-login.html" class="sidebar-button">Sign in</a>
-        </div>
-
-        <div class="sidebar-links" data-role="user">
-          <a href="account.html" class="sidebar-button">Account</a>
-        </div>
-
-        <div class="sidebar-links" data-role="user">
-          <a href="downloads.html" class="sidebar-button">Files</a>
-        </div>
-
-        <div class="sidebar-links" data-role="admin">
-          <a href="stock.html" class="sidebar-button">Stock</a>
-        </div>
-
-        <div class="sidebar-links" data-role="admin">
-          <a href="pantry.html" class="sidebar-button">Pantry</a>
-        </div>
-
-        <div class="sidebar-links" data-role="admin">
-          <a href="archive.html" class="sidebar-button">Archive</a>
-        </div>
-
-        <div class="sidebar-links" data-role="user">
-          <div onclick="logout()">Log Out</div>
         </div>
       </aside>
 
@@ -87,21 +65,21 @@ This uses styles.css
 
             <div class="scheduler">
               <h2>Schedule an Appointment</h2>
-              <hr>
+              <hr />
 
-              <label for="date">Select a Wednesday:</label> <br>
-              <input type="date" id="date"><br> <br>
+              <label for="date">Select a Wednesday:</label> <br />
+              <input type="date" id="date" /><br />
+              <br />
 
-              <label for="time">Select a Time:</label> <br>
-              <select id="time"></select> <br> <br>
+              <label for="time">Select a Time:</label> <br />
+              <select id="time"></select>
+              <br />
+              <br />
 
-              <button id="scheduler-submit">Book</button> <br>
+              <button id="scheduler-submit">Book</button> <br />
 
-            <p id="scheduler-message"></p>
-          </div>
-
-
-
+              <p id="scheduler-message"></p>
+            </div>
           </div>
         </div>
       </section>

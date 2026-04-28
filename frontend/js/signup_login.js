@@ -43,8 +43,7 @@ function setupLogin() {
 
       console.log("Token saved:", data.access_token); // debug
 
-      redirectBasedOnRole();
-
+      window.location.href = "main-BasicUser.html";
     } catch (err) {
       console.error(err);
       msg.textContent = "Error logging in";
@@ -87,8 +86,7 @@ function setupSignup() {
 
       console.log("Token saved:", data.access_token); // debug
 
-      redirectBasedOnRole();
-
+      window.location.href = "main-BasicUser.html";
     } catch (err) {
       console.error(err);
       msg.textContent = "Error signing up";
@@ -96,56 +94,56 @@ function setupSignup() {
   });
 }
 
-// ==========================
-// REDIRECT LOGIC
-// ==========================
-function redirectBasedOnRole() {
-  const token = localStorage.getItem("access_token");
+// // ==========================
+// // REDIRECT LOGIC
+// // ==========================
+// function redirectBasedOnRole() {
+//   const token = localStorage.getItem("access_token");
 
-  if (!token) {
-    window.location.href = "/main-logged-out.html";
-    return;
-  }
+//   if (!token) {
+//     window.location.href = "/main-logged-out.html";
+//     return;
+//   }
 
-  const user = parseJwt(token);
+//   const user = parseJwt(token);
 
-  if (!user) {
-    window.location.href = "/main-logged-out.html";
-    return;
-  }
+//   if (!user) {
+//     window.location.href = "/main-logged-out.html";
+//     return;
+//   }
 
-  console.log("Decoded user:", user); //  debug
+//   console.log("Decoded user:", user); //  debug
 
-  // IMPORTANT: adjust this depending on your backend payload
-  const role = user.role || user.sub_role || user.user_role;
+//   // IMPORTANT: adjust this depending on your backend payload
+//   const role = user.role || user.sub_role || user.user_role;
 
-  if (role === "SuperAdmin") {
-    window.location.href = "main-admin.html";
-  } else if (role === "BasicUser") {
-    window.location.href = "main-BasicUser.html";
-  } else {
-    // fallback
-    window.location.href = "main-logged-out.html";
-  }
-}
+//   if (role === "SuperAdmin") {
+//     window.location.href = "main-admin.html";
+//   } else if (role === "BasicUser") {
+//     window.location.href = "main-BasicUser.html";
+//   } else {
+//     // fallback
+//     window.location.href = "main-logged-out.html";
+//   }
+// }
 
-// ==========================
-// JWT PARSER (REQUIRED)
-// ==========================
-function parseJwt(token) {
-  try {
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-        .join("")
-    );
+// // ==========================
+// // JWT PARSER (REQUIRED)
+// // ==========================
+// function parseJwt(token) {
+//   try {
+//     const base64Url = token.split(".")[1];
+//     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+//     const jsonPayload = decodeURIComponent(
+//       atob(base64)
+//         .split("")
+//         .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+//         .join(""),
+//     );
 
-    return JSON.parse(jsonPayload);
-  } catch (e) {
-    console.error("Invalid token:", e);
-    return null;
-  }
-}
+//     return JSON.parse(jsonPayload);
+//   } catch (e) {
+//     console.error("Invalid token:", e);
+//     return null;
+//   }
+// }

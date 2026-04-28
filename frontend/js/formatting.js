@@ -6,7 +6,6 @@ function toggleSidebar() {
   sidebar.classList.toggle("active");
 }
 
-
 /*
  THIS IS FOR THE USERNAME IN CORNER
 */
@@ -17,7 +16,7 @@ function getUserFromToken() {
   if (!token) return null;
 
   try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
+    const payload = JSON.parse(atob(token.split(".")[1]));
     console.log("Payload:", payload);
     return payload;
   } catch (err) {
@@ -52,84 +51,80 @@ function logout() {
   window.location.href = "main-logged-out.html";
 }
 
+// //
+// // THIS IS FOR AUTHENTICATION TO KNOW WHICH TASK BAR TO SHOW
+// //
+// function parseJwt(token) {
+//   try {
+//     return JSON.parse(atob(token.split(".")[1]));
+//   } catch {
+//     return null;
+//   }
+// }
 
+// function getUserRole() {
+//   const token = localStorage.getItem("access_token");
 
+//   if (!token) return "guest";
 
-//
-// THIS IS FOR AUTHENTICATION TO KNOW WHICH TASK BAR TO SHOW
-//
-function parseJwt(token) {
-  try {
-    return JSON.parse(atob(token.split('.')[1]));
-  } catch {
-    return null;
-  }
-}
+//   const user = parseJwt(token);
+//   if (!user || !user.role) return "guest";
 
-function getUserRole() {
-  const token = localStorage.getItem("access_token");
+//   const role = user.role;
 
-  if (!token) return "guest";
+//   // normalize roles
+//   if (role.includes("SuperAdmin")) return "admin";
+//   if (role.includes("BasicUser")) return "user";
 
-  const user = parseJwt(token);
-  if (!user || !user.role) return "guest";
+//   return "guest";
+// }
+// function applyRoleVisibility() {
+//   const role = getUserRole();
 
-  const role = user.role;
+//   const elements = document.querySelectorAll(".sidebar-links");
 
-  // normalize roles
-  if (role.includes("SuperAdmin")) return "admin";
-  if (role.includes("BasicUser")) return "user";
+//   elements.forEach((el) => {
+//     const allowed = el.getAttribute("data-role");
 
-  return "guest";
-}
-function applyRoleVisibility() {
-  const role = getUserRole();
+//     if (
+//       allowed === "all" ||
+//       allowed === role ||
+//       (role === "admin" && allowed === "user") // admin inherits user access
+//     ) {
+//       el.style.display = "block";
+//     } else {
+//       el.style.display = "none";
+//     }
+//   });
+// }
 
-  const elements = document.querySelectorAll(".sidebar-links");
+// function goToHomepage() {
+//   const token = localStorage.getItem("access_token");
 
-  elements.forEach(el => {
-    const allowed = el.getAttribute("data-role");
+//   // Not logged in
+//   if (!token) {
+//     window.location.href = "main-logged-out.html";
+//     return;
+//   }
 
-    if (
-      allowed === "all" ||
-      allowed === role ||
-      (role === "admin" && allowed === "user") // admin inherits user access
-    ) {
-      el.style.display = "block";
-    } else {
-      el.style.display = "none";
-    }
-  });
-}
+//   const user = parseJwt(token);
 
+//   if (!user) {
+//     window.location.href = "main-logged-out.html";
+//     return;
+//   }
 
-function goToHomepage() {
-  const token = localStorage.getItem("access_token");
+//   // Role-based redirect
+//   if (user.role === "SuperAdmin") {
+//     window.location.href = "main-admin.html";
+//   } else {
+//     window.location.href = "main-BasicUser.html";
+//   }
+// }
 
-  // Not logged in
-  if (!token) {
-    window.location.href = "main-logged-out.html";
-    return;
-  }
-
-  const user = parseJwt(token);
-
-  if (!user) {
-    window.location.href = "main-logged-out.html";
-    return;
-  }
-
-  // Role-based redirect
-  if (user.role === "SuperAdmin") {
-    window.location.href = "main-admin.html";
-  } else {
-    window.location.href = "main-BasicUser.html";
-  }
-}
-
-//
-// Run it
-//
-document.addEventListener("DOMContentLoaded", () => {
-  applyRoleVisibility();
-});
+// //
+// // Run it
+// //
+// document.addEventListener("DOMContentLoaded", () => {
+//   applyRoleVisibility();
+// });
