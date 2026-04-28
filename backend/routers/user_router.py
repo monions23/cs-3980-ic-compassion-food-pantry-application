@@ -22,9 +22,11 @@ async def change_email(data: ChangeEmailRequest, current_user=Depends(authentica
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
+    # verify password
     if not verify_password(data.password, user.password):
         raise HTTPException(status_code=401, detail="Incorrect password")
 
+    # check if email already exists
     existing = await User.find_one(User.email == data.new_email)
     if existing:
         raise HTTPException(status_code=400, detail="Email already in use")
@@ -33,10 +35,8 @@ async def change_email(data: ChangeEmailRequest, current_user=Depends(authentica
     user.email = data.new_email
     await user.save()
 
-    # create NEW token with updated email
     new_token, expiry = create_access_token(
-        {"email": user.email, "role": str(user.role)},
-        expires_delta=timedelta(minutes=20),
+        {"email": user.email, "role": str(user.role)}
     )
 
     return {

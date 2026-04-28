@@ -69,17 +69,27 @@ async function submitChangeEmail(event) {
         })
     });
 
-    const data = await res.json();
+    let data;
+    try {
+        data = await res.json();
+    } catch {
+        const text = await res.text();
+        alert(text);
+        return;
+    }
 
     if (!res.ok) {
         alert(data.detail || "Failed to update email");
         return;
     }
 
-    alert("Email updated successfully");
+    // IMPORTANT: replace token
+    localStorage.setItem("access_token", data.access_token);
 
-    // optional: refresh UI
+    // update UI
     document.getElementById("user-email").innerText = newEmail;
+
+    alert("Email updated successfully");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
