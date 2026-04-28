@@ -218,7 +218,7 @@ function renderStock(data) {
           <td>${x.quantity}</td>
           <td>${x.target_quantity}</td>
           <td>
-            <button class="btn btn-success btn-sm"
+            <button class="btn btn-primary btn-sm me-2"
               data-bs-toggle="modal"
               data-bs-target="#modal-edit"
               onclick="setStockItemInEdit('${x.public_id}')">

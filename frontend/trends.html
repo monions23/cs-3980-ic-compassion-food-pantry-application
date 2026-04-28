@@ -74,9 +74,10 @@ This uses styles.css
           <div class="main-structure-left">
             <h1>Trends</h1>
             <!-- Mini Menu to choose between different graphs -->
-
+             <hr>
             <!-- Graph Container -->
             <canvas id="trends-graph"></canvas>
+            <br><br>
           </div>
           <div class="main-structure-right">
             <table class="trends-table-right">
@@ -110,7 +111,7 @@ This uses styles.css
 
 <hr />
 
-<h6>Visit Frequency</h6>
+<h5>Visit Frequency</h5>
 <table class="trends-table-right">
   <tr>
     <td>Visited Once</td>
@@ -132,7 +133,7 @@ This uses styles.css
 
 <hr />
 
-<h6>Family Impact</h6>
+<h5>Family Impact</h5>
 <table class="trends-table-right">
   <tr>
     <td>Total People Served</td>
@@ -180,27 +181,39 @@ This uses styles.css
     <footer>
       <hr class="center" />
       <div class="footer-grid">
-        <img
+
+        <!-- LEFT: TEXT -->
+         <div class="footer-pantry-info">
+          <p>
+            Food Pantry Open 12:00 pm to 5:00 pm Wednesday
+            <br /><br />
+            Email: info@iccompassion.org <br />
+            Phone: (319)-330-9883
+            <br /><br />
+            1035 Wade St <br />
+            Iowa City, IA 52240 <br />
+            @ 2026 by IC Compassion
+          </p>
+        </div>
+
+        <!-- RIGHT: LOGO + BUTTON -->
+         <div class="footer-right">
+          <img
           src="IC_Compassion_Logo_big.jpg"
           alt="Iowa City Compassion Logo"
           class="footer-logo"
-        />
-        <div class="footer-pantry-info">
-          <p>
-            Food Pantry Open 12:00 pm to 5:00 pm Wednesday
-            <br />
-            <br />Email: info@iccompassion.org <br />Phone: (319)-330-9883
-            <br />
-            <br />1035 Wade St <br />Iowa City, IA 52240 <br />@ 2026 by IC
-            Compassion
-          </p>
+          />
+          
+          <a href="https://www.iccompassion.org/" class="footer-button">
+            For more information
+          </a>
         </div>
-        <a href="https://www.iccompassion.org/" class="footer-button"
-          >For more information</a
-        >
+
       </div>
+
       <hr class="center" />
     </footer>
+    
   </body>
   <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
