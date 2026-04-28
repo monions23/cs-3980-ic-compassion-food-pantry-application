@@ -33,9 +33,21 @@ function setupLogin() {
       });
 
       if (!res.ok) {
-        msg.textContent = "Login failed";
+        let errorMsg = "Login failed";
+
+        try {
+          const errData = await res.json();
+          errorMsg = errData.detail || errorMsg;
+        } catch { }
+
+        msg.style.color = "red";
+        msg.textContent = errorMsg;
         return;
       }
+
+      // success
+      msg.style.color = "green";
+      msg.textContent = "Login successful!";
 
       const data = await res.json();
 
@@ -77,7 +89,14 @@ function setupSignup() {
 
       if (!res.ok) {
         msg.textContent = "Signup failed";
-        return;
+        let errorMsg = "Signup failed";
+
+        try {
+          const errData = await res.json();
+          errorMsg = errData.detail || errorMsg;
+        } catch { }
+
+        msg.textContent = errorMsg;
       }
 
       const data = await res.json();

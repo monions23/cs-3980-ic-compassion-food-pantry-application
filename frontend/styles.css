@@ -624,3 +624,11 @@ footer {
   width: 80%;        /* or 60–80% depending on your preference */
   margin: 0 auto;    /* fallback centering */
 }
+
+.auth-message.error {
+  color: red;
+}
+
+.auth-message.success {
+  color: green;
+}

@@ -39,3 +39,7 @@ class UserDto(BaseModel):
     email: EmailStr = ""
     role: str = UserRole.BasicUser
     active: bool = True
+
+class ChangeEmailRequest(BaseModel):
+    password: str
+    new_email: str

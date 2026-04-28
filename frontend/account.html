@@ -3,163 +3,171 @@ This uses styles.css
 -->
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Food Pantry Tracker</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
-    <!-- Bootstrap Stylesheet -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- Custom Stylesheet(s) -->
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
-    <!-- Top Bar -->
-    <section class="topbar">
-      <div class="logo">
-        <!-- This is the ☰ Iowa City Compassion in top left-->
-        <span onclick="toggleSidebar()" style="cursor: pointer">☰</span> Iowa
-        City Compassion Food Pantry
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Pantry Tracker</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+  <!-- Bootstrap Stylesheet -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Custom Stylesheet(s) -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+  <!-- Top Bar -->
+  <section class="topbar">
+    <div class="logo">
+      <!-- This is the ☰ Iowa City Compassion in top left-->
+      <span onclick="toggleSidebar()" style="cursor: pointer">☰</span> Iowa
+      City Compassion Food Pantry
+    </div>
+    <div class="user">
+      <span id="user-email">Loading...</span>
+    </div>
+  </section>
+
+  <main class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-links" data-role="all">
+        <a href="#" onclick="goToHomepage(event)" class="sidebar-button">Homepage</a>
       </div>
-      <div class="user">
-        <span id="user-email">Loading...</span>
+      <div class="sidebar-links">
+        <a href="archive.html" class="sidebar-button">Archive</a>
       </div>
-    </section>
+      <div class="sidebar-links">
+        <a href="trends.html" class="sidebar-button">Trends</a>
+      </div>
+      <div class="sidebar-links">
+        <a href="stock.html" class="sidebar-button">Stock</a>
+      </div>
+      <div class="sidebar-links">
+        <a href="account.html" class="sidebar-button">Account</a>
+      </div>
+      <div class="sidebar-links">
+        <a href="downloads.html" class="sidebar-button" active>Files</a>
+      </div>
+      <div class="sidebar-links">
+        <a href="pantry.html" class="sidebar-button">Pantry</a>
+      </div>
+      <div class="sidebar-links" onclick="logout()">Log Out</div>
 
-    <main class="container">
-      <!-- Sidebar -->
-      <aside class="sidebar" id="sidebar">
-        <div class="sidebar-links" data-role="all">
-          <a href="#" onclick="goToHomepage(event)" class="sidebar-button"
-            >Homepage</a
-          >
-        </div>
-        <div class="sidebar-links">
-          <a href="archive.html" class="sidebar-button">Archive</a>
-        </div>
-        <div class="sidebar-links">
-          <a href="trends.html" class="sidebar-button">Trends</a>
-        </div>
-        <div class="sidebar-links">
-          <a href="stock.html" class="sidebar-button">Stock</a>
-        </div>
-        <div class="sidebar-links">
-          <a href="account.html" class="sidebar-button">Account</a>
-        </div>
-        <div class="sidebar-links">
-          <a href="downloads.html" class="sidebar-button" active>Files</a>
-        </div>
-        <div class="sidebar-links">
-          <a href="pantry.html" class="sidebar-button">Pantry</a>
-        </div>
-        <div class="sidebar-links" onclick="logout()">Log Out</div>
+      <div class="sidebar-links" data-role="user">
+        <div onclick="logout()">Log Out</div>
+      </div>
+    </aside>
 
-        <div class="sidebar-links" data-role="user">
-          <div onclick="logout()">Log Out</div>
-        </div>
-      </aside>
-
-      <!-- Main Content Table, Can be merged or sorted differently-->
-      <section class="main">
-        <div class="main-grid">
-          <div class="main-structure-left">
-            <h1>Account</h1>
-            <hr />
-            <table class="account-table">
+    <!-- Main Content Table, Can be merged or sorted differently-->
+    <section class="main">
+      <div class="main-grid">
+        <div class="main-structure-left">
+          <h1>Account</h1>
+          <hr />
+          <table class="account-table">
+            <th>
+              <strong>Username:</strong>
+            </th>
+            <td>######</td>
+            <tr>
               <th>
-                <strong>Username:</strong>
+                <strong>Email:</strong>
               </th>
-              <td>######</td>
-              <tr>
-                <th>
-                  <strong>Email:</strong>
-                </th>
-                <td>Email@email.com</td>
-              </tr>
-              <tr>
-                <th>
-                  <strong>Status:</strong>
-                </th>
-                <td>Admin/User/Veiwer</td>
-                <!-- Admin can change permissions
+              <td>Email@email.com</td>
+            </tr>
+            <tr>
+              <th>
+                <strong>Status:</strong>
+              </th>
+              <td>Admin/User/Veiwer</td>
+              <!-- Admin can change permissions
                  User can veiw all pages but cant change permissions
                  Veiwer is someone who mistakenly logged in. 
                  Maybe they cann see the trends? -->
-              </tr>
-            </table>
-          </div>
-          <div class="main-structure-right">
-            <h2>Dashboard</h2>
-            <br />
-            <p>Reset password</p>
-            <hr />
-            <p>Reset Username</p>
-            <hr />
-            <p>Change email</p>
-            <hr />
-
-            <br />
-            <br />
-            <br />
-            <br />
-          </div>
-          <div class="main-structure-left">
-            <h3>Manage Account</h3>
-            <p>Table with changing permissions in Admin Veiw</p>
-            <hr />
-          </div>
-          <div class="main-structure-right"></div>
+            </tr>
+          </table>
         </div>
-      </section>
-    </main>
+        <div class="main-structure-right">
+          <h2>Dashboard</h2>
+          <br />
+          <a href="#" id="resetPasswordLink">Reset password</a>
+          <hr />
+          <a href="#" id="changeEmailBtn">Change email</a>
+          <hr />
 
-    <!-- Footer -->
-    <footer>
-      <hr class="center" />
-      <div class="footer-grid">
+          <br />
+          <br />
+          <br />
+          <br />
+          <div id="resetPasswordSection" style="display:none;">
+            <h3>Reset Password</h3>
 
-        <!-- LEFT: TEXT -->
-         <div class="footer-pantry-info">
-          <p>
-            Food Pantry Open 12:00 pm to 5:00 pm Wednesday
-            <br /><br />
-            Email: info@iccompassion.org <br />
-            Phone: (319)-330-9883
-            <br /><br />
-            1035 Wade St <br />
-            Iowa City, IA 52240 <br />
-            @ 2026 by IC Compassion
-          </p>
+            <form onsubmit="resetPassword(event)">
+              <input type="password" id="currentPassword" placeholder="Current password" required />
+              <input type="password" id="newPassword" placeholder="New password" required />
+              <button type="submit">Reset</button>
+            </form>
+          </div>
+          <div id="changeEmailSection" style="display:none;">
+            <h3>Change Email</h3>
+
+            <form onsubmit="submitChangeEmail(event)">
+              <input type="email" id="newEmail" placeholder="New email" required />
+              <input type="password" id="confirmPassword" placeholder="Confirm password" required />
+              <button type="submit">Update Email</button>
+            </form>
+          </div>
         </div>
-
-        <!-- RIGHT: LOGO + BUTTON -->
-         <div class="footer-right">
-          <img
-          src="IC_Compassion_Logo_big.jpg"
-          alt="Iowa City Compassion Logo"
-          class="footer-logo"
-          />
-          
-          <a href="https://www.iccompassion.org/" class="footer-button">
-            For more information
-          </a>
+        <div class="main-structure-left">
+          <h3>Manage Account</h3>
+          <p>Table with changing permissions in Admin Veiw</p>
+          <hr />
         </div>
+        <div class="main-structure-right"></div>
+      </div>
+    </section>
+  </main>
 
+  <!-- Footer -->
+  <footer>
+    <hr class="center" />
+    <div class="footer-grid">
+
+      <!-- LEFT: TEXT -->
+      <div class="footer-pantry-info">
+        <p>
+          Food Pantry Open 12:00 pm to 5:00 pm Wednesday
+          <br /><br />
+          Email: info@iccompassion.org <br />
+          Phone: (319)-330-9883
+          <br /><br />
+          1035 Wade St <br />
+          Iowa City, IA 52240 <br />
+          @ 2026 by IC Compassion
+        </p>
       </div>
 
-      <hr class="center" />
-    </footer>
-  </body>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-    crossorigin="anonymous"
-  ></script>
-  <script src="js/formatting.js"></script>
-  <script src="js/logout.js"></script>
+      <!-- RIGHT: LOGO + BUTTON -->
+      <div class="footer-right">
+        <img src="IC_Compassion_Logo_big.jpg" alt="Iowa City Compassion Logo" class="footer-logo" />
+
+        <a href="https://www.iccompassion.org/" class="footer-button">
+          For more information
+        </a>
+      </div>
+
+    </div>
+
+    <hr class="center" />
+  </footer>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="js/formatting.js"></script>
+<script src="js/logout.js"></script>
+<script src="js/account.js"></script>
+
 </html>
