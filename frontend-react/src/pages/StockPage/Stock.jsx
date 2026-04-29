@@ -1,6 +1,9 @@
-import { useEffect, useState, useRef } from "react";
-import Chart from "chart.js/auto"; // for charts
-import Layout from "./Layout";
+import { useEffect, useState } from "react";
+
+// Components
+import Layout from "../Layout";
+import StockChart from "./StockChart";
+import StockModal from "./StockModal";
 
 // API CALLS
 import {
@@ -8,17 +11,13 @@ import {
   addStockItem,
   deleteStockItem,
   editStockItem,
-} from "../utilities/Stock-API";
+} from "../../utilities/Stock-API";
 
 export default function Stock() {
   // Utilities
   const [search, setSearch] = useState(""); // search input state
   const [errorMsg, setErrorMsg] = useState(""); // error message for add and edit forms
   const [editingId, setEditingId] = useState(null); // id of the item being edited, null if not editing
-
-  // Chart reference
-  const chartRef = useRef(null); // reference to the chart canvas
-  const chartInstance = useRef(null); // reference to the Chart.js instance
 
   // Stocked food (all data)
   const [stockedFood, setStockedFood] = useState([]);
@@ -31,56 +30,12 @@ export default function Stock() {
   });
 
   /* =========================
-     CHART
-  ========================= */
-  const updateChart = (data) => {
-    if (!chartRef.current) return; // if the canvas is not rendered yet, do nothing
-
-    const labels = data.map((i) => i.item_name); // labels for the chart (item names)
-    const quantities = data.map((i) => i.quantity); // current stock quantities
-    const targets = data.map((i) => i.target_quantity); // target stock quantities
-
-    // if a chart instance already exists, destroy it before creating a new one
-    if (chartInstance.current) {
-      chartInstance.current.destroy();
-    }
-
-    //
-    chartInstance.current = new Chart(chartRef.current, {
-      type: "bar",
-      data: {
-        labels,
-        datasets: [
-          {
-            label: "Current Stock",
-            data: quantities,
-            backgroundColor: "#65bac2",
-          },
-          { label: "Target Stock", data: targets, backgroundColor: "#bc1a38" },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
-      },
-    });
-  };
-
-  /* =========================
      GET ALL STOCK ITEMS
   ========================= */
   async function getAllStockedItems() {
     try {
       const data = await getAllStock();
-
       setStockedFood(data);
-      updateChart(data);
-
       setErrorMsg(""); // clear old errors on success
     } catch (err) {
       setErrorMsg(err.message); // THIS is where error updates happen
@@ -126,7 +81,6 @@ export default function Stock() {
       await deleteStockItem(id);
       const deleted = stockedFood.filter((x) => x.public_id != id);
       setStockedFood(deleted);
-      updateChart(deleted);
     } catch (err) {
       setErrorMsg(err.message); // THIS is where error updates happen
     }
@@ -167,7 +121,7 @@ export default function Stock() {
   ========================= */
   useEffect(() => {
     getAllStockedItems();
-  }, []);
+  }, []); // empty array = runs once on mount
 
   /* =========================
      HANDLE CHANGE TO FORM VALUES
@@ -183,9 +137,9 @@ export default function Stock() {
   /* =========================
      UPDATE CHART WHEN STOCKED FOOD CHANGES
   ========================= */
-  useEffect(() => {
-    updateChart(stockedFood);
-  }, [stockedFood]);
+  // useEffect(() => {
+  //   updateChart(stockedFood);
+  // }, [stockedFood]);
 
   /* =========================
      FILTERED SEARCH RESULTS
@@ -321,170 +275,26 @@ export default function Stock() {
           {/* CHART */}
           <div className="main-structure-right">
             <br></br>
-            <div className="chart-container">
-              <div className="graph">
-                <canvas ref={chartRef}></canvas>
-              </div>
-            </div>
+            {/* Check if there is a search term entered; if so returned filtered data, otherwise return all stocked food */}
+            <StockChart data={search ? filtered : stockedFood}></StockChart>
           </div>
         </div>
       </Layout>
 
-      {/* ADD MODAL */}
-      <div id="modal-add" className="modal stock-modal" tabIndex="-1">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Add Item to Stock</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-              ></button>
-            </div>
-
-            <div className="modal-body">
-              <div className="mb-3">
-                <label htmlFor="title" className="form-label">
-                  Name of Item
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={formData.item_name}
-                  onChange={handleChange}
-                  name="item_name"
-                />
-              </div>
-
-              <div className="mb-3">
-                <label htmlFor="stock-number" className="form-label">
-                  Current Stock
-                </label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={formData.quantity}
-                  onChange={handleChange}
-                  name="quantity"
-                />
-              </div>
-
-              <div className="mb-3">
-                <label htmlFor="target-stock" className="form-label">
-                  Target Stock
-                </label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={formData.target_quantity}
-                  onChange={handleChange}
-                  name="target_quantity"
-                />
-              </div>
-
-              <div className="text-danger">{errorMsg}</div>
-            </div>
-
-            <div className="modal-footer">
-              <button
-                id="close-add-modal"
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleAdd}
-              >
-                Add
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* EDIT MODAL */}
-      <div id="modal-edit" className="modal stock-modal" tabIndex="-1">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Edit Stock Item</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-              ></button>
-            </div>
-
-            <div className="modal-body">
-              <div className="mb-3">
-                <label htmlFor="title-edit" className="form-label">
-                  Name of Item
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={formData.item_name}
-                  onChange={handleChange}
-                  name="item_name"
-                />
-              </div>
-
-              <div className="mb-3">
-                <label htmlFor="stock-number-edit" className="form-label">
-                  Current Stock
-                </label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={formData.quantity}
-                  onChange={handleChange}
-                  name="quantity"
-                />
-              </div>
-
-              <div className="mb-3">
-                <label htmlFor="target-stock-edit" className="form-label">
-                  Target Stock
-                </label>
-                <input
-                  type="number"
-                  className="form-control"
-                  value={formData.target_quantity}
-                  onChange={handleChange}
-                  name="target_quantity"
-                />
-              </div>
-
-              <div className="text-danger">{errorMsg}</div>
-            </div>
-
-            <div className="modal-footer">
-              <button
-                id="close-edit-modal"
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-
-              <button
-                type="button"
-                className="btn btn-warning"
-                onClick={handleEdit}
-              >
-                Update
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <StockModal
+        mode="Add"
+        formData={formData}
+        handleChange={handleChange}
+        crudHandler={handleAdd}
+        errorMsg={errorMsg}
+      ></StockModal>
+      <StockModal
+        mode="Edit"
+        formData={formData}
+        handleChange={handleChange}
+        crudHandler={handleEdit}
+        errorMsg={errorMsg}
+      ></StockModal>
     </>
   );
 }

@@ -12,7 +12,7 @@ import "./App.css";
 import Home from "./pages/Home";
 import Archive from "./pages/Archive";
 import Trends from "./pages/Trends";
-import Stock from "./pages/Stock";
+import Stock from "./pages/StockPage/Stock";
 import Account from "./pages/Account";
 
 function App() {
