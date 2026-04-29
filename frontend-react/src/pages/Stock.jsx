@@ -1,31 +1,34 @@
 import { useEffect, useState, useRef } from "react";
 import Chart from "chart.js/auto"; // for charts
-import Topbar from "../components/Topbar"; // topbar component
-import Sidebar from "../components/Sidebar"; // sidebar component
-import Footer from "../components/Footer"; // footer component
+import Layout from "./Layout";
 
-import { useSidebarToggle } from "../utilities/Sidebar-Toggle"; // custom hook for sidebar toggle
-
-const API = "http://127.0.0.1:8000/stock/"; // API url
+// API CALLS
+import {
+  getAllStock,
+  addStockItem,
+  deleteStockItem,
+  editStockItem,
+} from "../utilities/Stock-API";
 
 export default function Stock() {
-  const { active, toggleSidebar } = useSidebarToggle(); // sidebar toggle state and function
-  const [stockedFood, setStockedFood] = useState([]); // stocked food items
+  // Utilities
   const [search, setSearch] = useState(""); // search input state
-  const [errorMsgAdd, setErrorMsgAdd] = useState(""); // error message for add form
-  const [errorMsgEdit, setErrorMsgEdit] = useState(""); // error message for edit form
-
-  // Form state
-  const [itemName, setItemName] = useState(""); // name of the stock item
-  const [quantity, setQuantity] = useState(""); // current quantity of the stock item
-  const [targetQuantity, setTargetQuantity] = useState(""); // target quantity of the stock item
-
-  // Edit state
+  const [errorMsg, setErrorMsg] = useState(""); // error message for add and edit forms
   const [editingId, setEditingId] = useState(null); // id of the item being edited, null if not editing
 
   // Chart reference
   const chartRef = useRef(null); // reference to the chart canvas
   const chartInstance = useRef(null); // reference to the Chart.js instance
+
+  // Stocked food (all data)
+  const [stockedFood, setStockedFood] = useState([]);
+
+  // Form state
+  const [formData, setFormData] = useState({
+    item_name: "",
+    quantity: "",
+    target_quantity: "",
+  });
 
   /* =========================
      CHART
@@ -56,141 +59,133 @@ export default function Stock() {
           { label: "Target Stock", data: targets, backgroundColor: "#bc1a38" },
         ],
       },
-      options: { responsive: true, maintainAspectRatio: false },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
     });
   };
 
   /* =========================
-     LOAD STOCK ITEMS
+     GET ALL STOCK ITEMS
   ========================= */
-  function getAllStockedItems() {
-    const xhr = new XMLHttpRequest();
+  async function getAllStockedItems() {
+    try {
+      const data = await getAllStock();
 
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        const data = JSON.parse(xhr.responseText);
-        setStockedFood(data);
-        updateChart(data);
-      }
-    };
+      setStockedFood(data);
+      updateChart(data);
 
-    xhr.open("GET", API, true);
-    xhr.send();
-  }
-
-  /* =========================
-   GET STOCK ITEM BY ID
-========================= */
-  function getStockItem(id) {
-    const xhr = new XMLHttpRequest();
-
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        return JSON.parse(xhr.response) || [];
-      }
-    };
-
-    xhr.open("GET", API + id, true);
-    xhr.send();
+      setErrorMsg(""); // clear old errors on success
+    } catch (err) {
+      setErrorMsg(err.message); // THIS is where error updates happen
+    }
   }
 
   /* =========================
      ADD ITEM
   ========================= */
   const handleAdd = async () => {
-    if (itemName === "" || quantity === "" || targetQuantity === "") {
-      setErrorMsgAdd("Please fill all fields");
+    // make sure there are no empty fields in the form
+    if (
+      formData.item_name === "" ||
+      formData.quantity === "" ||
+      formData.target_quantity === ""
+    ) {
+      setErrorMsg("Please fill all fields");
       return;
     }
-    const xhr = new XMLHttpRequest();
 
-    xhr.onload = () => {
-      if (xhr.status === 201) {
-        // const newItem = JSON.parse(xhr.response);
-        getAllStockedItems(); // Refresh the list from the server to ensure consistency
+    try {
+      await addStockItem(formData);
+      getAllStockedItems();
+      document.getElementById("close-add-modal")?.click();
 
-        document.getElementById("close-add-modal")?.click();
-
-        setItemName("");
-        setQuantity("");
-        setTargetQuantity("");
-      }
-    };
-
-    xhr.open("POST", API, true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-    xhr.send(
-      JSON.stringify({
-        item_name: itemName,
-        quantity: Number(quantity),
-        target_quantity: Number(targetQuantity),
-      }),
-    );
+      // Then, reset all values
+      setFormData({
+        item_name: "",
+        quantity: "",
+        target_quantity: "",
+      });
+      setErrorMsg("");
+    } catch (err) {
+      setErrorMsg(err.message); // THIS is where error updates happen
+    }
   };
 
   /* =========================
      DELETE ITEM
   ========================= */
-  const deleteItem = async (id) => {
-    const xhr = new XMLHttpRequest();
-
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        const deleted = stockedFood.filter((x) => x.public_id !== id);
-
-        setStockedFood(deleted);
-        updateChart(deleted);
-      }
-    };
-
-    xhr.open("DELETE", API + id, true);
-    xhr.send();
+  const handleDelete = async (id) => {
+    try {
+      await deleteStockItem(id);
+      const deleted = stockedFood.filter((x) => x.public_id != id);
+      setStockedFood(deleted);
+      updateChart(deleted);
+    } catch (err) {
+      setErrorMsg(err.message); // THIS is where error updates happen
+    }
   };
 
   /* =========================
      EDIT ITEM
   ========================= */
   const handleEdit = async () => {
-    console.log(itemName);
-    console.log(quantity);
-    console.log(targetQuantity);
-    if (itemName === "" || quantity === "" || targetQuantity === "") {
-      setErrorMsgEdit("Please fill all fields");
+    console.log(formData);
+    if (
+      formData.item_name === "" ||
+      formData.quantity === "" ||
+      formData.target_quantity === ""
+    ) {
+      setErrorMsg("Please fill all fields");
       return;
     }
 
-    const xhr = new XMLHttpRequest();
+    try {
+      await editStockItem(editingId, formData);
+      document.getElementById("close-edit-modal")?.click();
+      getAllStockedItems(); // Refresh the list from the server to ensure consistency
 
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        const updated = JSON.parse(xhr.response);
-        const item = getStockItem(editingId);
-
-        if (item) {
-          item.item_name = updated.item_name;
-          item.quantity = updated.quantity;
-          item.target_quantity = updated.target_quantity;
-        }
-
-        document.getElementById("close-edit-modal")?.click();
-        getAllStockedItems(); // Refresh the list from the server to ensure consistency
-
-        setErrorMsgEdit("");
-      }
-    };
-
-    xhr.open("PUT", API + editingId, true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-    xhr.send(
-      JSON.stringify({
-        item_name: itemName,
-        quantity: parseInt(quantity),
-        target_quantity: parseInt(targetQuantity),
-      }),
-    );
+      setFormData({
+        item_name: "",
+        quantity: "",
+        target_quantity: "",
+      });
+      setErrorMsg("");
+    } catch (err) {
+      setErrorMsg(err.message); // THIS is where error updates happen
+    }
   };
+
+  /* =========================
+     INITIAL LOAD
+  ========================= */
+  useEffect(() => {
+    getAllStockedItems();
+  }, []);
+
+  /* =========================
+     HANDLE CHANGE TO FORM VALUES
+  ========================= */
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value, // This dynamically updates whichever field was changed
+    });
+  };
+
+  /* =========================
+     UPDATE CHART WHEN STOCKED FOOD CHANGES
+  ========================= */
+  useEffect(() => {
+    updateChart(stockedFood);
+  }, [stockedFood]);
 
   /* =========================
      FILTERED SEARCH RESULTS
@@ -202,154 +197,138 @@ export default function Stock() {
     : [];
 
   /* =========================
-     INITIAL LOAD
-  ========================= */
-  useEffect(() => {
-    getAllStockedItems();
-  }, []);
-
-  /* =========================
      JSX RETURN
   ========================= */
   return (
     <>
-      <Topbar toggleSidebar={toggleSidebar} />
+      <Layout>
+        <div className="main-grid">
+          {/* LEFT SIDE */}
+          <div className="main-structure-left-two-rows">
+            <p>
+              This is to add items to stock to show on website and in archive
+            </p>
 
-      <main className="container">
-        <Sidebar active={active} />
+            <div className="stock-title">
+              <h2 className="section-header">Current Stock</h2>
 
-        <section className="main">
-          <div className="main-grid">
-            {/* LEFT SIDE */}
-            <div className="main-structure-left-two-rows">
-              <p>
-                This is to add items to stock to show on website and in archive
-              </p>
-
-              <div className="stock-title">
-                <h2 className="section-header">Current Stock</h2>
-
-                <button
-                  data-bs-toggle="modal"
-                  data-bs-target="#modal-add"
-                  type="button"
-                  className="btn stockModalTrigger"
-                  onClick={() => {
-                    setItemName("");
-                    setQuantity("");
-                    setTargetQuantity("");
-                    setErrorMsgAdd("");
-                  }}
-                >
-                  <i className="bi bi-plus-circle"></i> Add Item
-                </button>
-              </div>
-
-              <section className="stock-info">
-                <table className="stock-table">
-                  <thead>
-                    <tr>
-                      <th className="stock-header item">Item</th>
-                      <th className="stock-header">Stock</th>
-                      <th className="stock-header">Target Stock</th>
-                      <th className="stock-header">Options</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {stockedFood
-                      .sort((a, b) => b.quantity - a.quantity)
-                      .map((item) => (
-                        <tr key={item.public_id}>
-                          <td>{item.item_name}</td>
-                          <td>{item.quantity}</td>
-                          <td>{item.target_quantity}</td>
-                          <td>
-                            <button
-                              className="btn btn-success btn-sm me-2"
-                              data-bs-toggle="modal"
-                              data-bs-target="#modal-edit"
-                              onClick={() => {
-                                setEditingId(item.public_id);
-                                setItemName(item.item_name);
-                                setQuantity(item.quantity);
-                                setTargetQuantity(item.target_quantity);
-                              }}
-                            >
-                              Edit
-                            </button>
-
-                            <button
-                              className="btn btn-danger btn-sm"
-                              onClick={() => deleteItem(item.public_id)}
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </section>
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#modal-add"
+                type="button"
+                className="btn stockModalTrigger"
+                onClick={() => {
+                  setFormData({
+                    item_name: "",
+                    quantity: "",
+                    target_quantity: "",
+                  });
+                  setErrorMsg("");
+                }}
+              >
+                <i className="bi bi-plus-circle"></i> Add Item
+              </button>
             </div>
 
-            {/* SEARCH PANEL */}
-            <div className="main-structure-right">
-              <label htmlFor="search-input">Search items:</label>
-              <input
-                id="search-input"
-                placeholder="Type to search..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-
-              <br />
-              <br />
-
-              <table className="search-answer-quantity">
+            <section className="stock-info">
+              <table className="stock-table">
                 <thead>
                   <tr>
-                    <th>Item Name</th>
-                    <th>Quantity</th>
+                    <th className="stock-header item">Item</th>
+                    <th className="stock-header">Stock</th>
+                    <th className="stock-header">Target Stock</th>
+                    <th className="stock-header">Options</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  {filtered.length === 0 && search !== "" && (
-                    <tr>
-                      <td colSpan="2">No items found</td>
-                    </tr>
-                  )}
+                  {stockedFood
+                    .sort((a, b) => b.quantity - a.quantity)
+                    .map((item) => (
+                      <tr key={item.public_id}>
+                        <td>{item.item_name}</td>
+                        <td>{item.quantity}</td>
+                        <td>{item.target_quantity}</td>
+                        <td>
+                          <button
+                            className="btn btn-success btn-sm me-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modal-edit"
+                            onClick={() => {
+                              setEditingId(item.public_id);
+                              setFormData({
+                                item_name: item.item_name,
+                                quantity: item.quantity,
+                                target_quantity: item.target_quantity,
+                              });
+                            }}
+                          >
+                            Edit
+                          </button>
 
-                  {filtered.map((item) => (
-                    <tr key={item.public_id}>
-                      <td>{item.item_name}</td>
-                      <td>{item.quantity}</td>
-                    </tr>
-                  ))}
+                          <button
+                            className="btn btn-danger btn-sm"
+                            onClick={() => handleDelete(item.public_id)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
-            </div>
+            </section>
+          </div>
 
-            {/* CHART */}
-            <div className="main-structure-right">
+          {/* SEARCH PANEL */}
+          <div className="main-structure-right">
+            <label htmlFor="search-input">Search items:</label>
+            <input
+              id="search-input"
+              placeholder="Type to search..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+
+            <br />
+            <br />
+
+            <table className="search-answer-quantity">
+              <thead>
+                <tr>
+                  <th>Item Name</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {filtered.length === 0 && search !== "" && (
+                  <tr>
+                    <td colSpan="2">No items found</td>
+                  </tr>
+                )}
+
+                {filtered.map((item) => (
+                  <tr key={item.public_id}>
+                    <td>{item.item_name}</td>
+                    <td>{item.quantity}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* CHART */}
+          <div className="main-structure-right">
+            <br></br>
+            <div className="chart-container">
               <div className="graph">
                 <canvas ref={chartRef}></canvas>
               </div>
             </div>
-
-            {/* BOTTOM SECTION */}
-            <div className="main-structure-bottom">
-              <h5>Header 5</h5>
-              <h6>Header 6</h6>
-              <p>
-                These borders are just here to show the containers, they can be
-                merged and hidden, its just for structure.
-              </p>
-            </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </Layout>
 
       {/* ADD MODAL */}
       <div id="modal-add" className="modal stock-modal" tabIndex="-1">
@@ -372,8 +351,9 @@ export default function Stock() {
                 <input
                   type="text"
                   className="form-control"
-                  value={itemName}
-                  onChange={(e) => setItemName(e.target.value)}
+                  value={formData.item_name}
+                  onChange={handleChange}
+                  name="item_name"
                 />
               </div>
 
@@ -384,8 +364,9 @@ export default function Stock() {
                 <input
                   type="number"
                   className="form-control"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
+                  value={formData.quantity}
+                  onChange={handleChange}
+                  name="quantity"
                 />
               </div>
 
@@ -396,12 +377,13 @@ export default function Stock() {
                 <input
                   type="number"
                   className="form-control"
-                  value={targetQuantity}
-                  onChange={(e) => setTargetQuantity(e.target.value)}
+                  value={formData.target_quantity}
+                  onChange={handleChange}
+                  name="target_quantity"
                 />
               </div>
 
-              <div className="text-danger">{errorMsgAdd}</div>
+              <div className="text-danger">{errorMsg}</div>
             </div>
 
             <div className="modal-footer">
@@ -447,8 +429,9 @@ export default function Stock() {
                 <input
                   type="text"
                   className="form-control"
-                  value={itemName}
-                  onChange={(e) => setItemName(e.target.value)}
+                  value={formData.item_name}
+                  onChange={handleChange}
+                  name="item_name"
                 />
               </div>
 
@@ -459,8 +442,9 @@ export default function Stock() {
                 <input
                   type="number"
                   className="form-control"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
+                  value={formData.quantity}
+                  onChange={handleChange}
+                  name="quantity"
                 />
               </div>
 
@@ -471,12 +455,13 @@ export default function Stock() {
                 <input
                   type="number"
                   className="form-control"
-                  value={targetQuantity}
-                  onChange={(e) => setTargetQuantity(e.target.value)}
+                  value={formData.target_quantity}
+                  onChange={handleChange}
+                  name="target_quantity"
                 />
               </div>
 
-              <div className="text-danger">{errorMsgEdit}</div>
+              <div className="text-danger">{errorMsg}</div>
             </div>
 
             <div className="modal-footer">
@@ -500,8 +485,6 @@ export default function Stock() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }
