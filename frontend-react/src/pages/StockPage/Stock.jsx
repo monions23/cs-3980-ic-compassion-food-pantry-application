@@ -121,6 +121,18 @@ export default function Stock() {
   ========================= */
   useEffect(() => {
     getAllStockedItems();
+
+    // ALTERNATE SOLUTION FOR LINTER
+    //     const fetchStock = async () => {
+    //   try {
+    //     const data = await getAllStock();
+    //     setStockedFood(data);
+    //     setErrorMsg("");
+    //   } catch (err) {
+    //     setErrorMsg(err.message);
+    //   }
+    // };
+    // fetchStock();
   }, []); // empty array = runs once on mount
 
   /* =========================

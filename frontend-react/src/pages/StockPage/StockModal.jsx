@@ -5,15 +5,10 @@ export default function StockModal({
   crudHandler,
   errorMsg,
 }) {
-  var title = "";
-
-  if (mode === "Add") {
-    title = "Add Item to Stock";
-  } else if (mode === "Edit") {
-    title = "Edit Stock Item";
-  } else {
+  if (mode !== "Add" && mode !== "Edit") {
     throw new Error("Error: Undefined Mode for Modal");
   }
+  const title = mode === "Add" ? "Add Item to Stock" : "Edit Stock Item";
   return (
     <>
       {/* MODAL */}
