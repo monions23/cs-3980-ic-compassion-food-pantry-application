@@ -15,7 +15,7 @@ export const getAllStock = async () => {
 
   // note - or if it doesn't equal 200?
   if (!response.ok) {
-    throw new Error(data.error || "Failed to update stock item");
+    throw new Error(data.error || "Failed to retrieve stock data");
   }
 
   return data;
@@ -26,7 +26,7 @@ export const getAllStock = async () => {
 ========================= */
 export const getStockItem = async (id) => {
   // get the id
-  const response = await fetch("API" + id, {
+  const response = await fetch(API + id, {
     method: "GET",
   });
 
@@ -36,7 +36,7 @@ export const getStockItem = async (id) => {
 
   // note - or if it doesn't equal 200?
   if (!response.ok) {
-    throw new Error(gottenItem.error || "Failed to update stock item");
+    throw new Error(gottenItem.error || "Failed to get stock item");
   }
 
   return gottenItem;
@@ -59,12 +59,12 @@ export const addStockItem = async (formData) => {
     }),
   });
 
-  const addedItem = response.json();
+  const addedItem = await response.json();
 
   // check if response is okay
   // note - or it doesn't equal 201 status?
   if (!response.ok) {
-    throw new Error(addedItem.error || "Failed to update stock item");
+    throw new Error(addedItem.error || "Failed to add stock item");
   }
 
   return addedItem;
@@ -78,9 +78,9 @@ export const deleteStockItem = async (id) => {
     method: "DELETE",
   });
 
-  const deletedResponse = response.json();
+  const deletedResponse = await response.json();
   if (!response.ok) {
-    throw new Error(deletedResponse.error || "Failed to update stock item");
+    throw new Error(deletedResponse.error || "Failed to delete stock item");
   }
 
   return deletedResponse;
@@ -108,7 +108,7 @@ export const editStockItem = async (editingId, formData) => {
 
   // note - or it doesn't equal 200?
   if (!response.ok) {
-    throw new Error(updatedItem.error || "Failed to update stock item");
+    throw new Error(updatedItem.error || "Failed to edit stock item");
   }
 
   return updatedItem;
