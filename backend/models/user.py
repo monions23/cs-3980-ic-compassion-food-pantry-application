@@ -16,6 +16,8 @@ class User(Document):
     role: UserRole = UserRole.BasicUser
     password: str = ""
     active: bool = True
+    reset_token: str | None = None
+    reset_token_expiry: datetime | None = None
 
     model_config = ConfigDict(
         json_schema_extra={

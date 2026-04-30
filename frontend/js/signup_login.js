@@ -6,6 +6,7 @@ const API_BASE = "http://127.0.0.1:8000";
 document.addEventListener("DOMContentLoaded", () => {
   setupLogin();
   setupSignup();
+  setupForgotPassword();
 });
 
 // ==========================
@@ -37,8 +38,10 @@ function setupLogin() {
 
         try {
           const errData = await res.json();
-          errorMsg = errData.detail || errorMsg;
-        } catch { }
+          errorMsg = errData.detail || JSON.stringify(errData);
+        } catch {
+          errorMsg = await res.text();
+        }
 
         msg.style.color = "red";
         msg.textContent = errorMsg;
@@ -88,22 +91,26 @@ function setupSignup() {
       });
 
       if (!res.ok) {
-        msg.textContent = "Signup failed";
         let errorMsg = "Signup failed";
 
         try {
           const errData = await res.json();
-          errorMsg = errData.detail || errorMsg;
-        } catch { }
+          errorMsg = errData.detail || JSON.stringify(errData);
+        } catch {
+          errorMsg = await res.text();
+        }
 
+        msg.style.color = "red";
         msg.textContent = errorMsg;
+        return; // IMPORTANT
       }
 
+      // only runs on success
       const data = await res.json();
 
       localStorage.setItem("access_token", data.access_token);
 
-      console.log("Token saved:", data.access_token); // debug
+      console.log("Token saved:", data.access_token);
 
       window.location.href = "main-BasicUser.html";
     } catch (err) {
@@ -113,6 +120,87 @@ function setupSignup() {
   });
 }
 
+function setupForgotPassword() {
+  const link = document.getElementById("forgotPasswordLink");
+  const section = document.getElementById("forgotPasswordSection");
+
+  if (!link || !section) return;
+
+  // toggle UI
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    section.style.display =
+      section.style.display === "block" ? "none" : "block";
+  });
+
+  // handle submit
+  const form = section.querySelector("form");
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const email = document.getElementById("forgotEmail").value;
+    const msg = document.getElementById("forgotMsg");
+
+    try {
+      const res = await fetch(`${API_BASE}/auth/forgot-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        msg.style.color = "red";
+        msg.textContent = data.detail || "Failed to send reset link";
+        return;
+      }
+
+      msg.style.color = "green";
+      msg.textContent = "If that email exists, a reset link was sent.";
+    } catch (err) {
+      console.error(err);
+      msg.style.color = "red";
+      msg.textContent = "Server error";
+    }
+  });
+}
+
+async function submitReset(event) {
+  event.preventDefault();
+
+  const newPassword = document.getElementById("newPassword").value;
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token");
+
+  const res = await fetch("http://127.0.0.1:8000/auth/reset-password", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      token,
+      new_password: newPassword
+    })
+  });
+
+  let data;
+  let text;
+
+  const raw = await res.text();
+
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    text = raw;
+  }
+
+  if (!res.ok) {
+    alert(data?.detail || text || "Reset failed");
+    return;
+  }
+
+  alert("Password updated!");
+}
 // // ==========================
 // // REDIRECT LOGIC
 // // ==========================

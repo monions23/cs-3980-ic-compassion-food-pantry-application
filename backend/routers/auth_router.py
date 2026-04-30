@@ -13,7 +13,14 @@ import logging
 from auth.hash_password import hash_password, verify_password
 from database import Database
 from models.user import User, TokenResponse
+from datetime import datetime, timedelta, timezone
+import secrets
+import resend
+from database import get_settings
 
+
+settings = get_settings()
+resend.api_key = settings.RESEND_API_KEY
 
 logger = logging.getLogger(__name__)
 
@@ -81,25 +88,44 @@ async def get_me(
     return current_user
 
 
-# @auth_router.post("/reset-password")
+class ResetPasswordRequest(BaseModel):
+    token: str
+    new_password: str
+
+
+@auth_router.post("/reset-password")
+async def reset_password(data: dict):
+    token = data["token"]
+    new_password = data["new_password"]
+
+    token_data = verify_access_token(token)
+
+    # 🔒 ensure it's a reset token
+    if token_data.role != "reset" and getattr(token_data, "type", None) != "reset":
+        raise HTTPException(status_code=401, detail="Invalid reset token")
+
+    user = await User.find_one(User.email == token_data.email)
+
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    user.password = hash_password(new_password)
+    await user.save()
+
+    return {"message": "Password updated successfully"}
 # async def reset_password(data: ResetPasswordRequest):
 #     token_data = verify_access_token(data.token)
-#     print("RESET USER:", user.email)
-#     print("OLD PASSWORD:", user.password)
 
 #     if not token_data:
-#         raise HTTPException(status_code=400, detail="Invalid token")
+#         raise HTTPException(status_code=400, detail="Invalid or expired token")
 
 #     user = await User.find_one(User.email == token_data.email)
 
 #     if not user:
 #         raise HTTPException(status_code=404, detail="User not found")
 
-#     user.password = str(hash_password(data.new_password), "utf-8")
+#     user.password = hash_password(data.new_password)
 #     await user.save()
-
-#     updated = await User.get(user.id)
-#     print("NEW PASSWORD:", updated.password)
 
 #     return {"message": "Password updated successfully"}
 
@@ -118,3 +144,65 @@ async def change_password(data: dict, current_user=Depends(authenticate)):
     await user.save()
 
     return {"message": "Password updated successfully"}
+
+
+from pydantic import BaseModel, EmailStr
+
+
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+
+
+# @auth_router.post("/forgot-password")
+# async def forgot_password(data: ForgotPasswordRequest):
+#     user = await User.find_one(User.email == data.email)
+
+#     if not user:
+#         return {"message": "If that email exists, a reset link was sent."}
+
+#     # generate token
+#     token = secrets.token_urlsafe(32)
+
+#     user.reset_token = token
+#     user.reset_token_expiry = datetime.now(timezone.utc) + timedelta(minutes=15)
+#     await user.save()
+
+#     # create reset link
+#     reset_link = f"{settings.FRONTEND_URL}/reset-password.html?token={token}"
+
+#     # send email
+#     resend.Emails.send(
+#         {
+#             "from": "onboarding@resend.dev",
+#             "to": user.email,
+#             "subject": "Reset your password",
+#             "html": f"""
+#             <p>Click the link below to reset your password:</p>
+#             <a href="{reset_link}">Reset Password</a>
+#         """,
+#         }
+#     )
+
+#     return {"message": "If that email exists, a reset link was sent."}
+
+@auth_router.post("/forgot-password")
+async def forgot_password(data: dict):
+    email = data["email"]
+
+    user = await User.find_one(User.email == email)
+
+    # always return same message (security best practice)
+    if not user:
+        return {"message": "If user exists, email sent"}
+
+    reset_token, _ = create_access_token(
+        {"email": user.email, "type": "reset"},
+        expires_delta=timedelta(minutes=10)
+    )
+
+    reset_link = f"http://127.0.0.1:8000/reset-password.html?token={reset_token}"
+
+    # TODO: send via Resend
+    print("RESET LINK:", reset_link)
+
+    return {"message": "If user exists, email sent"}

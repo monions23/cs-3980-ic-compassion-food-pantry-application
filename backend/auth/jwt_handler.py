@@ -11,8 +11,9 @@ ALGORITHM = "HS256"
 
 class TokenData(BaseModel):
     email: str
-    role: str
-    exp_datetime: datetime
+    role: str | None = None
+    exp_datetime: datetime | None = None
+    type: str | None = None
 
 
 def create_access_token(data: dict, expires_delta: timedelta = timedelta(minutes=20)):
@@ -44,6 +45,7 @@ def verify_access_token(token: str) -> TokenData:
         return TokenData(
             email=data.get("email"),
             role=data.get("role"),
+            type=data.get("type"),
             exp_datetime=exp_datetime,
         )
 
