@@ -100,7 +100,6 @@ async def reset_password(data: dict):
 
     token_data = verify_access_token(token)
 
-    # 🔒 ensure it's a reset token
     if token_data.role != "reset" and getattr(token_data, "type", None) != "reset":
         raise HTTPException(status_code=401, detail="Invalid reset token")
 
@@ -113,21 +112,6 @@ async def reset_password(data: dict):
     await user.save()
 
     return {"message": "Password updated successfully"}
-# async def reset_password(data: ResetPasswordRequest):
-#     token_data = verify_access_token(data.token)
-
-#     if not token_data:
-#         raise HTTPException(status_code=400, detail="Invalid or expired token")
-
-#     user = await User.find_one(User.email == token_data.email)
-
-#     if not user:
-#         raise HTTPException(status_code=404, detail="User not found")
-
-#     user.password = hash_password(data.new_password)
-#     await user.save()
-
-#     return {"message": "Password updated successfully"}
 
 
 @auth_router.put("/change-password")
@@ -153,37 +137,30 @@ class ForgotPasswordRequest(BaseModel):
     email: EmailStr
 
 
-# @auth_router.post("/forgot-password")
-# async def forgot_password(data: ForgotPasswordRequest):
-#     user = await User.find_one(User.email == data.email)
+import resend
+from datetime import timedelta
+from database import get_settings
 
-#     if not user:
-#         return {"message": "If that email exists, a reset link was sent."}
+# initialize resend once
+settings = get_settings()
+resend.api_key = settings.RESEND_API_KEY
 
-#     # generate token
-#     token = secrets.token_urlsafe(32)
 
-#     user.reset_token = token
-#     user.reset_token_expiry = datetime.now(timezone.utc) + timedelta(minutes=15)
-#     await user.save()
+def send_reset_email(email: str, reset_link: str):
+    resend.Emails.send(
+        {
+            "from": "onboarding@resend.dev",
+            "to": email,
+            "subject": "Password Reset Request",
+            "html": f"""
+            <h2>Password Reset</h2>
+            <p>Click the link below to reset your password:</p>
+            <a href="{reset_link}">Reset Password</a>
+            <p>This link expires in 10 minutes.</p>
+        """,
+        }
+    )
 
-#     # create reset link
-#     reset_link = f"{settings.FRONTEND_URL}/reset-password.html?token={token}"
-
-#     # send email
-#     resend.Emails.send(
-#         {
-#             "from": "onboarding@resend.dev",
-#             "to": user.email,
-#             "subject": "Reset your password",
-#             "html": f"""
-#             <p>Click the link below to reset your password:</p>
-#             <a href="{reset_link}">Reset Password</a>
-#         """,
-#         }
-#     )
-
-#     return {"message": "If that email exists, a reset link was sent."}
 
 @auth_router.post("/forgot-password")
 async def forgot_password(data: dict):
@@ -191,18 +168,20 @@ async def forgot_password(data: dict):
 
     user = await User.find_one(User.email == email)
 
-    # always return same message (security best practice)
+    # always return same response (security best practice)
     if not user:
         return {"message": "If user exists, email sent"}
 
+    # create JWT reset token
     reset_token, _ = create_access_token(
-        {"email": user.email, "type": "reset"},
-        expires_delta=timedelta(minutes=10)
+        {"email": user.email, "type": "reset"}, expires_delta=timedelta(minutes=10)
     )
 
-    reset_link = f"http://127.0.0.1:8000/reset-password.html?token={reset_token}"
+    settings = get_settings()
 
-    # TODO: send via Resend
-    print("RESET LINK:", reset_link)
+    reset_link = f"{settings.FRONTEND_URL}/reset-password.html?token={reset_token}"
+
+    # send email via Resend
+    send_reset_email(user.email, reset_link)
 
     return {"message": "If user exists, email sent"}
