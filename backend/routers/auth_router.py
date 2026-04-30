@@ -110,7 +110,7 @@ async def reset_password(data: dict):
 
     user.password = hash_password(new_password)
     await user.save()
-
+    logger.info(f"User [{user.email}] has reset their password.")
     return {"message": "Password updated successfully"}
 
 
@@ -126,7 +126,7 @@ async def change_password(data: dict, current_user=Depends(authenticate)):
 
     user.password = hash_password(data["new_password"])
     await user.save()
-
+    logger.info(f"User [{user.email}] has updated/changed their password.")
     return {"message": "Password updated successfully"}
 
 
@@ -183,5 +183,5 @@ async def forgot_password(data: dict):
 
     # send email via Resend
     send_reset_email(user.email, reset_link)
-
+    logger.info(f"User [{user.email}] has requested a password reset.")
     return {"message": "If user exists, email sent"}

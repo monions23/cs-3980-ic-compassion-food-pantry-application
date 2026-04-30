@@ -38,7 +38,7 @@ async def change_email(data: ChangeEmailRequest, current_user=Depends(authentica
     new_token, expiry = create_access_token(
         {"email": user.email, "role": str(user.role)}
     )
-
+    logger.info(f"User [{user.email}] has updated their email.")
     return {
         "message": "Email updated successfully",
         "access_token": new_token,
