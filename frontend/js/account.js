@@ -92,8 +92,11 @@ async function submitChangeEmail(event) {
     alert("Email updated successfully");
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
+    const user = await loadAccountInfo();  
+
+    // existing code stays the same
     const resetLink = document.getElementById("resetPasswordLink");
     if (resetLink) {
         resetLink.addEventListener("click", (event) => {
@@ -102,8 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const section = document.getElementById("resetPasswordSection");
             if (section) {
                 section.style.display = "block";
-            } else {
-                console.error("resetPasswordSection NOT FOUND");
             }
         });
     }
@@ -114,10 +115,109 @@ document.addEventListener("DOMContentLoaded", () => {
             const section = document.getElementById("changeEmailSection");
             if (section) {
                 section.style.display = "block";
-            } else {
-                console.error("changeEmailSection NOT FOUND");
             }
         });
     }
 
+    // load admin table AFTER user loads
+    if (user && user.role === "admin") {
+        loadAdminTable();
+    }
 });
+
+
+// FILLING IN INFORMATION:
+async function loadAccountInfo() {
+    const token = localStorage.getItem("access_token");
+
+    const res = await fetch("http://127.0.0.1:8000/users/me", {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    if (!res.ok) {
+        console.error("Failed to fetch user");
+        return;
+    }
+
+    const user = await res.json();
+
+    // top right email
+    document.getElementById("user-email").innerText = user.email;
+
+    // table email + role
+    document.getElementById("account-email").innerText = user.email;
+    document.getElementById("account-role").innerText = user.role;
+
+    return user;
+}
+
+//ADMIN TABLE
+async function loadAdminTable() {
+    const token = localStorage.getItem("access_token");
+
+    const res = await fetch("http://127.0.0.1:8000/users", {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    if (!res.ok) {
+        console.error("Not authorized or failed");
+        return;
+    }
+
+    const users = await res.json();
+
+    const table = document.getElementById("adminTable");
+    const tbody = table.querySelector("tbody");
+
+    table.style.display = "table";
+    tbody.innerHTML = "";
+
+    users.forEach(user => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${user.email}</td>
+            <td>
+                <select data-id="${user.id}">
+                    <option value="user" ${user.role === "user" ? "selected" : ""}>User</option>
+                    <option value="admin" ${user.role === "admin" ? "selected" : ""}>Admin</option>
+                    <option value="viewer" ${user.role === "viewer" ? "selected" : ""}>Viewer</option>
+                </select>
+            </td>
+            <td>
+                <button onclick="updateRole(${user.id})">Save</button>
+            </td>
+        `;
+
+        tbody.appendChild(row);
+    });
+}
+
+//UPDATE ROLE FUNCTION
+
+async function updateRole(userId) {
+    const token = localStorage.getItem("access_token");
+
+    const select = document.querySelector(`select[data-id="${userId}"]`);
+    const newRole = select.value;
+
+    const res = await fetch(`http://127.0.0.1:8000/users/${userId}/role`, { //HERE IS WHERE ENDPOINT WILL GO
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ role: newRole })
+    });
+
+    if (!res.ok) {
+        alert("Failed to update role");
+        return;
+    }
+
+    alert("Role updated!");
+}

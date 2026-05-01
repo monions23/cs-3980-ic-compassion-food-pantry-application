@@ -16,6 +16,12 @@ This uses styles.css
     />
     <!-- Custom Stylesheet(s) -->
     <link rel="stylesheet" href="styles.css" />
+
+    <!-- This is for the scheduling form to only allow wednesdays-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
   </head>
   <body>
     <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
@@ -99,12 +105,24 @@ This uses styles.css
             </div>
           </div>
           <div class="main-structure-right">
-            <h2>When to expect people</h2>
-            <hr />
-            <br />
-            <div class="main-arrivals-table-box">
-              <table class="main-arrivals-table" id="schedule-table"></table>
+            <div class="scheduler">
+              <h2>Schedule an Appointment</h2>
+              <hr />
+
+              <label for="date">Select a Wednesday:</label> <br />
+              <input type="date" id="date" /><br />
+              <br />
+
+              <label for="time">Select a Time:</label> <br />
+              <select id="time"></select>
+              <br />
+              <br />
+
+              <button id="scheduler-submit">Book</button> <br />
+
+              <p id="scheduler-message"></p>
             </div>
+            <a href="main-admin.html">TEMP</a>
           </div>
         </div>
       </section>
@@ -152,6 +170,8 @@ This uses styles.css
   ></script>
   <script src="js/formatting.js"></script>
   <script src="js/main.js" defer></script>
-  <script src="js/main-admin-scheduling-table.js"></script>
+  
   <script src="js/logout.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="js/scheduler.js" defer></script>
 </html>

@@ -66,21 +66,14 @@ This uses styles.css
           <h1>Account</h1>
           <hr />
           <table class="account-table">
-            <th>
-              <strong>Username:</strong>
-            </th>
-            <td>######</td>
             <tr>
-              <th>
-                <strong>Email:</strong>
-              </th>
-              <td>Email@email.com</td>
+              <th><strong>Email:</strong></th>
+              <td id="account-email">Loading...</td>
             </tr>
             <tr>
-              <th>
-                <strong>Status:</strong>
-              </th>
-              <td>Admin/User/Veiwer</td>
+              <th><strong>Role:</strong></th>
+              <td id="account-role">Loading...</td>
+
               <!-- Admin can change permissions
                  User can veiw all pages but cant change permissions
                  Veiwer is someone who mistakenly logged in. 
@@ -121,7 +114,16 @@ This uses styles.css
         </div>
         <div class="main-structure-left">
           <h3>Manage Account</h3>
-          <p>Table with changing permissions in Admin Veiw</p>
+          <table id="adminTable" class="table" style="display:none;">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Update</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
           <hr />
         </div>
         <div class="main-structure-right"></div>

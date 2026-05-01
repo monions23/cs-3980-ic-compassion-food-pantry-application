@@ -17,11 +17,7 @@ This uses styles.css
     <!-- Custom Stylesheet(s) -->
     <link rel="stylesheet" href="styles.css" />
 
-    <!-- This is for the scheduling form to only allow wednesdays-->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-    />
+    
   </head>
   <body>
     <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
@@ -56,29 +52,15 @@ This uses styles.css
         <div class="main-grid">
           <div class="main-structure-top">
             <h1>Welcome to the IC Compassion Food Pantry Online Service!</h1>
+            <hr>
+            <h4>
+              Our Food Pantry is open from <br> 12:00 pm to 5:00 pm on Wednesdays.
+            </h4>
           </div>
           <div class="main-structure-bottom">
-            <h2>
-              Our Food Pantry is open from 12:00 pm to 5:00 pm on Wednesdays.
-            </h2>
-            <h2>Please sign in to book an appointment.</h2>
-
-            <div class="scheduler">
-              <h2>Schedule an Appointment</h2>
-              <hr />
-
-              <label for="date">Select a Wednesday:</label> <br />
-              <input type="date" id="date" /><br />
-              <br />
-
-              <label for="time">Select a Time:</label> <br />
-              <select id="time"></select>
-              <br />
-              <br />
-
-              <button id="scheduler-submit">Book</button> <br />
-
-              <p id="scheduler-message"></p>
+            <h3>Please sign in to book an appointment.</h3> <br>
+            <div id="main-signup-button-container">
+              <a href="signin-login.html" class="main-signup-button">Sign In Here</a>
             </div>
           </div>
         </div>

@@ -209,11 +209,13 @@ button,
 .btn {
   border-radius: 8px !important;
   transition: all 0.2s ease;
+  
 }
 
 .btn-primary {
   background-color: #02909d;
   border: none;
+  color:white;
 }
 
 .btn-primary:hover {
@@ -472,21 +474,30 @@ form button:hover {
 /* =========================
    ARCHIVE PAGE
 ========================= */
+/* Container spans full grid width */
+.archive-container {
+  grid-column: 1 / 13;
+}
+
+/* Button row */
+.archive-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+/* Table wrapper */
+.archive-info {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Table sizing */
 .archive-table {
-  border-radius: 10px;
-  overflow: hidden;
-  background: white;
+  width: 95%;
+  max-width: 1200px;
 }
-
-.archive-header {
-  background: #f1f5f9;
-  font-weight: 600;
-}
-
-.archive-table-item {
-  padding: 10px;
-}
-
 /* =========================
    PRINT BUTTON (cleaner)
 ========================= */
@@ -657,3 +668,25 @@ footer {
 .auth-message.success {
   color: green;
 }
+
+/* Signup-Button */
+#main-signup-button-container {
+  display: grid; place-items: center; 
+}
+
+.main-signup-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #02909d;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: 0.2s ease;
+  
+}
+
+.main-signup-button:hover {
+  background-color: #bc1a38;
+}
+
+
