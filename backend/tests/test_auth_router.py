@@ -7,7 +7,6 @@ from auth.jwt_handler import create_access_token
 from datetime import timedelta
 
 
-
 @pytest.mark.anyio
 async def test_signup_success(default_client: AsyncClient):
     payload = {
@@ -248,6 +247,7 @@ async def test_reset_password_wrong_token_type(default_client: AsyncClient):
 
     assert res.status_code == 401
 
+
 @pytest.mark.anyio
 async def test_signin_inactive_user(default_client: AsyncClient):
     email = "inactive@test.com"
@@ -267,6 +267,7 @@ async def test_signin_inactive_user(default_client: AsyncClient):
 
     assert res.status_code == 401
 
+
 @pytest.mark.anyio
 async def test_get_me_invalid_token(default_client: AsyncClient):
     res = await default_client.get(
@@ -276,9 +277,10 @@ async def test_get_me_invalid_token(default_client: AsyncClient):
 
     assert res.status_code == 401
 
+
 @pytest.mark.anyio
 async def test_reset_password_user_not_found(default_client: AsyncClient):
-    
+
     token, _ = create_access_token(
         {"email": "ghost@test.com", "type": "reset"},
         expires_delta=timedelta(minutes=10),
@@ -293,6 +295,7 @@ async def test_reset_password_user_not_found(default_client: AsyncClient):
     )
 
     assert res.status_code == 404
+
 
 @pytest.mark.anyio
 async def test_reset_password_expired_token(default_client: AsyncClient):
@@ -321,13 +324,12 @@ async def test_reset_password_expired_token(default_client: AsyncClient):
 
     assert res.status_code in (401, 403)
 
+
 @pytest.mark.anyio
 async def test_change_password_user_not_found(default_client: AsyncClient):
     from backend.auth.jwt_handler import create_access_token
 
-    token, _ = create_access_token(
-        {"email": "ghost@test.com", "role": "BasicUser"}
-    )
+    token, _ = create_access_token({"email": "ghost@test.com", "role": "BasicUser"})
 
     res = await default_client.put(
         "/auth/change-password",
