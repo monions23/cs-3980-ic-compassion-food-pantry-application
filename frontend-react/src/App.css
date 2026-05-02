@@ -306,7 +306,7 @@ canvas {
 }
 
 /* =========================
-   MENU BUTTONS (trends page)
+   MENU BUTTONS AND RIGHT GRID (trends page)
 ========================= */
 .menu button {
   background-color: #02909d;
@@ -314,10 +314,26 @@ canvas {
   border: none;
   padding: 6px 10px;
   border-radius: 6px;
+  gap: 0.5rem;
+  width: fit content;
 }
 
 .menu button:hover {
   background-color: #bc1a38;
+}
+
+.trends-right-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 1rem;
+}
+
+.trends-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
 }
 
 /* =========================
@@ -661,4 +677,33 @@ footer {
 
 .auth-message.success {
   color: green;
+}
+
+/* ACCOUNT GRID STYLING */
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+.account-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.account-label {
+  font-weight: bold;
+  background-color: #eef1f7;
+  padding: 8px 16px;
+  min-width: 120px;
+}
+
+.account-row:first-child .account-label {
+  border-radius: 8px 8px 0 0;
+}
+
+.account-row:last-child .account-label {
+  border-radius: 0 0 8px 8px;
 }

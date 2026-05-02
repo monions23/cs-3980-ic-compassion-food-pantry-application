@@ -13,6 +13,7 @@ import Home from "./pages/Home";
 import Archive from "./pages/Archive";
 import Trends from "./pages/Trends";
 import Stock from "./pages/StockPage/Stock";
+import Pantry from "./pages/PantryPage/Pantry";
 import Account from "./pages/Account";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/archive" element={<Archive />} />
           <Route path="/trends" element={<Trends />} />
           <Route path="/stock" element={<Stock />} />
+          <Route path="/pantry" element={<Pantry />} />
           <Route path="/account" element={<Account />} />
           {/* <Route path="/tasks" element={<Tasks />} />
           <Route path="/pantry" element={<Pantry />} /> */}

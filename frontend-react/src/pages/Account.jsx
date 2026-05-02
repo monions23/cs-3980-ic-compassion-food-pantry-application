@@ -1,78 +1,147 @@
 import "../App.css";
-import { useSidebarToggle } from "../utilities/Sidebar-Toggle";
-import Topbar from "../components/Topbar";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
+import { useEffect, useState } from "react";
+import Layout from "./Layout";
+import { resetPassword, changeEmail } from "../utilities/API_Files/Account-API";
 
 function Account() {
-  {
-    /* Universal hook that is passed to topbar and sidebar components */
-  }
-  const { active, toggleSidebar } = useSidebarToggle();
+  const [newPassword, setNewPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [userEmail, setUserEmail] = useState("");
 
+  /* ====================
+  RESET PASSWORD HANDLER
+  ========================= */
+  async function handlePasswordReset(event) {
+    event.preventDefault();
+    resetPassword(currentPassword, newPassword);
+  }
+
+  /* ====================
+  EMAIL CHANGE HANDLER
+  ========================= */
+  async function handleEmailChange(event) {
+    event.preventDefault();
+    changeEmail(newEmail, confirmPassword, setUserEmail);
+  }
+
+  // document.addEventListener("DOMContentLoaded", () => {
+  //   const resetLink = document.getElementById("resetPasswordLink");
+  //   if (resetLink) {
+  //     resetLink.addEventListener("click", (event) => {
+  //       event.preventDefault();
+
+  //       const section = document.getElementById("resetPasswordSection");
+  //       if (section) {
+  //         section.style.display = "block";
+  //       } else {
+  //         console.error("resetPasswordSection NOT FOUND");
+  //       }
+  //     });
+  //   }
+
+  //   const btn = document.getElementById("changeEmailBtn");
+  //   if (btn) {
+  //     btn.addEventListener("click", () => {
+  //       const section = document.getElementById("changeEmailSection");
+  //       if (section) {
+  //         section.style.display = "block";
+  //       } else {
+  //         console.error("changeEmailSection NOT FOUND");
+  //       }
+  //     });
+  //   }
+  // });
   return (
     <>
-      <Topbar toggleSidebar={toggleSidebar}></Topbar>
-      <main className="container">
-        <Sidebar active={active}></Sidebar>
-
-        {/* Main Content Table, Can be merged or sorted differently*/}
-        <section class="main">
-          <div class="main-grid">
-            <div class="main-structure-left">
-              <h1>Account USER OR ADMIN ONLY</h1>
-              <hr />
-              <table class="account-table">
-                <tr>
-                  <th>
-                    <strong>Username:</strong>
-                  </th>
-                  <td>######</td>
-                </tr>
-                <tr>
-                  <th>
-                    <strong>Email:</strong>
-                  </th>
-                  <td>Email@email.com</td>
-                </tr>
-                <tr>
-                  <th>
-                    <strong>Status:</strong>
-                  </th>
-                  <td>Admin/User/Viewer</td>
-                  {/* <Admin can change permissions
-                 User can veiw all pages but cant change permissions
-                 Veiwer is someone who mistakenly logged in. 
-                 Maybe they cann see the trends? */}
-                </tr>
-              </table>
+      <Layout>
+        <div className="main-grid">
+          <div className="main-structure-left">
+            <h1>Account</h1>
+            <hr />
+            <div className="account-info">
+              <div className="account-row">
+                <span className="account-label">Username:</span>
+                <span>######</span>
+              </div>
+              <div className="account-row">
+                <span className="account-label">Email:</span>
+                <span>Email@email.com</span>
+              </div>
+              <div className="account-row">
+                <span className="account-label">Status:</span>
+                <span>Admin/User/Viewer</span>
+              </div>
             </div>
-            <div class="main-structure-right">
-              <h2>Header 2</h2>
-              <br />
-              <p>Reset password</p>
-              <hr />
-              <p>Reset Username</p>
-              <hr />
-              <p>Change email</p>
-              <hr />
-
-              <br />
-              <br />
-              <br />
-              <br />
-            </div>
-            <div class="main-structure-left">
-              <h3>Header 3</h3>
-              <p>Table with changing permissions in Admin Veiw</p>
-              <hr />
-            </div>
-            <div class="main-structure-right"></div>
           </div>
-        </section>
-      </main>
+          <div className="main-structure-right">
+            <h2>Dashboard</h2>
+            <br />
+            <a href="#" id="resetPasswordLink">
+              Reset password
+            </a>
+            <hr />
+            <a href="#" id="changeEmailBtn">
+              Change email
+            </a>
+            <hr />
 
-      <Footer></Footer>
+            <br />
+            <br />
+            <br />
+            <br />
+            <div id="resetPasswordSection" style={{ display: "none" }}>
+              <h3>Reset Password</h3>
+
+              <form onSubmit={() => resetPassword(event)}>
+                <input
+                  type="password"
+                  id="currentPassword"
+                  placeholder="Current password"
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  required
+                />
+                <input
+                  type="password"
+                  id="newPassword"
+                  placeholder="New password"
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  required
+                />
+                <button type="submit">Reset</button>
+              </form>
+            </div>
+            <div id="changeEmailSection" style={{ display: "none" }}>
+              <h3>Change Email</h3>
+
+              <form onSubmit={() => submitChangeEmail(event)}>
+                <input
+                  type="email"
+                  id="newEmail"
+                  placeholder="New email"
+                  onChange={(e) => setNewEmail(e.target.value)}
+                  required
+                />
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  placeholder="Confirm password"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+                <button type="submit">Update Email</button>
+              </form>
+            </div>
+          </div>
+          <div className="main-structure-left">
+            <h3>Manage Account</h3>
+            <p>Table with changing permissions in Admin Veiw</p>
+            <hr />
+          </div>
+          <div className="main-structure-right"></div>
+        </div>
+      </Layout>
     </>
   );
 }
