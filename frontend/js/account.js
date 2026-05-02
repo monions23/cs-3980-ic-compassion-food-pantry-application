@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // load admin table AFTER user loads
-    if (user && user.role === "admin") {
+    if (user && user.role === "SuperAdmin") {
         loadAdminTable();
     }
 });
@@ -157,7 +157,7 @@ async function loadAccountInfo() {
 async function loadAdminTable() {
     const token = localStorage.getItem("access_token");
 
-    const res = await fetch("http://127.0.0.1:8000/users", {
+    const res = await fetch("http://127.0.0.1:8000/users/", {
         headers: {
             "Authorization": `Bearer ${token}`
         }
@@ -183,13 +183,12 @@ async function loadAdminTable() {
             <td>${user.email}</td>
             <td>
                 <select data-id="${user.id}">
-                    <option value="user" ${user.role === "user" ? "selected" : ""}>User</option>
-                    <option value="admin" ${user.role === "admin" ? "selected" : ""}>Admin</option>
-                    <option value="viewer" ${user.role === "viewer" ? "selected" : ""}>Viewer</option>
+                    <option value="BasicUser" ${user.role === "BasicUser" ? "selected" : ""}>Basic User</option>
+                    <option value="SuperAdmin" ${user.role === "SuperAdmin" ? "selected" : ""}>Super Admin</option>
                 </select>
             </td>
             <td>
-                <button onclick="updateRole(${user.id})">Save</button>
+                <button onclick="updateRole('${user.id}')">Save</button>
             </td>
         `;
 
@@ -205,7 +204,7 @@ async function updateRole(userId) {
     const select = document.querySelector(`select[data-id="${userId}"]`);
     const newRole = select.value;
 
-    const res = await fetch(`http://127.0.0.1:8000/users/${userId}/role`, { //HERE IS WHERE ENDPOINT WILL GO
+    const res = await fetch(`http://127.0.0.1:8000/users/${userId}/role`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

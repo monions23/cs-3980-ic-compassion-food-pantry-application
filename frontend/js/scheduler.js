@@ -77,6 +77,12 @@ submitBtn.addEventListener("click", async () => {
     message.textContent = "❌ Please select both date and time.";
     return;
   }
+  const token = localStorage.getItem("access_token");
+
+  if (!token) {
+    message.textContent = "❌ You must be logged in.";
+    return;
+  }
 
   // Extract start time (HH:MM)
   const startTime = timeValue.split("-")[0];
@@ -91,9 +97,8 @@ submitBtn.addEventListener("click", async () => {
     const response = await fetch("http://127.0.0.1:8000/scheduling/", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
-        // Add Authorization later when auth is enabled
-        // "Authorization": "Bearer YOUR_TOKEN"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({
         name: "Test User",

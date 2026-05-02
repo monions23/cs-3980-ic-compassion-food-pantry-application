@@ -9,21 +9,46 @@ function toggleSidebar() {
 /*
  THIS IS FOR THE USERNAME IN CORNER
 */
+// function getUserFromToken() {
+//   const token = localStorage.getItem("access_token");
+//   console.log("Token:", token);
+
+//   if (!token) return null;
+
+//   try {
+//     const payload = JSON.parse(atob(token.split(".")[1]));
+//     console.log("Payload:", payload);
+//     return payload;
+//   } catch (err) {
+//     console.error("Invalid token:", err);
+//     return null;
+//   }
+// }
+
 function getUserFromToken() {
-  const token = localStorage.getItem("access_token");
-  console.log("Token:", token);
+    const token = localStorage.getItem("access_token");
 
-  if (!token) return null;
+    console.log("Token:", token);
 
-  try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    console.log("Payload:", payload);
-    return payload;
-  } catch (err) {
-    console.error("Invalid token:", err);
-    return null;
-  }
+    if (!token) {
+        console.warn("No token found in localStorage");
+        return null;
+    }
+
+    try {
+        const payload = token.split(".")[1];
+
+        if (!payload) return null;
+
+        const decoded = JSON.parse(atob(payload));
+        return decoded;
+
+    } catch (err) {
+        console.error("Invalid token:", err);
+        return null;
+    }
 }
+
 document.addEventListener("DOMContentLoaded", () => {
   const emailSpan = document.getElementById("user-email");
   if (!emailSpan) return;

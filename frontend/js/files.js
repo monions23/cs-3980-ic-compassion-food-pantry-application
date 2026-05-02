@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadFiles() {
     try {
-        const res = await fetch("http://127.0.0.1:8000/files/", {
+        const res = await fetch("http://127.0.0.1:8000/files", {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("access_token")}`
             }

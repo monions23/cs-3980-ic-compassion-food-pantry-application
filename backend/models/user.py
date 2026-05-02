@@ -45,3 +45,6 @@ class UserDto(BaseModel):
 class ChangeEmailRequest(BaseModel):
     password: str
     new_email: str
+
+class ChangeRoleRequest(BaseModel):
+    role: str
