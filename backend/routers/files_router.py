@@ -20,7 +20,7 @@ async def upload_file(file: UploadFile = File(...), user=Depends(authenticate)):
     record = FileRecord(
         filename=file.filename,
         filepath=file_path,
-        uploaded_by=user.username
+        uploaded_by=user.email
     )
     await record.insert()
 
@@ -50,7 +50,7 @@ async def delete_file(file_id: str, user=Depends(authenticate)):
     if not file:
         raise HTTPException(status_code=404, detail="File not found")
 
-    if file.uploaded_by != user.username and user.role != "Admin":
+    if file.uploaded_by != user.email and user.role != "SuperAdmin":
         raise HTTPException(status_code=403, detail="Not authorized to delete this file")
 
     await file.delete()

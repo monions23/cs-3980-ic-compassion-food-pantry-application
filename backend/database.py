@@ -34,6 +34,8 @@ logger = logging.getLogger(__name__)
 class Settings(BaseSettings):
     DATABASE_URL: str
     SECRET_KEY: str
+    RESEND_API_KEY: str
+    FRONTEND_URL: str
 
     model_config = SettingsConfigDict(env_file=".env")
 

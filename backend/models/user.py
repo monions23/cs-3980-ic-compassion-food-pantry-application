@@ -8,7 +8,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr
 @unique
 class UserRole(StrEnum):
     BasicUser = "BasicUser"
-    SuperAdmin = "SuperAdmin"
+    Admin = "SuperAdmin"
 
 
 class User(Document):
@@ -16,6 +16,8 @@ class User(Document):
     role: UserRole = UserRole.BasicUser
     password: str = ""
     active: bool = True
+    reset_token: str | None = None
+    reset_token_expiry: datetime | None = None
 
     model_config = ConfigDict(
         json_schema_extra={
@@ -40,6 +42,11 @@ class UserDto(BaseModel):
     role: str = UserRole.BasicUser
     active: bool = True
 
+
 class ChangeEmailRequest(BaseModel):
     password: str
     new_email: str
+
+
+class ChangeRoleRequest(BaseModel):
+    role: str

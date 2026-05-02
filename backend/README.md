@@ -29,3 +29,8 @@ Next, it should be noted project uses FastAPI and Uvicorn. All necessary librari
 ```
 pip install -r requirements.txt
 ```
+## FRONTEND
+
+## BACKEND
+
+## MAJOR FEATURES

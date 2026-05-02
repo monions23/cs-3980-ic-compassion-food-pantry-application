@@ -13,7 +13,14 @@ import logging
 from auth.hash_password import hash_password, verify_password
 from database import Database
 from models.user import User, TokenResponse
+from datetime import datetime, timedelta, timezone
+import secrets
+import resend
+from database import get_settings
 
+
+settings = get_settings()
+resend.api_key = settings.RESEND_API_KEY
 
 logger = logging.getLogger(__name__)
 
@@ -81,27 +88,30 @@ async def get_me(
     return current_user
 
 
-# @auth_router.post("/reset-password")
-# async def reset_password(data: ResetPasswordRequest):
-#     token_data = verify_access_token(data.token)
-#     print("RESET USER:", user.email)
-#     print("OLD PASSWORD:", user.password)
+class ResetPasswordRequest(BaseModel):
+    token: str
+    new_password: str
 
-#     if not token_data:
-#         raise HTTPException(status_code=400, detail="Invalid token")
 
-#     user = await User.find_one(User.email == token_data.email)
+@auth_router.post("/reset-password")
+async def reset_password(data: dict):
+    token = data["token"]
+    new_password = data["new_password"]
 
-#     if not user:
-#         raise HTTPException(status_code=404, detail="User not found")
+    token_data = verify_access_token(token)
 
-#     user.password = str(hash_password(data.new_password), "utf-8")
-#     await user.save()
+    if token_data.role != "reset" and getattr(token_data, "type", None) != "reset":
+        raise HTTPException(status_code=401, detail="Invalid reset token")
 
-#     updated = await User.get(user.id)
-#     print("NEW PASSWORD:", updated.password)
+    user = await User.find_one(User.email == token_data.email)
 
-#     return {"message": "Password updated successfully"}
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    user.password = hash_password(new_password)
+    await user.save()
+    logger.info(f"User [{user.email}] has reset their password.")
+    return {"message": "Password updated successfully"}
 
 
 @auth_router.put("/change-password")
@@ -116,5 +126,62 @@ async def change_password(data: dict, current_user=Depends(authenticate)):
 
     user.password = hash_password(data["new_password"])
     await user.save()
-
+    logger.info(f"User [{user.email}] has updated/changed their password.")
     return {"message": "Password updated successfully"}
+
+
+from pydantic import BaseModel, EmailStr
+
+
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+
+
+import resend
+from datetime import timedelta
+from database import get_settings
+
+# initialize resend once
+settings = get_settings()
+resend.api_key = settings.RESEND_API_KEY
+
+
+def send_reset_email(email: str, reset_link: str):
+    resend.Emails.send(
+        {
+            "from": "onboarding@resend.dev",
+            "to": email,
+            "subject": "Password Reset Request",
+            "html": f"""
+            <h2>Password Reset</h2>
+            <p>Click the link below to reset your password:</p>
+            <a href="{reset_link}">Reset Password</a>
+            <p>This link expires in 10 minutes.</p>
+        """,
+        }
+    )
+
+
+@auth_router.post("/forgot-password")
+async def forgot_password(data: dict):
+    email = data["email"]
+
+    user = await User.find_one(User.email == email)
+
+    # always return same response (security best practice)
+    if not user:
+        return {"message": "If user exists, email sent"}
+
+    # create JWT reset token
+    reset_token, _ = create_access_token(
+        {"email": user.email, "type": "reset"}, expires_delta=timedelta(minutes=10)
+    )
+
+    settings = get_settings()
+
+    reset_link = f"{settings.FRONTEND_URL}/reset-password.html?token={reset_token}"
+
+    # send email via Resend
+    send_reset_email(user.email, reset_link)
+    logger.info(f"User [{user.email}] has requested a password reset.")
+    return {"message": "If user exists, email sent"}

@@ -7,8 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from auth.authenticate import authenticate
 from auth.hash_password import verify_password
 from auth.jwt_handler import create_access_token
-from models.user import ChangeEmailRequest, User
-
+from models.user import ChangeEmailRequest, ChangeRoleRequest, User
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +37,7 @@ async def change_email(data: ChangeEmailRequest, current_user=Depends(authentica
     new_token, expiry = create_access_token(
         {"email": user.email, "role": str(user.role)}
     )
-
+    logger.info(f"User [{user.email}] has updated their email.")
     return {
         "message": "Email updated successfully",
         "access_token": new_token,
@@ -60,11 +59,29 @@ async def create_user(user: User):
 
 
 @user_router.get("/")
-async def list_users():
-    logger.info("Fetching all users")
+async def get_users(user=Depends(authenticate)):
+
+    if user.role != "SuperAdmin":
+        raise HTTPException(status_code=403, detail="Not authorized")
+
     users = await User.find_all().to_list()
-    logger.info(f"Retrieved {len(users)} users")
-    return users
+
+    return [
+        {
+            "id": str(u.id),
+            "email": u.email,
+            "role": u.role
+        }
+        for u in users
+    ]
+
+
+@user_router.get("/me")
+async def get_current_user(user=Depends(authenticate)):
+    return {
+        "email": user.email,
+        "role": user.role
+    }
 
 
 @user_router.get("/{user_id}")
@@ -104,3 +121,38 @@ async def delete_user(user_id: PydanticObjectId):
     await user.delete()
     logger.info(f"User deleted successfully with id={user_id}")
     return {"message": "User deleted"}
+
+@user_router.put("/{user_id}/role")
+async def change_user_role(
+    user_id: PydanticObjectId,
+    data: ChangeRoleRequest,
+    current_user=Depends(authenticate),
+):
+    logger.info(f"SuperAdmin {current_user.email} attempting role change for user_id={user_id}")
+
+    # only SuperAdmin can change roles
+    if current_user.role != "SuperAdmin":
+        raise HTTPException(status_code=403, detail="Not authorized")
+
+    # validate role values
+    if data.role not in ["BasicUser", "SuperAdmin"]:
+        raise HTTPException(status_code=400, detail="Invalid role")
+
+    user = await User.get(user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # update role
+    user.role = data.role
+    await user.save()
+
+    logger.info(f"User {user.email} role updated to {data.role} by {current_user.email}")
+
+    return {
+        "message": "Role updated successfully",
+        "user": {
+            "id": str(user.id),
+            "email": user.email,
+            "role": user.role
+        }
+    }

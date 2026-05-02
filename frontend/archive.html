@@ -64,26 +64,27 @@ This uses styles.css
       <!-- Main Content Table, Can be merged or sorted differently-->
       <section class="main">
         <div class="main-grid">
-          <section class="archive-title">
-            <h1 style="display: inline-block">Archive</h1>
-            <button id="print-btn" class="archive-print-button">
-              Print recent logs
-            </button>
-            <br /><br />
-          </section>
-          <section class="archive-info">
-            <table class="archive-table">
-              <thead>
-                <tr>
-                  <th class="archive-header">Date</th>
+          <section class="archive-container">
+            <h1>Archive</h1>
+            <div class="archive-toolbar">
+              <button id="print-btn">
+      Print recent logs
+    </button>
+  </div>
 
-                  <th class="archive-header">Family size</th>
-                </tr>
-              </thead>
-              <tbody id="archive-table-body"></tbody>
-            </table>
-            <br />
-          </section>
+  <div class="archive-info">
+    <table class="archive-table">
+      <thead>
+        <tr>
+          <th class="archive-header">Date</th>
+          <th class="archive-header">Family size</th>
+        </tr>
+      </thead>
+      <tbody id="archive-table-body"></tbody>
+    </table>
+  </div>
+</section>
+            
         </div>
       </section>
     </main>

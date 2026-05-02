@@ -6,6 +6,15 @@ const API_BASE = "http://127.0.0.1:8000";
 document.addEventListener("DOMContentLoaded", () => {
   setupLogin();
   setupSignup();
+  setupForgotPassword();
+
+  // Autofill email after signup (nice UX)
+  const savedEmail = localStorage.getItem("signup_email");
+  if (savedEmail) {
+    const emailInput = document.getElementById("sign-in-email");
+    if (emailInput) emailInput.value = savedEmail;
+    localStorage.removeItem("signup_email");
+  }
 });
 
 // ==========================
@@ -13,14 +22,17 @@ document.addEventListener("DOMContentLoaded", () => {
 // ==========================
 function setupLogin() {
   const form = document.getElementById("login-form");
-  if (!form) return; // prevents crash
+  if (!form) return;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    e.stopPropagation(); 
+
+    console.log("LOGIN TRIGGERED"); // debug
 
     const email = document.getElementById("sign-in-email").value;
     const password = document.getElementById("sign-in-password").value;
-    const msg = document.getElementById("msg");
+    const msg = document.getElementById("login-msg");
 
     try {
       const res = await fetch(`${API_BASE}/auth/sign-in`, {
@@ -32,32 +44,32 @@ function setupLogin() {
         }),
       });
 
+      const data = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        let errorMsg = "Login failed";
-
-        try {
-          const errData = await res.json();
-          errorMsg = errData.detail || errorMsg;
-        } catch { }
-
-        msg.style.color = "red";
-        msg.textContent = errorMsg;
+        msg.className = "auth-message error";
+        msg.textContent = data.detail || "Login failed";
         return;
       }
 
-      // success
-      msg.style.color = "green";
-      msg.textContent = "Login successful!";
-
-      const data = await res.json();
+      // 🛑 HARD GUARD: no token = no redirect
+      if (!data.access_token) {
+        console.error("No token returned:", data);
+        msg.className = "auth-message error";
+        msg.textContent = "Login failed (no token)";
+        return;
+      }
 
       localStorage.setItem("access_token", data.access_token);
 
-      console.log("Token saved:", data.access_token); // debug
+      msg.className = "auth-message success";
+      msg.textContent = "Login successful!";
 
       window.location.href = "main-BasicUser.html";
+
     } catch (err) {
       console.error(err);
+      msg.className = "auth-message error";
       msg.textContent = "Error logging in";
     }
   });
@@ -68,101 +80,98 @@ function setupLogin() {
 // ==========================
 function setupSignup() {
   const form = document.getElementById("signup-form");
-  if (!form) return; //  prevents crash
+  if (!form) return;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    e.stopPropagation(); // 🛑 prevents bubbling to other forms
+
+    console.log("SIGNUP TRIGGERED"); // debug
 
     const email = document.getElementById("sign-up-email").value;
     const password = document.getElementById("sign-up-password").value;
-    const msg = document.getElementById("msg");
+    const msg = document.getElementById("signup-msg");
 
     try {
       const res = await fetch(`${API_BASE}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
+        body: JSON.stringify({ email, password }),
       });
 
+      const data = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        msg.textContent = "Signup failed";
-        let errorMsg = "Signup failed";
-
-        try {
-          const errData = await res.json();
-          errorMsg = errData.detail || errorMsg;
-        } catch { }
-
-        msg.textContent = errorMsg;
+        msg.className = "auth-message error";
+        msg.textContent = data.detail || "Signup failed";
+        return;
       }
 
-      const data = await res.json();
+      // ✅ IMPORTANT: DO NOT STORE TOKEN
+      msg.className = "auth-message success";
+      msg.textContent = "Account created! Please sign in.";
 
-      localStorage.setItem("access_token", data.access_token);
+      // Autofill login
+      document.getElementById("sign-in-email").value = email;
 
-      console.log("Token saved:", data.access_token); // debug
+      // Clear signup form
+      form.reset();
 
-      window.location.href = "main-BasicUser.html";
+      // Focus login password
+      document.getElementById("sign-in-password").focus();
+
     } catch (err) {
       console.error(err);
+      msg.className = "auth-message error";
       msg.textContent = "Error signing up";
     }
   });
 }
 
-// // ==========================
-// // REDIRECT LOGIC
-// // ==========================
-// function redirectBasedOnRole() {
-//   const token = localStorage.getItem("access_token");
+// ==========================
+// FORGOT PASSWORD
+// ==========================
+function setupForgotPassword() {
+  const link = document.getElementById("forgotPasswordLink");
+  const section = document.getElementById("forgotPasswordSection");
 
-//   if (!token) {
-//     window.location.href = "/main-logged-out.html";
-//     return;
-//   }
+  if (!link || !section) return;
 
-//   const user = parseJwt(token);
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    section.style.display =
+      section.style.display === "block" ? "none" : "block";
+  });
 
-//   if (!user) {
-//     window.location.href = "/main-logged-out.html";
-//     return;
-//   }
+  const form = section.querySelector("form");
 
-//   console.log("Decoded user:", user); //  debug
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-//   // IMPORTANT: adjust this depending on your backend payload
-//   const role = user.role || user.sub_role || user.user_role;
+    const email = document.getElementById("forgotEmail").value;
+    const msg = document.getElementById("forgotMsg");
 
-//   if (role === "SuperAdmin") {
-//     window.location.href = "main-admin.html";
-//   } else if (role === "BasicUser") {
-//     window.location.href = "main-BasicUser.html";
-//   } else {
-//     // fallback
-//     window.location.href = "main-logged-out.html";
-//   }
-// }
+    try {
+      const res = await fetch(`${API_BASE}/auth/forgot-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
-// // ==========================
-// // JWT PARSER (REQUIRED)
-// // ==========================
-// function parseJwt(token) {
-//   try {
-//     const base64Url = token.split(".")[1];
-//     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-//     const jsonPayload = decodeURIComponent(
-//       atob(base64)
-//         .split("")
-//         .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-//         .join(""),
-//     );
+      const data = await res.json();
 
-//     return JSON.parse(jsonPayload);
-//   } catch (e) {
-//     console.error("Invalid token:", e);
-//     return null;
-//   }
-// }
+      if (!res.ok) {
+        msg.style.color = "red";
+        msg.textContent = data.detail || "Failed to send reset link";
+        return;
+      }
+
+      msg.style.color = "green";
+      msg.textContent = "If that email exists, a reset link was sent.";
+    } catch (err) {
+      console.error(err);
+      msg.style.color = "red";
+      msg.textContent = "Server error";
+    }
+  });
+}
