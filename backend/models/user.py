@@ -8,7 +8,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr
 @unique
 class UserRole(StrEnum):
     BasicUser = "BasicUser"
-    Admin = "Admin"
+    Admin = "SuperAdmin"
 
 
 class User(Document):
