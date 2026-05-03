@@ -69,33 +69,44 @@ function buildDataset(range) {
   }
 
   if (range === "year") {
-    labels = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
+  const now = new Date();
 
-    visits = new Array(12).fill(0);
-    people = new Array(12).fill(0);
+  // reset arrays (DO NOT redeclare)
+  labels = [];
+  visits = new Array(12).fill(0);
+  people = new Array(12).fill(0);
 
-    records.forEach((r) => {
-      if (!r.created_at) return;
+  const months = [];
 
-      const month = getMonthIndex(r.created_at);
-      visits[month] += 1;
-      people[month] += r.num_ppl_in_families || 0;
+  for (let i = 11; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+
+    months.push({
+      month: d.getMonth(),
+      year: d.getFullYear(),
     });
+
+    labels.push(
+      d.toLocaleString("default", { month: "short" })
+    );
   }
 
+  records.forEach((r) => {
+    if (!r.created_at) return;
+
+    const date = new Date(r.created_at);
+
+    months.forEach((m, index) => {
+      if (
+        date.getMonth() === m.month &&
+        date.getFullYear() === m.year
+      ) {
+        visits[index] += 1;
+        people[index] += r.num_ppl_in_families || 0;
+      }
+    });
+  });
+}
   return { labels, visits, people };
 }
 
@@ -182,7 +193,10 @@ function filterRecordsByRange(records, range) {
     }
 
     if (range === "year") {
-      return date.getFullYear() === now.getFullYear();
+      const past = new Date();
+      past.setMonth(now.getMonth() - 11);
+      
+      return date >= past && date <= now;
     }
 
     return true;
@@ -259,10 +273,25 @@ function updateInsights(records) {
     (count) => count > 1,
   ).length;
 
-  const totalPeople = records.reduce(
-    (sum, r) => sum + (r.num_ppl_in_families || 0),
-    0,
-  );
+ /* =========================
+   FAMILY IMPACT (FIXED)
+   ========================= */
+  const familyMap = {};
+
+  records.forEach((r) => {
+    const key = r.name_id;
+    if (!key) return;
+
+    // Only count the FIRST time we see this family
+    if (!familyMap[key]) {
+      familyMap[key] = r.num_ppl_in_families || 0;
+    }
+  });
+
+const totalPeople = Object.values(familyMap).reduce(
+  (sum, val) => sum + val,
+  0
+);
 
   /* =========================
      VISIT FREQUENCY

@@ -6,7 +6,6 @@ from typing import Optional
 
 # email of visitor, timeslot they want to come in (date and time)
 class Scheduling(Document):
-    name: str
 
     date: datetime = Field(..., description="Appointment time")
 

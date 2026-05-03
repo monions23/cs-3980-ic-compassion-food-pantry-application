@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // load admin table AFTER user loads
-    if (user && user.role === "SuperAdmin") {
+    if (user && String(user.role) === "SuperAdmin") {
         loadAdminTable();
     }
 });
@@ -135,6 +135,8 @@ async function loadAccountInfo() {
             "Authorization": `Bearer ${token}`
         }
     });
+    console.log("TOKEN:", token);
+console.log("RESPONSE STATUS:", res.status);
 
     if (!res.ok) {
         console.error("Failed to fetch user");
