@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadFiles() {
     try {
-        const res = await fetch("http://127.0.0.1:8000/files", {
+        const res = await fetch("http://127.0.0.1:8000/files/", {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("access_token")}`
             }
@@ -62,7 +62,11 @@ async function uploadFile(e) {
             body: formData
         });
 
-        if (!res.ok) throw new Error("Upload failed");
+        if (!res.ok) {
+            const text = await res.text();
+            console.error(text);
+            throw new Error(text);
+        }
 
         alert("File uploaded successfully!");
 
@@ -80,7 +84,7 @@ function hideUploadIfNotAdmin() {
 
     if (!payload) return;
 
-    if (payload.role !== "Admin") {
+    if (payload.role !== "SuperAdmin") {
         const section = document.getElementById("uploadSection");
         if (section) section.style.display = "none";
     }
@@ -106,6 +110,32 @@ async function deleteFile(fileId) {
     } catch (err) {
         console.error(err);
         alert("Delete failed");
+    }
+}
+
+async function downloadFile(fileId) {
+    try {
+        const res = await fetch(`http://127.0.0.1:8000/files/download/${fileId}`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+            }
+        });
+
+        if (!res.ok) throw new Error("Download failed");
+
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "file"; // optional: backend can send filename
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+    } catch (err) {
+        console.error(err);
+        alert("Download failed");
     }
 }
 

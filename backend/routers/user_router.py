@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from auth.authenticate import authenticate
 from auth.hash_password import verify_password
 from auth.jwt_handler import create_access_token
-from models.user import ChangeEmailRequest, ChangeRoleRequest, User
+from models.user import ChangeEmailRequest, ChangeRoleRequest, User, UserRole
 
 logger = logging.getLogger(__name__)
 
@@ -61,27 +61,18 @@ async def create_user(user: User):
 @user_router.get("/")
 async def get_users(user=Depends(authenticate)):
 
-    if user.role != "SuperAdmin":
+    if user.role != UserRole.SuperAdmin:
         raise HTTPException(status_code=403, detail="Not authorized")
 
     users = await User.find_all().to_list()
 
-    return [
-        {
-            "id": str(u.id),
-            "email": u.email,
-            "role": u.role
-        }
-        for u in users
-    ]
+    print(users)
+    return [{"id": str(u.id), "email": u.email, "role": u.role} for u in users]
 
 
 @user_router.get("/me")
 async def get_current_user(user=Depends(authenticate)):
-    return {
-        "email": user.email,
-        "role": user.role
-    }
+    return {"email": user.email, "role": user.role}
 
 
 @user_router.get("/{user_id}")
@@ -122,16 +113,19 @@ async def delete_user(user_id: PydanticObjectId):
     logger.info(f"User deleted successfully with id={user_id}")
     return {"message": "User deleted"}
 
+
 @user_router.put("/{user_id}/role")
 async def change_user_role(
     user_id: PydanticObjectId,
     data: ChangeRoleRequest,
     current_user=Depends(authenticate),
 ):
-    logger.info(f"SuperAdmin {current_user.email} attempting role change for user_id={user_id}")
+    logger.info(
+        f"SuperAdmin {current_user.email} attempting role change for user_id={user_id}"
+    )
 
     # only SuperAdmin can change roles
-    if current_user.role != "SuperAdmin":
+    if current_user.role != UserRole.SuperAdmin:
         raise HTTPException(status_code=403, detail="Not authorized")
 
     # validate role values
@@ -146,13 +140,11 @@ async def change_user_role(
     user.role = data.role
     await user.save()
 
-    logger.info(f"User {user.email} role updated to {data.role} by {current_user.email}")
+    logger.info(
+        f"User {user.email} role updated to {data.role} by {current_user.email}"
+    )
 
     return {
         "message": "Role updated successfully",
-        "user": {
-            "id": str(user.id),
-            "email": user.email,
-            "role": user.role
-        }
+        "user": {"id": str(user.id), "email": user.email, "role": user.role},
     }

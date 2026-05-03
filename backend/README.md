@@ -50,6 +50,37 @@ Next, it should be noted project uses FastAPI and Uvicorn. All necessary librari
 pip install -r requirements.txt
 ```
 ## FRONTEND
+### Folder Structure
+frontend-react/ <br>
+|──
+|──
+
+
+## PAGES
+
+### Sign up and Log in Page
+
+### Main Pages
+
+### Welcome Page (Logged out main page)
+
+### User Main Page (Logged in User)
+
+### Admin Main Page (Logge in Admin)
+
+### Account Page
+
+### Reset Password
+
+### Restricted to Admin veiw pages
+
+### Pantry
+
+### Archive
+
+### Trends
+
+### Stock
 
 ## BACKEND
 ### Folder Structure

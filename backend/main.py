@@ -60,10 +60,10 @@ app.include_router(scheduling_router, prefix="/scheduling", tags=["Scheduling"])
 app.include_router(
     pantry_record_router, prefix="/pantry-records", tags=["Pantry Records"]
 )
-app.include_router(files_router, tags=["File Upload"])
+app.include_router(files_router, tags=["File Upload"], prefix="/files")
 
 
-app.mount("/", StaticFiles(directory="../frontend"), name="static")
+app.mount("/", StaticFiles(directory="../frontend", html=True), name="static")
 
 
 @app.exception_handler(HTTPException)
