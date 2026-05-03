@@ -1,14 +1,16 @@
 import "../App.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Layout from "./Layout";
 import { resetPassword, changeEmail } from "../utilities/API_Files/Account-API";
 
-function Account() {
+export default function Account() {
   const [newPassword, setNewPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userEmail, setUserEmail] = useState("");
+  const [showResetPassword, setShowResetPassword] = useState(false);
+  const [showChangeEmail, setShowChangeEmail] = useState(false);
 
   /* ====================
   RESET PASSWORD HANDLER
@@ -26,33 +28,6 @@ function Account() {
     changeEmail(newEmail, confirmPassword, setUserEmail);
   }
 
-  // document.addEventListener("DOMContentLoaded", () => {
-  //   const resetLink = document.getElementById("resetPasswordLink");
-  //   if (resetLink) {
-  //     resetLink.addEventListener("click", (event) => {
-  //       event.preventDefault();
-
-  //       const section = document.getElementById("resetPasswordSection");
-  //       if (section) {
-  //         section.style.display = "block";
-  //       } else {
-  //         console.error("resetPasswordSection NOT FOUND");
-  //       }
-  //     });
-  //   }
-
-  //   const btn = document.getElementById("changeEmailBtn");
-  //   if (btn) {
-  //     btn.addEventListener("click", () => {
-  //       const section = document.getElementById("changeEmailSection");
-  //       if (section) {
-  //         section.style.display = "block";
-  //       } else {
-  //         console.error("changeEmailSection NOT FOUND");
-  //       }
-  //     });
-  //   }
-  // });
   return (
     <>
       <Layout>
@@ -78,65 +53,81 @@ function Account() {
           <div className="main-structure-right">
             <h2>Dashboard</h2>
             <br />
-            <a href="#" id="resetPasswordLink">
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowResetPassword(true);
+              }}
+              id="resetPasswordLink"
+            >
               Reset password
             </a>
             <hr />
-            <a href="#" id="changeEmailBtn">
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowChangeEmail(true);
+              }}
+              id="changeEmailBtn"
+            >
               Change email
             </a>
             <hr />
+            {/* Only show reset password div if show reset password is true */}
+            {showResetPassword && (
+              <div id="resetPasswordSection">
+                <h3>Reset Password</h3>
 
-            <br />
-            <br />
-            <br />
-            <br />
-            <div id="resetPasswordSection" style={{ display: "none" }}>
-              <h3>Reset Password</h3>
+                <form onSubmit={() => handlePasswordReset(event)}>
+                  <input
+                    type="password"
+                    id="currentPassword"
+                    placeholder="Current password"
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    required
+                  />
+                  <input
+                    type="password"
+                    id="newPassword"
+                    placeholder="New password"
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    required
+                  />
+                  <button type="submit">Reset</button>
+                </form>
+              </div>
+            )}
+            {/* Only show change email div if show change email is true */}
+            {showChangeEmail && (
+              <div id="changeEmailSection">
+                <br />
+                <h3>Change Email</h3>
 
-              <form onSubmit={() => resetPassword(event)}>
-                <input
-                  type="password"
-                  id="currentPassword"
-                  placeholder="Current password"
-                  onChange={(e) => setCurrentPassword(e.target.value)}
-                  required
-                />
-                <input
-                  type="password"
-                  id="newPassword"
-                  placeholder="New password"
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  required
-                />
-                <button type="submit">Reset</button>
-              </form>
-            </div>
-            <div id="changeEmailSection" style={{ display: "none" }}>
-              <h3>Change Email</h3>
-
-              <form onSubmit={() => submitChangeEmail(event)}>
-                <input
-                  type="email"
-                  id="newEmail"
-                  placeholder="New email"
-                  onChange={(e) => setNewEmail(e.target.value)}
-                  required
-                />
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  placeholder="Confirm password"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                />
-                <button type="submit">Update Email</button>
-              </form>
-            </div>
+                <form onSubmit={() => handleEmailChange(event)}>
+                  <input
+                    type="email"
+                    id="newEmail"
+                    placeholder="New email"
+                    onChange={(e) => setNewEmail(e.target.value)}
+                    required
+                  />
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                  <button type="submit">Update Email</button>
+                </form>
+              </div>
+            )}
           </div>
           <div className="main-structure-left">
             <h3>Manage Account</h3>
-            <p>Table with changing permissions in Admin Veiw</p>
+            <p>Table with changing permissions in Admin View</p>
             <hr />
           </div>
           <div className="main-structure-right"></div>
@@ -145,5 +136,3 @@ function Account() {
     </>
   );
 }
-
-export default Account;

@@ -32,8 +32,8 @@ function Sidebar({ active }) {
           </NavLink>
         </div>
         <div className="sidebar-links">
-          <NavLink to="/tasks" className="sidebar-button" end>
-            Task Manager
+          <NavLink to="/documents" className="sidebar-button" end>
+            Documents
           </NavLink>
         </div>
         <div className="sidebar-links">

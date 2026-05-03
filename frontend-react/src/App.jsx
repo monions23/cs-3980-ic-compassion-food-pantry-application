@@ -15,6 +15,7 @@ import Trends from "./pages/Trends";
 import Stock from "./pages/StockPage/Stock";
 import Pantry from "./pages/PantryPage/Pantry";
 import Account from "./pages/Account";
+import Documents from "./pages/Documents";
 
 function App() {
   return (
@@ -27,8 +28,8 @@ function App() {
           <Route path="/stock" element={<Stock />} />
           <Route path="/pantry" element={<Pantry />} />
           <Route path="/account" element={<Account />} />
-          {/* <Route path="/tasks" element={<Tasks />} />
-          <Route path="/pantry" element={<Pantry />} /> */}
+          <Route path="/documents" element={<Documents />} />
+          {/* <Route path="/pantry" element={<Pantry />} /> */}
         </Routes>
       </Router>
     </>
