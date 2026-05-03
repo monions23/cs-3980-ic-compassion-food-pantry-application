@@ -11,7 +11,7 @@ import {
   addStockItem,
   deleteStockItem,
   editStockItem,
-} from "../../utilities/Stock-API";
+} from "../../utilities/API_Files/Stock-API";
 
 export default function Stock() {
   // Utilities
@@ -171,10 +171,6 @@ export default function Stock() {
         <div className="main-grid">
           {/* LEFT SIDE */}
           <div className="main-structure-left-two-rows">
-            <p>
-              This is to add items to stock to show on website and in archive
-            </p>
-
             <div className="stock-title">
               <h2 className="section-header">Current Stock</h2>
 

@@ -14,7 +14,7 @@ import {
 import {
   filterLastHour,
   updateTodayTotal,
-} from "../../utilities/Pantry_Date_Helpers";
+} from "../../utilities/Helper_Functions/Pantry_Date_Helpers";
 
 export default function Pantry() {
   // Data state

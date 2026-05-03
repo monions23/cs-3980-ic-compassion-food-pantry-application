@@ -1,51 +1,43 @@
 import { NavLink } from "react-router-dom";
+import {
+  LOGGED_OUT_SIDEBAR_LINKS,
+  AUTHENTICATED_SIDEBAR_LINKS,
+} from "../utilities/Sidebar/Sidebar_Config";
 
 /* To toggle sidebar */
-function Sidebar({ active }) {
+export default function Sidebar({ active, userRole, isAuthenticated }) {
+  const sidebarLinks = isAuthenticated
+    ? AUTHENTICATED_SIDEBAR_LINKS.filter((link) =>
+        link.roles.includes(userRole),
+      )
+    : LOGGED_OUT_SIDEBAR_LINKS;
   return (
     <>
-      {/* Sidebar */}
+      {/* Display the filtered links */}
       <aside className={`sidebar ${active ? "active" : ""}`} id="sidebar">
-        <div className="sidebar-links">
-          <NavLink to="/" className="sidebar-button" end>
-            Home
-          </NavLink>
-        </div>
-        <div className="sidebar-links">
-          <NavLink to="/archive" className="sidebar-button" end>
-            Archive
-          </NavLink>
-        </div>
-        <div className="sidebar-links">
-          <NavLink to="/trends" className="sidebar-button" end>
-            Trends
-          </NavLink>
-        </div>
-        <div className="sidebar-links">
-          <NavLink to="/stock" className="sidebar-button" end>
-            Stock
-          </NavLink>
-        </div>
-        <div className="sidebar-links">
-          <NavLink to="/account" className="sidebar-button" end>
-            Account
-          </NavLink>
-        </div>
-        <div className="sidebar-links">
-          <NavLink to="/documents" className="sidebar-button" end>
-            Documents
-          </NavLink>
-        </div>
-        <div className="sidebar-links">
-          <NavLink to="/pantry" className="sidebar-button" end>
-            Pantry
-          </NavLink>
-        </div>
-        <div className="sidebar-links">Log Out</div>
-        {/* Doesn't do anything yet */}
+        {sidebarLinks.map((link) => (
+          <div key={link.path} className="sidebar-links">
+            <NavLink to={link.path} className="sidebar-button" end>
+              {link.label}
+            </NavLink>
+          </div>
+        ))}
+
+        {/* Logout button for authenticated users */}
+        {isAuthenticated && (
+          <div className="sidebar-links">
+            <button
+              onClick={() => {
+                /* logout function */
+              }}
+              className="sidebar-button"
+              style={{ background: "none", border: "none", cursor: "pointer" }}
+            >
+              Log Out
+            </button>
+          </div>
+        )}
       </aside>
     </>
   );
 }
-
-export default Sidebar;

@@ -1,14 +1,11 @@
 import "../App.css";
-import { useSidebarToggle } from "../utilities/Sidebar-Toggle";
+import { useSidebarToggle } from "../utilities/Sidebar/Sidebar_Toggle";
 import Topbar from "../components/Topbar";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 
-
 function Home() {
-  {
-    /* Universal hook that is passed to topbar and sidebar components */
-  }
+  /* Universal hook that is passed to topbar and sidebar components */
   const { active, toggleSidebar } = useSidebarToggle();
 
   return (

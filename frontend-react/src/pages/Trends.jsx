@@ -11,7 +11,7 @@ import {
   getMonthIndex,
   filterRecords,
   COLORS,
-} from "../utilities/Trends_Chart_Helpers";
+} from "../utilities/Helper_Functions/Trends_Chart_Helpers";
 
 function Trends() {
   const [records, setRecords] = useState([]);
