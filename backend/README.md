@@ -72,7 +72,7 @@ Roles:
 
 ### API Models
 
-Users
+Users <br>
 ![Users Models Code Snippet](screenshots/user_models.png)
 
 Pantry Records
@@ -84,7 +84,7 @@ Stock
 Scheduling
 ![Scheduling Models Code Snippet](screenshots/schedule_model.png)
 
-Files
+Files<br>
 ![Files Models Code Snippet](screenshots/files_model.png)
 
 
@@ -96,6 +96,8 @@ Authentication
 - Users can access only their own account 
 - Users can change password only when signed in
 - Users can get an email sent to them to reset their password and update it
+
+<br> 
 
 Users
 - Change email (authenticated, user can only change their own)
