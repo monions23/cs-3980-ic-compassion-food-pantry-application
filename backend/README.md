@@ -59,28 +59,53 @@ frontend-react/ <br>
 ## PAGES
 
 ### Sign up and Log in Page
+![Sign up and Log in Page Screenshot](screenshots/sign-up-in-demo.gif)
 
 ### Main Pages
-
 ### Welcome Page (Logged out main page)
+![Logged out Welcome Screen Screenshot](screenshots/Main-logged-out-view.jpg)
 
 ### User Main Page (Logged in User)
+#### Features
+- Scheduling Time to go into the Pantry
+- This uses Flatpickr to gray out the other days in the calendar
+- ![Main BasicUser Page- Scheduler](screenshots/scheduler-demo.gif)
+- Dashboard links and sidebar
+- ![Main BasicUser Page- Sidebar](screenshots/Main-Basic-Page-Sidebar-View.jpg)
 
-### Admin Main Page (Logge in Admin)
+### Admin Main Page (Logged in Admin)
+![Main Admin Page- demo](screenshots/admin-main-demo.gif)
 
-### Account Page
+### Account Page Admin View
+![Account Page View](screenshots/account-view.jpg)
+- Basic view doesnt have the bottom table. 
 
-### Reset Password
+### Downloads Page
+- Basic User
+ - Can download files cant delete or upload
+ ![Basic Files Page Demo](screenshots/basic-files-demo.gif)
+- Admin
+ - Can dowload files, delete and upload 
+![Admin Files Page Demo](screenshots/files-demo.gif)
 
 ### Restricted to Admin veiw pages
 
-### Pantry
+### Pantry 
+![Admin Pantry Page Demo](screenshots/pantry-demo.gif)
 
 ### Archive
+![Admin Archive Page View](screenshots/Archive-view.jpg)
+- Print button
+![Admin Archive Page Print example](screenshots/Archive-print-example.jpg)
 
 ### Trends
+- This uses chart.js to create the graphs
+![Admin Trends Page Demo](screenshots/trends-demo.gif)
 
 ### Stock
+- This uses chart.js to create the graphs
+![Admin Stock Page Demo](screenshots/Stock-demo.gif)
+
 
 ## BACKEND
 ### Folder Structure
