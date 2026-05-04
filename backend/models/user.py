@@ -1,8 +1,9 @@
 from datetime import datetime
 from enum import StrEnum, unique
+from uuid import uuid4
 
-from beanie import Document
-from pydantic import BaseModel, ConfigDict, EmailStr
+from beanie import Document, PydanticObjectId
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
 @unique
@@ -12,6 +13,7 @@ class UserRole(StrEnum):
 
 
 class User(Document):
+    public_id: str = Field(default_factory=lambda: uuid4().hex)
     email: EmailStr
     role: UserRole = UserRole.BasicUser
     password: str = ""
@@ -37,7 +39,7 @@ class TokenResponse(BaseModel):
 
 
 class UserDto(BaseModel):
-    id: str
+    public_id: str
     email: EmailStr = ""
     role: str = UserRole.BasicUser
     active: bool = True

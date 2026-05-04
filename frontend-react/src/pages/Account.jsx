@@ -46,9 +46,11 @@ export default function Account() {
 
     const data = await res.json();
     setUsers(data);
+    console.log(data);
   }
 
   async function updateRole(userId, newRole) {
+    console.log(userId);
     const token = localStorage.getItem("access_token");
 
     await fetch(`http://127.0.0.1:8000/users/${userId}/role`, {
@@ -84,7 +86,6 @@ export default function Account() {
   return (
     <Layout>
       <div className="main-grid">
-        
         {/* LEFT SIDE */}
         <div className="main-structure-left">
           <h1>My Account</h1>
@@ -109,13 +110,25 @@ export default function Account() {
           <h2>Account Settings</h2>
           <br />
 
-          <a href="#" onClick={(e) => { e.preventDefault(); setShowResetPassword(!showResetPassword); }}>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              setShowResetPassword(!showResetPassword);
+            }}
+          >
             Reset password
           </a>
 
           <hr />
 
-          <a href="#" onClick={(e) => { e.preventDefault(); setShowChangeEmail(!showChangeEmail); }}>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              setShowChangeEmail(!showChangeEmail);
+            }}
+          >
             Change email
           </a>
 
@@ -125,8 +138,16 @@ export default function Account() {
             <div>
               <h3>Reset Password</h3>
               <form onSubmit={handlePasswordReset}>
-                <input type="password" placeholder="Current password" onChange={e => setCurrentPassword(e.target.value)} />
-                <input type="password" placeholder="New password" onChange={e => setNewPassword(e.target.value)} />
+                <input
+                  type="password"
+                  placeholder="Current password"
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                />
+                <input
+                  type="password"
+                  placeholder="New password"
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
                 <button type="submit">Reset</button>
               </form>
             </div>
@@ -136,8 +157,16 @@ export default function Account() {
             <div>
               <h3>Change Email</h3>
               <form onSubmit={handleEmailChange}>
-                <input type="email" placeholder="New email" onChange={e => setNewEmail(e.target.value)} />
-                <input type="password" placeholder="Confirm password" onChange={e => setConfirmPassword(e.target.value)} />
+                <input
+                  type="email"
+                  placeholder="New email"
+                  onChange={(e) => setNewEmail(e.target.value)}
+                />
+                <input
+                  type="password"
+                  placeholder="Confirm password"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
                 <button type="submit">Update Email</button>
               </form>
             </div>
@@ -146,39 +175,37 @@ export default function Account() {
 
         {/* ADMIN TABLE */}
         {user?.role === "SuperAdmin" && (
-  <div className="main-structure-bottom">
-    <h3>Manage Account</h3>
+          <div className="main-structure-bottom">
+            <h3>Manage Account</h3>
 
-    <table className="table">
-      <thead>
-        <tr>
-          <th>Email</th>
-          <th>Role</th>
-        </tr>
-      </thead>
-      <tbody>
-        {users.map(u => (
-          <tr key={u.id}>
-            <td>{u.email}</td>
-            <td>
-              <select
-              defaultValue={u.role}
-              onChange={(e) => updateRole(u.id, e.target.value)}
-              >
-                <option value="BasicUser">Basic User</option>
-                <option value="SuperAdmin">Super Admin</option>
-              </select>
-            </td>
-            
-          </tr>
-        ))}
-      </tbody>
-    </table>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((u) => (
+                  <tr key={u.id}>
+                    <td>{u.email}</td>
+                    <td>
+                      <select
+                        defaultValue={u.role}
+                        onChange={(e) => updateRole(u.id, e.target.value)}
+                      >
+                        <option value="BasicUser">Basic User</option>
+                        <option value="SuperAdmin">Super Admin</option>
+                      </select>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
-    <hr />
-  </div>
-)}
-
+            <hr />
+          </div>
+        )}
       </div>
     </Layout>
   );

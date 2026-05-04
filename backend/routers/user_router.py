@@ -1,7 +1,6 @@
 from datetime import timedelta
 import logging
 
-from beanie import PydanticObjectId
 from fastapi import APIRouter, Depends, HTTPException
 
 from auth.authenticate import authenticate
@@ -54,7 +53,7 @@ async def create_user(user: User):
         raise HTTPException(status_code=400, detail="Email already exists")
 
     await user.insert()
-    logger.info(f"User created successfully with id={user.id}, email={user.email}")
+    logger.info(f"User created successfully with id={user.public_id}, email={user.email}")
     return user
 
 
@@ -67,7 +66,7 @@ async def get_users(user=Depends(authenticate)):
     users = await User.find_all().to_list()
 
     print(users)
-    return [{"id": str(u.id), "email": u.email, "role": u.role} for u in users]
+    return [{"id": str(u.public_id), "email": u.email, "role": u.role} for u in users]
 
 
 @user_router.get("/me")
@@ -76,7 +75,7 @@ async def get_current_user(user=Depends(authenticate)):
 
 
 @user_router.get("/{user_id}")
-async def get_user(user_id: PydanticObjectId):
+async def get_user(user_id: str):
     logger.info(f"Fetching user with id={user_id}")
     user = await User.get(user_id)
     if not user:
@@ -87,7 +86,7 @@ async def get_user(user_id: PydanticObjectId):
 
 
 @user_router.put("/{user_id}")
-async def update_user(user_id: PydanticObjectId, update_data: dict):
+async def update_user(user_id: str, update_data: dict):
     logger.info(f"Attempting to update user with id={user_id}")
     user = await User.get(user_id)
     if not user:
@@ -102,7 +101,7 @@ async def update_user(user_id: PydanticObjectId, update_data: dict):
 
 
 @user_router.delete("/{user_id}")
-async def delete_user(user_id: PydanticObjectId):
+async def delete_user(user_id: str):
     logger.info(f"Attempting to delete user with id={user_id}")
     user = await User.get(user_id)
     if not user:
@@ -116,7 +115,7 @@ async def delete_user(user_id: PydanticObjectId):
 
 @user_router.put("/{user_id}/role")
 async def change_user_role(
-    user_id: PydanticObjectId,
+    user_id: str,
     data: ChangeRoleRequest,
     current_user=Depends(authenticate),
 ):
@@ -132,7 +131,9 @@ async def change_user_role(
     if data.role not in ["BasicUser", "SuperAdmin"]:
         raise HTTPException(status_code=400, detail="Invalid role")
 
-    user = await User.get(user_id)
+    print("Looking for UUID:", user_id)
+    user = await User.find_one(User.public_id == user_id)
+    print("Found user:", user)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
@@ -146,5 +147,5 @@ async def change_user_role(
 
     return {
         "message": "Role updated successfully",
-        "user": {"id": str(user.id), "email": user.email, "role": user.role},
+        "user": {"id": str(user.public_id), "email": user.email, "role": user.role},
     }
