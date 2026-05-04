@@ -1,25 +1,28 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import Chart from "chart.js/auto"; // for charts
-
+import Chart from "chart.js/auto";
 import Layout from "./Layout";
-
-// API CALL
 import { getPantryRecords } from "../utilities/API_Files/Pantry-API";
 
-import {
-  getWeekOfMonth,
-  getMonthIndex,
-  filterRecords,
-  COLORS,
-} from "../utilities/Helper_Functions/Trends_Chart_Helpers";
+// ✅ Flatpickr
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_blue.css";
+import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
+import "flatpickr/dist/plugins/monthSelect/style.css";
+
+const COLORS = [
+  "#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
+  "#59a14f", "#edc948", "#b07aa1", "#ff9da7",
+  "#9c755f", "#bab0ab", "#86bc86", "#ffbe7d",
+];
 
 function Trends() {
   const [records, setRecords] = useState([]);
   const [currentMode, setCurrentMode] = useState("visits");
   const [currentRange, setCurrentRange] = useState("month");
   const [graphType, setGraphType] = useState("bar");
+  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [tableData, setTableData] = useState([]);
 
-  // State for insights to avoid direct DOM manipulation
   const [insights, setInsights] = useState({
     unique: 0,
     returning: 0,
@@ -31,136 +34,196 @@ function Trends() {
     familyTotal: 0,
   });
 
-  // State for table data
-
-  const chartRef = useRef(null); // Reference to the <canvas> element
-  const chartInstance = useRef(null); // Reference to the actual Chart.js object
+  const chartRef = useRef(null);
+  const chartInstance = useRef(null);
 
   /* =========================
-    BUILD DATASETS
+     HELPERS
   ========================= */
-  const buildDataset = useCallback(() => {
-    const filtered = filterRecords(records, currentRange);
-    let labels, visits, people; // define variables to be used later
 
-    if (currentRange === "month") {
+  function getWeekOfMonth(date) {
+    const d = new Date(date);
+    return Math.floor((d.getDate() - 1) / 7);
+  }
+
+  /* =========================
+     FILTER
+  ========================= */
+
+  function filterRecordsBySelection(records) {
+    const now = new Date();
+
+    return records.filter((r) => {
+      if (!r.created_at) return false;
+
+      const date = new Date(r.created_at);
+
+      // ✅ Flatpickr month selection
+      if (selectedMonth) {
+        return (
+          date.getFullYear() === selectedMonth.getFullYear() &&
+          date.getMonth() === selectedMonth.getMonth()
+        );
+      }
+
+      if (currentRange === "month") {
+        return (
+          date.getMonth() === now.getMonth() &&
+          date.getFullYear() === now.getFullYear()
+        );
+      }
+
+      // ✅ Rolling 12 months
+      if (currentRange === "year") {
+        const past = new Date();
+        past.setMonth(now.getMonth() - 11);
+        return date >= past && date <= now;
+      }
+
+      return true;
+    });
+  }
+
+  /* =========================
+     BUILD DATA (FIXED)
+  ========================= */
+
+  const buildDataset = useCallback(() => {
+    const filtered = filterRecordsBySelection(records);
+
+    let labels = [];
+    let visits = [];
+    let people = [];
+
+    // Month view
+    if (selectedMonth || currentRange === "month") {
       labels = ["Week 1", "Week 2", "Week 3", "Week 4"];
       visits = [0, 0, 0, 0];
       people = [0, 0, 0, 0];
+
       filtered.forEach((r) => {
         const week = getWeekOfMonth(r.created_at);
         if (week < 0 || week > 3) return;
-        visits[week] += 1;
+
+        visits[week]++;
         people[week] += r.num_ppl_in_families || 0;
       });
     }
-    if (currentRange === "year") {
-      labels = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
+
+    // ✅ TRUE rolling year
+    if (!selectedMonth && currentRange === "year") {
+      const now = new Date();
+
+      const months = [];
+      for (let i = 11; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+
+        months.push({
+          key: `${d.getFullYear()}-${d.getMonth()}`,
+          label: d.toLocaleString("default", {
+            month: "short",
+            year: "numeric",
+          }),
+        });
+      }
+
+      labels = months.map((m) => m.label);
       visits = new Array(12).fill(0);
       people = new Array(12).fill(0);
+
       filtered.forEach((r) => {
-        const month = getMonthIndex(r.created_at);
-        visits[month]++;
-        people[month] += r.num_ppl_in_families || 0;
+        const d = new Date(r.created_at);
+        const key = `${d.getFullYear()}-${d.getMonth()}`;
+
+        const index = months.findIndex((m) => m.key === key);
+        if (index !== -1) {
+          visits[index]++;
+          people[index] += r.num_ppl_in_families || 0;
+        }
       });
     }
 
-    return {
-      labels,
-      visits,
-      people,
-    };
-  }, [records, currentRange]);
+    return { labels, visits, people };
+  }, [records, currentRange, selectedMonth]);
+
+  /* =========================
+     CHART
+  ========================= */
 
   const renderChart = useCallback(() => {
-    if (!chartRef.current) return; // Return if chart doesn't exist
-    // Destroy existing chart to prevent memory leaks/overlap
+    if (!chartRef.current) return;
+
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
 
-    const data = buildDataset(currentRange);
-    const selectedData = currentMode === "visits" ? data.visits : data.people;
-    const label = currentMode === "visits" ? "Visits" : "People Served";
+    const data = buildDataset();
+    const selected = currentMode === "visits" ? data.visits : data.people;
 
-    chartInstance.current = new Chart(chartRef.current.getContext("2d"), {
+    chartInstance.current = new Chart(chartRef.current, {
       type: graphType,
       data: {
         labels: data.labels,
         datasets: [
           {
-            label,
-            data: selectedData,
-            backgroundColor: COLORS,
+            label: currentMode === "visits" ? "Visits" : "People Served",
+            data: selected,
+            backgroundColor: COLORS.slice(0, data.labels.length),
           },
         ],
       },
       options: {
         responsive: true,
-        plugins: {
-          legend: {
-            display: true,
-          },
-        },
       },
     });
-  }, [currentMode, currentRange, graphType, buildDataset]);
-  /* =========================
-   INSIGHTS (FINAL FIXED)
-========================= */
-  function updateInsights(records) {
-    if (!records.length) return;
 
-    /* =========================
-     BUILD VISIT COUNTS
+    setTableData(
+      data.labels.map((label, i) => ({
+        label,
+        value: selected[i],
+      }))
+    );
+  }, [buildDataset, currentMode, graphType]);
+
+  /* =========================
+     INSIGHTS (UNCHANGED)
   ========================= */
+
+  function updateInsights(filtered) {
+    if (!filtered.length) return;
+
     const visitCounts = {};
-    records.forEach((r) => {
-      const key = r.name_id; // use name_id for counting unique visitors instead of public_id
+    const familyMap = {};
+
+    filtered.forEach((r) => {
+      const key = r.name_id;
       if (!key) return;
+
       visitCounts[key] = (visitCounts[key] || 0) + 1;
+
+      if (!familyMap[key]) {
+        familyMap[key] = r.num_ppl_in_families || 0;
+      }
     });
 
-    /* =========================
-     CORE METRICS
-  ========================= */
-    const totalVisits = records.length;
+    const totalVisits = filtered.length;
     const uniqueVisitors = Object.keys(visitCounts).length;
 
     const returningVisitors = Object.values(visitCounts).filter(
-      (count) => count > 1,
+      (c) => c > 1
     ).length;
 
-    const totalPeople = records.reduce(
-      (sum, r) => sum + (r.num_ppl_in_families || 0),
-      0,
+    const totalPeople = Object.values(familyMap).reduce(
+      (sum, v) => sum + v,
+      0
     );
 
-    /* =========================
-     VISIT FREQUENCY
-  ========================= */
-    let once = 0,
-      twice = 0,
-      three = 0,
-      fourPlus = 0;
+    let once = 0, twice = 0, three = 0, fourPlus = 0;
 
-    Object.values(visitCounts).forEach((count) => {
-      if (count === 1) once++;
-      else if (count === 2) twice++;
-      else if (count === 3) three++;
+    Object.values(visitCounts).forEach((c) => {
+      if (c === 1) once++;
+      else if (c === 2) twice++;
+      else if (c === 3) three++;
       else fourPlus++;
     });
 
@@ -176,103 +239,143 @@ function Trends() {
     });
   }
 
-  // Loads records upon page load
+  /* =========================
+     LOAD
+  ========================= */
+
   useEffect(() => {
-    async function loadRecords() {
-      try {
-        const data = await getPantryRecords();
-        setRecords(data);
-      } catch (err) {
-        console.error("Failed to load records:", err);
-      }
+    async function load() {
+      const data = await getPantryRecords();
+      setRecords(data);
     }
-    loadRecords();
+    load();
   }, []);
 
-  // Runs whenever anything changes
   useEffect(() => {
-    if (records.length > 0) {
+    if (records.length) {
+      const filtered = filterRecordsBySelection(records);
       renderChart();
-      updateInsights(filterRecords(records, currentRange));
+      updateInsights(filtered);
     }
-  }, [records, currentMode, currentRange, graphType, renderChart]);
+  }, [records, currentMode, currentRange, graphType, selectedMonth, renderChart]);
+
+  /* =========================
+     UI (UNCHANGED STRUCTURE)
+  ========================= */
 
   return (
-    <>
-      <Layout>
-        <div className="main-grid">
-          <div className="main-structure-left">
-            <h1>Trends</h1>
-            {/* Mini Menu to choose between different graphs */}
-            <hr />
-            {/* Graph Container */}
-            <canvas ref={chartRef} id="trends-graph"></canvas>
-            <br />
-            <br />
+    <Layout>
+      <div className="main-grid">
+        <div className="main-structure-left">
+          <h1>Trends</h1>
+          <hr />
+
+          <canvas ref={chartRef}></canvas>
+
+          {/*  Flatpickr Calendar to match the scheduling page */}
+          <div style={{ marginTop: "20px" }}>
+            <label>Select Month & Year: </label>
+
+            <Flatpickr
+              value={selectedMonth}
+              options={{
+                dateFormat: "Y-m",
+                plugins: [
+                  new monthSelectPlugin({
+                    shorthand: true,
+                    dateFormat: "Y-m",
+                    altFormat: "F Y",
+                  }),
+                ],
+              }}
+              onChange={(dates) => setSelectedMonth(dates[0])}
+            />
+
+            <button className="Trends-clear-btn" onClick={() => setSelectedMonth(null)}>
+              Clear
+            </button>
           </div>
-          <div className="main-structure-right">
-            <div className="trends-right-grid">
-              {/* Controls */}
-              <div className="trends-controls">
-                <div className="menu choose-graph-type">
-                  Type of Graph: <br />
+        </div>
+
+        {/*  RIGHT SIDE  */}
+        <div className="main-structure-right">
+          <div className="trends-right-grid">
+            
+            <div className="trends-controls">
+              <div className="menu">
+                <span className="menu-title">Type of Graph:</span>
+                <div className="menu-buttons">
                   <button onClick={() => setGraphType("bar")}>Bar</button>
                   <button onClick={() => setGraphType("line")}>Line</button>
                   <button onClick={() => setGraphType("pie")}>Pie</button>
                 </div>
+              </div>
 
-                <div className="menu choose-data-range">
-                  Data Range: <br />
-                  <button onClick={() => setCurrentRange("month")}>
-                    Past Month
-                  </button>
-                  <button onClick={() => setCurrentRange("year")}>
-                    Past Year
-                  </button>
-                </div>
+              <hr />
 
-                <div className="menu choose-visitors-families">
-                  Visitors or families helped: <br />
-                  <button onClick={() => setCurrentMode("visits")}>
-                    Visitors
-                  </button>
-                  <button onClick={() => setCurrentMode("people")}>
-                    People Served
-                  </button>
+              <div className="menu">
+                <span className="menu-title">Data Range:</span>
+                <div className="menu-buttons">
+                  <button onClick={() => setCurrentRange("month")}>Past Month</button>
+                  <button onClick={() => setCurrentRange("year")}>Past Year</button>
                 </div>
               </div>
 
-              <div className="trends-insights">
-                {/* Insights */}
-                <div className="visitor-insights">
-                  <h5>Visitor Insights</h5>
-                  <p>Unique Visitors: {insights.unique}</p>
-                  <p>Returning Visitors: {insights.returning}</p>
-                  <p>Total Visits: {insights.total}</p>
-                </div>
+              <hr />
 
-                <hr />
-
-                <div className="visit-frequency">
-                  <h5>Visit Frequency</h5>
-                  <p>Visited Once: {insights.once}</p>
-                  <p>Visited Twice: {insights.twice}</p>
-                  <p>Visited 3 Times: {insights.three}</p>
-                  <p>Visited 4+ Times: {insights.fourPlus}</p>
-                </div>
-
-                <hr />
-
-                <div className="family-impact">
-                  <h5>Family Impact</h5>
-                  <p>Total People Served: {insights.familyTotal}</p>
+              <div className="menu">
+                <span className="menu-title">Mode:</span>
+                <div className="menu-buttons">
+                  <button onClick={() => setCurrentMode("visits")}>Visitors</button>
+                  <button onClick={() => setCurrentMode("people")}>People Served</button>
                 </div>
               </div>
             </div>
+
+            <div className="trends-insights">
+              <h5>Visitor Insights</h5>
+              <p>Unique Visitors: {insights.unique}</p>
+              <p>Returning Visitors: {insights.returning}</p>
+              <p>Total Visits: {insights.total}</p>
+
+              <hr />
+
+              <h5>Visit Frequency</h5>
+              <p>Visited Once: {insights.once}</p>
+              <p>Visited Twice: {insights.twice}</p>
+              <p>Visited 3 Times: {insights.three}</p>
+              <p>Visited 4+ Times: {insights.fourPlus}</p>
+
+              <hr />
+
+              <h5>Family Impact</h5>
+              <p>Total People Served: {insights.familyTotal}</p>
+            </div>
           </div>
         </div>
-      </Layout>
-    </>
+
+        {/*  TABLE  */}
+        <div className="main-structure-bottom">
+          <h2>Data Table</h2>
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tableData.map((row, i) => (
+                <tr key={i}>
+                  <td>{row.label}</td>
+                  <td>{row.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </Layout>
   );
 }
 

@@ -177,6 +177,13 @@ p {
   font-family: "Open Sans", sans-serif;
   line-height: 1.5;
 }
+hr {
+  border: none;
+  height: 2px;
+  background-color: #00646d;
+  margin: 20px 0;
+  width:75%
+}
 
 /* =========================
    FORMS (clean modern look)
@@ -308,14 +315,40 @@ canvas {
 /* =========================
    MENU BUTTONS AND RIGHT GRID (trends page)
 ========================= */
+.menu {
+  display: flex;
+  
+   flex-direction: column;
+  gap: 8px;
+  width: 100%;           
+}
 .menu button {
   background-color: #02909d;
   color: white;
   border: none;
   padding: 6px 10px;
   border-radius: 6px;
-  gap: 0.5rem;
-  width: fit content;
+  flex: 1 1 auto;        
+  max-width: 100px;       
+}
+.Trends-clear-btn {
+  background-color: #02909d;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  flex: 1 1 auto;        
+  max-width: 100px; 
+  margin:10px;
+}
+.menu-title {
+  font-weight: 600;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .menu button:hover {
@@ -324,8 +357,7 @@ canvas {
 
 .trends-right-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1rem;
 }
 
@@ -334,6 +366,19 @@ canvas {
   flex-direction: column;
   justify-content: space-around;
   height: 100%;
+}
+@media (max-width: 768px) {
+  .trends-right-grid {
+    grid-template-columns: 1fr; /* stack columns */
+  }
+
+  .menu-buttons {
+    flex-direction: column;
+  }
+
+  .menu-buttons button {
+    width: 100%;
+  }
 }
 
 /* =========================
@@ -575,6 +620,7 @@ label {
   .main-structure-top,
   .main-structure-left-two-rows {
     grid-column: 1 / -1;
+     overflow: hidden;
   }
 
   .stockModalTrigger {
