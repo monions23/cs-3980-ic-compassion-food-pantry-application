@@ -3,20 +3,40 @@ import { useState, useEffect } from "react";
 // Components
 import Layout from "./Layout";
 import { getPantryRecords } from "../utilities/API_Files/Pantry-API";
+import { getNextWednesday } from "../utilities/Helper_Functions/Scheduling_Helpers";
+import { getScheduledTimes } from "../utilities/API_Files/Scheduling-API";
 
 export default function HomeAdmin() {
+  const [scheduleRecords, setScheduleRecords] = useState({});
+
   // for month total
-  const [records, setPantryRecords] = useState([]);
   const [monthTotal, setMonthTotal] = useState(0);
+
+  // for schedule table
+  const slots = [
+    "12:00 - 12:30",
+    "12:30 - 1:00",
+    "1:00 - 1:30",
+    "1:30 - 2:00",
+    "2:00 - 2:30",
+    "2:30 - 3:00",
+    "3:00 - 3:30",
+    "3:30 - 4:00",
+    "4:00 - 4:30",
+    "4:30 - 5:00",
+  ];
+
+  const [scheduleCounts, setScheduleCounts] = useState(() =>
+    slots.map((slot) => [slot, 0]),
+  );
+  const [nextWednesdayLabel, setNextWednesdayLabel] = useState("");
   /* =========================
    LOAD MONTHLY DATA
 ========================= */
   async function loadMonthlyData() {
     try {
       const data = await getPantryRecords();
-      setPantryRecords(data);
-
-      updateMonthTotal(records);
+      updateMonthTotal(data);
     } catch (err) {
       console.error("Error loading monthly data:", err);
     }
@@ -56,90 +76,26 @@ export default function HomeAdmin() {
 
     setMonthTotal(total);
   }
-
-  // ==========================
-  // INIT
-  // ==========================
-  document.addEventListener("DOMContentLoaded", () => {
-    loadSchedule();
-
-    const label = document.getElementById("next-wed-label");
-    if (label) {
-      const nextWed = getNextWednesday();
-      label.textContent = "Next Wednesday: " + nextWed.toDateString();
-    }
-  });
-
-  // ==========================
-  // GET NEXT WEDNESDAY
-  // ==========================
-  function getNextWednesday() {
-    const today = new Date();
-    const day = today.getDay();
-
-    const diff = (3 - day + 7) % 7 || 7; // 3 = Wednesday
-    const nextWed = new Date(today);
-    nextWed.setDate(today.getDate() + diff);
-
-    nextWed.setHours(0, 0, 0, 0);
-    return nextWed;
-  }
-
-  // ==========================
+  // =========================
   // LOAD SCHEDULE TABLE
   // ==========================
   async function loadSchedule() {
-    const table = document.getElementById("schedule-table");
-    if (!table) return;
-
-    const token = localStorage.getItem("access_token");
-
-    if (!token) {
-      console.error("No token found");
-      return;
-    }
-
-    const slots = [
-      "12:00 - 12:30",
-      "12:30 - 1:00",
-      "1:00 - 1:30",
-      "1:30 - 2:00",
-      "2:00 - 2:30",
-      "2:30 - 3:00",
-      "3:00 - 3:30",
-      "3:30 - 4:00",
-      "4:00 - 4:30",
-      "4:30 - 5:00",
-    ];
-
     const counts = {};
     slots.forEach((s) => (counts[s] = 0));
 
-    // Render base table
-    table.innerHTML = "";
-    slots.forEach((slot) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `<th>${slot}</th><th>0</th>`;
-      table.appendChild(row);
-    });
-
     try {
-      const res = await fetch("http://127.0.0.1:8000/scheduling/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token = localStorage.getItem("access_token");
 
-      if (!res.ok) {
-        const text = await res.text();
-        console.error("Server error:", text);
+      if (!token) {
+        console.error("No token found");
         return;
       }
 
-      const data = await res.json();
-      const nextWednesday = getNextWednesday();
+      const response = await getScheduledTimes(token);
+      const data = await response.json();
 
-      console.log("Next Wednesday:", nextWednesday);
+      const nextWednesday = getNextWednesday();
+      setNextWednesdayLabel("Next Wednesday: " + nextWednesday.toDateString());
 
       data.forEach((entry) => {
         if (!entry.date) return;
@@ -160,6 +116,7 @@ export default function HomeAdmin() {
           return;
         }
 
+        // calculate counts
         const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
 
         const hour = local.getHours();
@@ -175,19 +132,20 @@ export default function HomeAdmin() {
         }
       });
 
-      const rows = table.querySelectorAll("tr");
-
-      slots.forEach((slot, i) => {
-        rows[i].children[1].textContent = counts[slot];
-      });
+      // set schedule counts to be final value of counts dictionary
+      setScheduleCounts(counts);
     } catch (err) {
       console.error("Fetch failed:", err);
     }
   }
+
   // load monthly data upon load
   useEffect(() => {
+    // Load monthly information
     loadMonthlyData();
-  });
+    // Load Schedule();
+    loadSchedule();
+  }, []);
   return (
     <>
       <Layout>
@@ -242,8 +200,24 @@ export default function HomeAdmin() {
             <h2>When to expect people</h2>
             <hr />
             <br />
+            <h3 id="next-wed-label">{nextWednesdayLabel}</h3>
             <div class="main-arrivals-table-box">
-              <table class="main-arrivals-table" id="schedule-table"></table>
+              <table class="main-arrivals-table" id="schedule-table">
+                <thead>
+                  <tr>
+                    <th>Time Slot</th>
+                    <th>Users Signed Up</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {slots.map((slot) => (
+                    <tr key={slot}>
+                      <td>{slot}</td>
+                      <td>{scheduleCounts[slot] ?? 0}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
