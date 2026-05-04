@@ -177,6 +177,13 @@ p {
   font-family: "Open Sans", sans-serif;
   line-height: 1.5;
 }
+hr {
+  border: none;
+  height: 2px;
+  background-color: #00646d;
+  margin: 20px 0;
+  width:75%
+}
 
 /* =========================
    FORMS (clean modern look)
@@ -288,12 +295,46 @@ th {
   border-radius: 8px;
   padding: 10px;
   border: none;
+  display: flex;
 
   transition: all 0.2s ease;
 }
 
 .update-card:hover {
   background: #eaf4f6;
+}
+
+.updates-scroll-box {
+  max-height: 400px;      
+  overflow-y: auto;       
+  padding-right: 8px;     
+}
+/* Optional: make scroll look nicer */
+.updates-scroll-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.updates-scroll-box::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.Pantry-delete-btn {
+  background-color:#bc1a38;
+  color: white;
+  margin:10px;
+  margin-left: auto;
+}
+.pantry-updates-header {
+  margin: 5px;
+  font-weight:bold;
+  color:#00646d;
+}
+.pantry-updates-date {
+  font-size: small;
+  margin: 15px;
+  width:39%;
+  text-align:center;
 }
 
 /* =========================
@@ -308,14 +349,40 @@ canvas {
 /* =========================
    MENU BUTTONS AND RIGHT GRID (trends page)
 ========================= */
+.menu {
+  display: flex;
+  
+   flex-direction: column;
+  gap: 8px;
+  width: 100%;           
+}
 .menu button {
   background-color: #02909d;
   color: white;
   border: none;
   padding: 6px 10px;
   border-radius: 6px;
-  gap: 0.5rem;
-  width: fit content;
+  flex: 1 1 auto;        
+  max-width: 100px;       
+}
+.Trends-clear-btn {
+  background-color: #02909d;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  flex: 1 1 auto;        
+  max-width: 100px; 
+  margin:10px;
+}
+.menu-title {
+  font-weight: 600;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .menu button:hover {
@@ -324,8 +391,7 @@ canvas {
 
 .trends-right-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1rem;
 }
 
@@ -334,6 +400,19 @@ canvas {
   flex-direction: column;
   justify-content: space-around;
   height: 100%;
+}
+@media (max-width: 768px) {
+  .trends-right-grid {
+    grid-template-columns: 1fr; /* stack columns */
+  }
+
+  .menu-buttons {
+    flex-direction: column;
+  }
+
+  .menu-buttons button {
+    width: 100%;
+  }
 }
 
 /* =========================
@@ -492,6 +571,7 @@ form button:hover {
   border-radius: 10px;
   overflow: hidden;
   background: white;
+  width: 100%;
 }
 
 .archive-header {
@@ -513,6 +593,11 @@ form button:hover {
   padding: 6px 12px;
   border: none;
   transition: 0.2s;
+  /*HERE */
+  display: block;
+  margin: 0 auto;
+  
+  
 }
 
 #print-btn:hover {
@@ -569,6 +654,7 @@ label {
   .main-structure-top,
   .main-structure-left-two-rows {
     grid-column: 1 / -1;
+     overflow: hidden;
   }
 
   .stockModalTrigger {

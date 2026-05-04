@@ -26,8 +26,12 @@ export default function Archive() {
     <>
       <Layout>
         <div className="main-grid">
+          <div className="main-structure-left">
           <section className="archive-title">
             <h1 style={{ display: "inline-block" }}>Archive</h1>
+          </section>
+          </div>
+          <div className="main-structure-right">
             <button
               id="print-btn"
               className="archive-print-button"
@@ -36,9 +40,10 @@ export default function Archive() {
               Print recent logs
             </button>
             <br />
-            <br />
-          </section>
-
+           
+          
+          </div>
+          <div className="main-structure-bottom">
           <section className="archive-info">
             <table className="archive-table">
               <thead>
@@ -72,6 +77,7 @@ export default function Archive() {
             </table>
             <br />
           </section>
+          </div>
         </div>
       </Layout>
     </>

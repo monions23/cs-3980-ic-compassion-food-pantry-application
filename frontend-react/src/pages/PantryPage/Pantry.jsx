@@ -169,7 +169,7 @@ export default function Pantry() {
             <h2 className="section-header">Updates</h2>
 
             {/* Render updates list */}
-            <div id="updates-list">
+            <div id="updates-list" className="updates-scroll-box">
               {records.length === 0 ? (
                 <div className="pantry-history-info">No records yet</div> // ✅ div not p
               ) : (
@@ -182,11 +182,11 @@ export default function Pantry() {
                       key={r.public_id}
                       className="pantry-update update-card"
                     >
-                      <strong>Family of {r.num_ppl_in_families}</strong>
+                      <div className="pantry-updates-header">Family of {r.num_ppl_in_families}</div>
                       <br />
-                      <small>{new Date(r.created_at).toLocaleString()}</small>
+                      <div className="pantry-updates-date">{new Date(r.created_at).toLocaleString()}</div>
                       <button
-                        className="btn btn-sm btn-danger mt-1"
+                        className="Pantry-delete-btn"
                         onClick={() => handleDelete(r.public_id)}
                       >
                         Delete

@@ -5,6 +5,7 @@ import { getPantryRecords } from "../utilities/API_Files/Pantry-API";
 import Layout from "./Layout";
 import { formatTime } from "../utilities/Helper_Functions/Scheduling_Helpers";
 import { scheduleTime } from "../utilities/API_Files/Scheduling-API";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [dateInput, setDateInput] = useState("");
@@ -167,24 +168,18 @@ function Home() {
             <hr />
             <br />
             <div className="icon-span">
-              <a href="account">
-                <img
-                  src="icons/solid-user-logo.svg"
-                  alt="Icon Homepage Links"
-                />
-              </a>
-              <a href="downloads">
-                <img
-                  src="icons/solid-file-logo.svg"
-                  alt="Icon Homepage Links"
-                />
-              </a>
+              <Link to="/account">
+                <img src="icons/solid-user-logo.svg" alt="Account" />
+              </Link>
+
+              <Link to="/documents">
+                <img src="icons/solid-file-logo.svg" alt="Files" />
+              </Link>
 
               <img
                 src="icons/logout-logo.svg"
-                alt="Icon Homepage Links"
-                onClick={logout}
-              />
+                alt="Logout"
+                onClick={logout} />
             </div>
             <br />
             <br />
