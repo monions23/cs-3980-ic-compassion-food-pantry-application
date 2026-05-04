@@ -14,12 +14,14 @@ export default function Home_Logged_Out() {
         </div>
         <div className="main-structure-bottom">
           <h3>Please sign in to book an appointment.</h3>
-          {/* <br /> */}
-          {/* <div id="main-signup-button-container">
-            <a href="signin-login.html" class="main-signup-button">
-              Sign In Here
-            </a>
-          </div> */}
+          <br />
+
+              <div id="main-signup-button-container">
+                
+                <a href="/login-signup" className="main-signup-button">
+                  Sign In Here
+                </a>
+              </div>
         </div>
       </div>
     </Layout>

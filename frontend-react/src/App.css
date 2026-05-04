@@ -837,3 +837,23 @@ footer {
   background-color:#660e1e;
   color:white;
 }
+
+#main-signup-button-container {
+  display: grid; place-items: center; 
+}
+
+.main-signup-button, .add-stock-button{
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #02909d;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: 0.2s ease;
+  
+}
+
+.main-signup-button:hover, .add-stock-button:hover {
+  background-color: #bc1a38;
+}
+
