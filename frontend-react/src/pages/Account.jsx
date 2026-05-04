@@ -2,6 +2,7 @@ import "../App.css";
 import { useState } from "react";
 import Layout from "./Layout";
 import { resetPassword, changeEmail } from "../utilities/API_Files/Account-API";
+import { useEffect } from "react";
 
 export default function Account() {
   const [newPassword, setNewPassword] = useState("");
@@ -10,6 +11,34 @@ export default function Account() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [showChangeEmail, setShowChangeEmail] = useState(false);
+  const [user, setUser] = useState(null);
+
+
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        const token = localStorage.getItem("access_token");
+
+        const res = await fetch("http://127.0.0.1:8000/users/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          console.error("Failed to fetch user");
+          return;
+        }
+
+        const data = await res.json();
+        setUser(data);
+      } catch (err) {
+        console.error("Error loading user:", err);
+      }
+    }
+
+    loadUser();
+  }, []);
 
   /* ====================
   RESET PASSWORD HANDLER
@@ -69,16 +98,12 @@ export default function Account() {
             <hr />
             <div className="account-info">
               <div className="account-row">
-                <span className="account-label">Username:</span>
-                <span>######</span>
-              </div>
-              <div className="account-row">
                 <span className="account-label">Email:</span>
-                <span>Email@email.com</span>
+                <span>{user ? user.email : "Loading..."}</span>
               </div>
               <div className="account-row">
-                <span className="account-label">Status:</span>
-                <span>Admin/User/Viewer</span>
+                <span className="account-label">Role:</span>
+                <span>{user ? user.role : "Loading..."}</span>
               </div>
             </div>
           </div>
@@ -89,7 +114,7 @@ export default function Account() {
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                setShowResetPassword(true);
+                setShowResetPassword(prev => !prev);
               }}
               id="resetPasswordLink"
             >
@@ -100,7 +125,7 @@ export default function Account() {
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                setShowChangeEmail(true);
+                setShowChangeEmail(prev => !prev);
               }}
               id="changeEmailBtn"
             >
@@ -112,7 +137,7 @@ export default function Account() {
               <div id="resetPasswordSection">
                 <h3>Reset Password</h3>
 
-                <form onSubmit={() => handlePasswordReset(event)}>
+                <form onSubmit={handlePasswordReset}>
                   <input
                     type="password"
                     id="currentPassword"
@@ -137,7 +162,7 @@ export default function Account() {
                 <br />
                 <h3>Change Email</h3>
 
-                <form onSubmit={() => handleEmailChange(event)}>
+                <form onSubmit={handleEmailChange}>
                   <input
                     type="email"
                     id="newEmail"
@@ -162,7 +187,7 @@ export default function Account() {
             <p>Table with changing permissions in Admin View</p>
             <hr />
           </div>
-          <div className="main-structure-right"></div>
+          {/* <div className="main-structure-right"></div> */}
         </div>
       </Layout>
     </>

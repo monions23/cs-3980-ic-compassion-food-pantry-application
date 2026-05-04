@@ -596,11 +596,21 @@ label {
 /*
 FOOTER
 */
+
+.footer-grid {
+  max-width: 1200px;   
+  margin: 0 auto;      
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
 /* Footer base (keep your font choice) */
 footer {
   text-align: center;
   margin: 0 auto;
   font-family: "anton";
+  width: 100%;
 }
 /* 2-column layout */
 .footer-grid {
