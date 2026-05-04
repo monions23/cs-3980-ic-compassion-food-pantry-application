@@ -494,12 +494,15 @@ form button:hover {
 ========================= */
 
 .stock-info {
-  
-  overflow: hidden;
-  
+  overflow-x: hidden;
+  border-radius: 8px;  /* optional polish */
+  max-height: 80vh; /* 50% of screen height */
+  overflow-y: auto;
 }
+
 .stock-table {
   width: 100%;
+  border-collapse: collapse;
   border-radius: 10px;
   margin: 0px;
   background: white;
@@ -510,6 +513,16 @@ form button:hover {
   font-weight: 600;
   
 }
+
+.stock-info::-webkit-scrollbar {
+  width: 6px;
+}
+
+.stock-info::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
 
 .stock-table-item,
 .stock-header {
