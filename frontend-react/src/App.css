@@ -295,12 +295,46 @@ th {
   border-radius: 8px;
   padding: 10px;
   border: none;
+  display: flex;
 
   transition: all 0.2s ease;
 }
 
 .update-card:hover {
   background: #eaf4f6;
+}
+
+.updates-scroll-box {
+  max-height: 400px;      
+  overflow-y: auto;       
+  padding-right: 8px;     
+}
+/* Optional: make scroll look nicer */
+.updates-scroll-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.updates-scroll-box::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.Pantry-delete-btn {
+  background-color:#bc1a38;
+  color: white;
+  margin:10px;
+  margin-left: auto;
+}
+.pantry-updates-header {
+  margin: 5px;
+  font-weight:bold;
+  color:#00646d;
+}
+.pantry-updates-date {
+  font-size: small;
+  margin: 15px;
+  width:39%;
+  text-align:center;
 }
 
 /* =========================
