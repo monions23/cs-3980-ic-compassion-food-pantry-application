@@ -13,9 +13,6 @@ function Home() {
   const [timeSelect, setTimeSelect] = useState("");
   const [message, setMessage] = useState("");
 
-  // for month total
-  const [records, setPantryRecords] = useState([]);
-  const [monthTotal, setMonthTotal] = useState(0);
   const dateRef = useRef(null);
 
   function logout() {
@@ -25,55 +22,7 @@ function Home() {
     window.location.href = "/login-signup";
   }
 
-  /* =========================
-   LOAD MONTHLY DATA
-========================= */
-  async function loadMonthlyData() {
-    try {
-      const data = await getPantryRecords();
-      setPantryRecords(data);
-
-      updateMonthTotal(records);
-    } catch (err) {
-      console.error("Error loading monthly data:", err);
-    }
-  }
-
-  /* =========================
-   MONTHLY TOTAL
-========================= */
-  function updateMonthTotal(records) {
-    if (!records || !records.length) {
-      return;
-    }
-
-    const now = new Date();
-
-    // Start of current month (UTC)
-    const startOfMonthUTC = new Date(
-      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1),
-    );
-
-    // Start of next month (UTC)
-    const startOfNextMonthUTC = new Date(
-      Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1),
-    );
-
-    let total = 0;
-
-    records.forEach((r) => {
-      if (!r.created_at) return;
-
-      const recordDate = new Date(r.created_at);
-
-      if (recordDate >= startOfMonthUTC && recordDate < startOfNextMonthUTC) {
-        total += r.num_ppl_in_families || 0;
-      }
-    });
-
-    setMonthTotal(total);
-  }
-
+ 
   // Initialize flatpickr
   useEffect(() => {
     console.log("dateRef.current:", dateRef.current);
@@ -115,10 +64,7 @@ function Home() {
     setTimeSlots(slots);
   }, []);
 
-  // Load Monthly Data
-  useEffect(() => {
-    loadMonthlyData();
-  }, []);
+  
 
   // Submit booking
   async function submitBooking() {
@@ -183,12 +129,7 @@ function Home() {
             </div>
             <br />
             <br />
-            <div className="card p-3 text-center">
-              <h5>People Served This Month</h5>
-              <h1 id="month-total" style={{ fontSize: "3rem" }}>
-                {monthTotal}
-              </h1>
-            </div>
+            
           </div>
           <div className="main-structure-right">
             <div className="scheduler">
