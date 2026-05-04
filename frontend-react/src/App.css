@@ -253,6 +253,7 @@ th {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
   gap: 15px;
+  flex-wrap: wrap;
 }
 
 .icon-span img {
@@ -270,6 +271,16 @@ th {
 .icon-span img:hover {
   transform: translateY(-4px);
   background: #65bac2;
+  text-align: center;
+}
+
+.icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 /* =========================
