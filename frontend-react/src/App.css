@@ -805,5 +805,35 @@ footer {
 }
 
 .flatpickr-calendar {
-  position: fixed !important;
+  position: fixed;
+}
+
+ .stockModalTrigger, .stock-edit-button {
+  background-color:#02909d;
+  color:white;
+  border:none;
+  padding-left:15px;
+  padding-right:15px;
+  padding-top: 5px;
+  padding-bottom: 5px;;
+  margin-bottom:5px;
+}
+.stockModalTrigger:hover, .stock-edit-button:hover {
+  background-color:#65bac2;
+  color:white;
+}
+
+ .stock-delete-btn {
+  background-color: #bc1a38;
+  color:white;
+  border:none;
+  padding-left:15px;
+  padding-right:15px;
+  padding-top: 5px;
+  padding-bottom: 5px;;
+  margin:2px;
+}
+.stock-delete-btn:hover {
+  background-color:#660e1e;
+  color:white;
 }
