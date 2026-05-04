@@ -94,28 +94,52 @@ async function submitChangeEmail(event) {
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-    const user = await loadAccountInfo();  
+    const user = await loadAccountInfo();
 
-    // existing code stays the same
+    // // existing code stays the same
+    // const resetLink = document.getElementById("resetPasswordLink");
+    // if (resetLink) {
+    //     resetLink.addEventListener("click", (event) => {
+    //         event.preventDefault();
+
+    //         const section = document.getElementById("resetPasswordSection");
+    //         if (section) {
+    //             section.style.display = "block";
+    //         }
+    //     });
+    // }
+
+    // const btn = document.getElementById("changeEmailBtn");
+    // if (btn) {
+    //     btn.addEventListener("click", () => {
+    //         const section = document.getElementById("changeEmailSection");
+    //         if (section) {
+    //             section.style.display = "block";
+    //         }
+    //     });
+    // }
+
+    function toggleSection(id) {
+        const section = document.getElementById(id);
+        if (!section) return;
+
+        section.style.display =
+            section.style.display === "block" ? "none" : "block";
+    }
+
     const resetLink = document.getElementById("resetPasswordLink");
     if (resetLink) {
         resetLink.addEventListener("click", (event) => {
             event.preventDefault();
-
-            const section = document.getElementById("resetPasswordSection");
-            if (section) {
-                section.style.display = "block";
-            }
+            toggleSection("resetPasswordSection");
         });
     }
 
     const btn = document.getElementById("changeEmailBtn");
     if (btn) {
-        btn.addEventListener("click", () => {
-            const section = document.getElementById("changeEmailSection");
-            if (section) {
-                section.style.display = "block";
-            }
+        btn.addEventListener("click", (event) => {
+            event.preventDefault();
+            toggleSection("changeEmailSection");
         });
     }
 
@@ -136,7 +160,7 @@ async function loadAccountInfo() {
         }
     });
     console.log("TOKEN:", token);
-console.log("RESPONSE STATUS:", res.status);
+    console.log("RESPONSE STATUS:", res.status);
 
     if (!res.ok) {
         console.error("Failed to fetch user");
