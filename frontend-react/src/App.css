@@ -492,6 +492,7 @@ form button:hover {
   border-radius: 10px;
   overflow: hidden;
   background: white;
+  width: 100%;
 }
 
 .archive-header {
@@ -513,6 +514,11 @@ form button:hover {
   padding: 6px 12px;
   border: none;
   transition: 0.2s;
+  /*HERE */
+  display: block;
+  margin: 0 auto;
+  
+  
 }
 
 #print-btn:hover {

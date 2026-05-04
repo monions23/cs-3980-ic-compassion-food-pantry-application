@@ -3,7 +3,7 @@
   ========================= */
 export const getFiles = async () => {
   try {
-    const res = await fetch("http://127.0.0.1:8000/files", {
+    const res = await fetch("http://127.0.0.1:8000/files/", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
@@ -17,6 +17,7 @@ export const getFiles = async () => {
   } catch (err) {
     console.error(err);
     alert("Error loading files");
+    return []; // ✅ IMPORTANT
   }
 };
 

@@ -6,104 +6,134 @@ import {
   deleteFile,
 } from "../utilities/API_Files/Files-API";
 
-import { hideUploadIfNotAdmin } from "../utilities/Helper_Functions/File_Helpers";
-
 export default function Documents() {
   const [files, setFiles] = useState([]);
-
-  // Permissions check for uploading a file
-  const uploadState = hideUploadIfNotAdmin();
+  const [user, setUser] = useState(null);
 
   /* ====================
-  HANDLE LOADING THE FILES
- ========================= */
+  LOAD USER (for permissions)
+  ========================= */
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        const res = await fetch("http://127.0.0.1:8000/users/me", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        });
+
+        if (!res.ok) return;
+
+        const data = await res.json();
+        setUser(data);
+      } catch (err) {
+        console.error("Error loading user:", err);
+      }
+    }
+
+    loadUser();
+  }, []);
+
+  /* ====================
+  LOAD FILES
+  ========================= */
   async function handleFileLoad() {
     const filesLoaded = await getFiles();
-    setFiles(filesLoaded);
+    setFiles(filesLoaded || []); 
   }
 
   /* ====================
-  HANDLE UPLOADING A FILE
- ========================= */
+  UPLOAD FILE
+  ========================= */
   async function handleFileUpload(e) {
+    e.preventDefault(); 
+
     await uploadFile(e);
     handleFileLoad();
   }
 
   /* ====================
-  HANDLE DELETING A FILE
- ========================= */
+  DELETE FILE
+  ========================= */
   async function handleFileDelete(fileId) {
     await deleteFile(fileId);
     handleFileLoad();
   }
 
   /* ====================
-  LOAD FILES UPON PAGE LOAD
- ========================= */
+  LOAD FILES ON PAGE LOAD
+  ========================= */
   useEffect(() => {
     handleFileLoad();
   }, []);
 
   return (
-    <>
-      <Layout>
-        <div className="main-grid">
-          <div className="main-structure-left">
-            <h1>Upload and Download files</h1>
-            <form id="uploadForm">
-              <input type="file" name="file" />
-              <button
-                type="submit"
-                onSubmit={handleFileUpload}
-                style={{
-                  display: uploadState ? "block" : "none",
-                }}
-              >
-                Upload
-              </button>
+    <Layout>
+      <div className="main-grid">
+        
+        {/* LEFT SIDE */}
+        <div className="main-structure-top">
+          <h1>Upload and Download files</h1>
+
+          {/* Only show upload for SuperAdmin */}
+          {user?.role === "SuperAdmin" && (
+            <form id="uploadForm" onSubmit={handleFileUpload}>
+              <input type="file" name="file" required />
+              <button type="submit">Upload</button>
             </form>
-          </div>
-          <div className="main-structure-right">
-            <h2>File Viewer</h2>
-            <p>Select a file to download or open it.</p>
-            <table id="fileTable" class="table table-striped">
-              <thead>
+          )}
+        </div>
+
+        {/* BOTTOM */}
+        <div className="main-structure-bottom">
+          <h2>File Viewer</h2>
+          <p>Select a file to download or open it.</p>
+
+          <table id="fileTable" className="table table-striped">
+            <thead>
+              <tr>
+                <th>Filename</th>
+                <th>Uploaded By</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {files.length === 0 ? (
                 <tr>
-                  <th>Filename</th>
-                  <th>Uploaded By</th>
-                  <th>Actions</th>
+                  <td colSpan="3">No files found</td>
                 </tr>
-              </thead>
-              <tbody>
-                {files.length === 0 ? (
-                  <tr>
-                    <td colSpan="3">No files found</td>
-                  </tr>
-                ) : (
-                  files.map((file) => (
-                    <tr key={file.filename}>
-                      <td>{file.filename}</td>
-                      <td>{file.uploaded_by}</td>
-                      <td>
-                        <a
-                          href={`http://127.0.0.1:8000/files/download/${file._id}`}
-                          target="_blank"
+              ) : (
+                files.map((file) => (
+                  <tr key={file._id}> 
+                    <td>{file.filename}</td>
+                    <td>{file.uploaded_by}</td>
+                    <td>
+                      <a
+                        href={`http://127.0.0.1:8000/files/download/${file._id}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Download
+                      </a>
+
+                      {/*only allow delete for admins */}
+                      {user?.role === "SuperAdmin" && (
+                        <button
+                          onClick={() => handleFileDelete(file._id)}
+                          style={{ marginLeft: "10px" }}
                         >
-                          Download
-                        </a>
-                        <button onClick={() => handleFileDelete(file._id)}>
                           Delete
                         </button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
-      </Layout>
-    </>
+      </div>
+    </Layout>
   );
 }

@@ -200,28 +200,28 @@ export default function HomeAdmin() {
             <hr />
             <br />
             <div className="icon-span">
-              <a href="archive.html">
+              <a href="/archive">
                 <img src="icons/archive-logo.svg" alt="Icon Homepage Links" />
               </a>
-              <a href="trends.html">
+              <a href="/trends">
                 <img src="icons/trends-logo.svg" alt="Icon Homepage Links" />
               </a>
-              <a href="stock.html">
+              <a href="/stock">
                 <img src="icons/stock-logo.svg" alt="Icon Homepage Links" />
               </a>
-              <a href="account.html">
+              <a href="/account">
                 <img
                   src="icons/solid-user-logo.svg"
                   alt="Icon Homepage Links"
                 />
               </a>
-              <a href="downloads.html">
+              <a href="/documents">
                 <img
                   src="icons/solid-file-logo.svg"
                   alt="Icon Homepage Links"
                 />
               </a>
-              <a href="pantry.html">
+              <a href="/pantry">
                 <img src="icons/pantry-logo.svg" alt="Icon Homepage Links" />
               </a>
               <img
