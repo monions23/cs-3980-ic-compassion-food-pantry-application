@@ -46,38 +46,46 @@ export default function Stock() {
      ADD ITEM
   ========================= */
   const handleAdd = async () => {
-    // make sure there are no empty fields in the form
-    if (
-      formData.item_name === "" ||
-      formData.quantity === "" ||
-      formData.target_quantity === ""
-    ) {
-      setErrorMsg("Please fill all fields");
-      return;
-    }
-    //Give error
-    if (formData.quantity < 0 || formData.target_quantity < 0) {
-      setErrorMsg("Stock values cannot be negative");
-      return;
-    } 
+  if (
+    formData.item_name === "" ||
+    formData.quantity === "" ||
+    formData.target_quantity === ""
+  ) {
+    setErrorMsg("Please fill all fields");
+    return;
+  }
 
-    try {
-      await addStockItem(formData);
-      getAllStockedItems();
-      document.getElementById("close-add-modal")?.click();
+  if (formData.quantity < 0 || formData.target_quantity < 0) {
+    setErrorMsg("Stock values cannot be negative");
+    return;
+  }
 
-      // Then, reset all values
-      setFormData({
-        item_name: "",
-        quantity: "",
-        target_quantity: "",
-      });
-      setErrorMsg("");
-    } catch (err) {
-      setErrorMsg(err.message); // THIS is where error updates happen
-    }
-  };
+  const normalizedName = formData.item_name.trim().toLowerCase();
 
+  const exists = stockedFood.some(
+    (item) => item.item_name.trim().toLowerCase() === normalizedName
+  );
+
+  if (exists) {
+    setErrorMsg("An item with this name already exists");
+    return;
+  }
+
+  try {
+    await addStockItem(formData);
+    getAllStockedItems();
+    document.getElementById("close-add-modal")?.click();
+
+    setFormData({
+      item_name: "",
+      quantity: "",
+      target_quantity: "",
+    });
+    setErrorMsg("");
+  } catch (err) {
+    setErrorMsg(err.message);
+  }
+};
   /* =========================
      DELETE ITEM
   ========================= */
@@ -108,6 +116,19 @@ export default function Stock() {
     //Throw error if negative
     if (formData.quantity < 0 || formData.target_quantity < 0) {
       setErrorMsg("Stock values cannot be negative");
+      return;
+    }
+
+    const normalizedName = formData.item_name.trim().toLowerCase();
+
+    const exists = stockedFood.some(
+      (item) =>
+        item.public_id !== editingId && // allow same item being edited
+        item.item_name.trim().toLowerCase() === normalizedName
+    );
+
+    if (exists) {
+      setErrorMsg("Another item with this name already exists");
       return;
     }
 

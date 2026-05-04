@@ -494,18 +494,20 @@ form button:hover {
 ========================= */
 
 .stock-info {
-  overflow-x: hidden;
-  border-radius: 8px;  /* optional polish */
+  
+  border-radius: 8px;  
   max-height: 80vh; /* 50% of screen height */
   overflow-y: auto;
+  overflow-x: auto; 
 }
 
 .stock-table {
   width: 100%;
-  border-collapse: collapse;
   border-radius: 10px;
   margin: 0px;
   background: white;
+  min-width: 200px; /* forces overflow when screen is small */
+  border-collapse: collapse;
 }
 
 .stock-header {
@@ -528,6 +530,7 @@ form button:hover {
 .stock-header {
   padding: 12px;
 }
+
 
 .search-answer-quantity {
   border-radius: 10px;
