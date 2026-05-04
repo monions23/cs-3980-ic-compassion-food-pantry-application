@@ -21,33 +21,35 @@ export function filterLastHour(unfilteredRecords) {
      (HELPER FUNCTION)
   ========================= */
 export function updateTodayTotal(unfilteredRecords) {
-  // if unfilteredRecords is empty, return 0
   if (!unfilteredRecords || !unfilteredRecords.length) {
     return 0;
   }
 
   const now = new Date();
 
-  // UTC to match backend
-  const startOfDayUTC = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+  const startOfDay = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
   );
 
-  const endOfDayUTC = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1),
+  const endOfDay = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() + 1
   );
 
   let total = 0;
 
-  // find all records that occurred today and updated total number of people helped
   unfilteredRecords.forEach((r) => {
     if (!r.created_at) return;
 
     const recordDate = new Date(r.created_at);
-    if (recordDate >= startOfDayUTC && recordDate < endOfDayUTC) {
-      total += r.num_ppl_in_families || 0;
+
+    if (recordDate >= startOfDay && recordDate < endOfDay) {
+      total += Number(r.num_ppl_in_families) || 0;
     }
   });
 
-  return total; // return total
+  return total;
 }
