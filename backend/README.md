@@ -144,9 +144,10 @@ frontend-react/ <br>
 <br>
 
 ### Trends
-![Admin Trends Page Demo](screenshots/trends-demo.gif)
+![Admin Trends Page Demo](screenshots/trends-demo-1.gif)
 - This uses chart.js to create the graphs
 - This is updated with ifnormation from the pantry_records, determining distict visitors versus repeated. It is displayed in a graph that can change shapes from showing how many visitors to the pantry versus how many people supported by the pantry and by month or by year. 
+- This also has a search feature to go back to previous months to be able to compare data from the past.
 <br>
 
 ### Stock

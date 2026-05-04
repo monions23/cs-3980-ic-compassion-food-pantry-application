@@ -188,7 +188,7 @@ export default function Stock() {
                   setErrorMsg("");
                 }}
               >
-                <i className="bi bi-plus-circle"></i> Add Item
+                <i className="add-stock-button">Add Item</i> 
               </button>
             </div>
 
@@ -213,7 +213,7 @@ export default function Stock() {
                         <td>{item.target_quantity}</td>
                         <td>
                           <button
-                            className="btn btn-success btn-sm me-2"
+                            className="stock-edit-button"
                             data-bs-toggle="modal"
                             data-bs-target="#modal-edit"
                             onClick={() => {
@@ -229,7 +229,7 @@ export default function Stock() {
                           </button>
 
                           <button
-                            className="btn btn-danger btn-sm"
+                            className="stock-delete-btn"
                             onClick={() => handleDelete(item.public_id)}
                           >
                             Delete
