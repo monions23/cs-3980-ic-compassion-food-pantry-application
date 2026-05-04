@@ -13,3 +13,19 @@ export const scheduleTime = async (token, dateTime) => {
 
   return response;
 };
+
+export const getScheduledTimes = async (token) => {
+  const res = await fetch("http://127.0.0.1:8000/scheduling/", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    console.error("Server error:", text);
+    return;
+  }
+
+  return res;
+};
