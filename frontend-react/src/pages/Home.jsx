@@ -17,6 +17,13 @@ function Home() {
   const [monthTotal, setMonthTotal] = useState(0);
   const dateRef = useRef(null);
 
+  function logout() {
+    localStorage.removeItem("access_token");
+
+    // redirect to login page
+    window.location.href = "/login-signup";
+  }
+
   /* =========================
    LOAD MONTHLY DATA
 ========================= */
@@ -147,7 +154,7 @@ function Home() {
   }
 
   // Initialize time slots on load
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   return (
     <>
       <Layout>
@@ -160,13 +167,13 @@ function Home() {
             <hr />
             <br />
             <div className="icon-span">
-              <a href="account.html">
+              <a href="account">
                 <img
                   src="icons/solid-user-logo.svg"
                   alt="Icon Homepage Links"
                 />
               </a>
-              <a href="downloads.html">
+              <a href="downloads">
                 <img
                   src="icons/solid-file-logo.svg"
                   alt="Icon Homepage Links"
@@ -176,7 +183,7 @@ function Home() {
               <img
                 src="icons/logout-logo.svg"
                 alt="Icon Homepage Links"
-                onClick="logout()"
+                onClick={logout}
               />
             </div>
             <br />

@@ -25,18 +25,18 @@ function Footer() {
           {/* RIGHT: LOGO + BUTTON */}
           <div className="footer-right">
             <img
-              src="IC_Compassion_Logo_big.jpg"
+              src="icons/IC_Compassion_Logo_big.jpg"
               alt="Iowa City Compassion Logo"
               className="footer-logo"
             />
 
-            <a href="https://www.iccompassion.org/" class="footer-button">
+            <a href="https://www.iccompassion.org/" className="footer-button">
               For more information
             </a>
           </div>
         </div>
 
-        <hr class="center" />
+        <hr className="center" />
       </footer>
     </>
   );
