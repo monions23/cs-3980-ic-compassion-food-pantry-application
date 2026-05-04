@@ -26,7 +26,6 @@ export function AuthProvider({ children }) {
 
   const login = (token) => {
     localStorage.setItem("access_token", token);
-    console.log(token);
     setIsAuthenticated(true);
 
     const payload = decodeTokenSafe(token);

@@ -1,8 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { useAuth } from "./UseAuth";
 export const ProtectedRoute = () => {
-  const { isAuthenticated, userRole } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   // If no token, bounce them to login
   if (!isAuthenticated && !localStorage.getItem("access_token")) {

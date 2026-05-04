@@ -4,11 +4,12 @@ export const LOGGED_OUT_SIDEBAR_LINKS = [
 ];
 
 export const AUTHENTICATED_SIDEBAR_LINKS = [
-  { path: "/", label: "Home", roles: ["BasicUser", "Admin"] },
-  { path: "/pantry", label: "Pantry", roles: ["BasicUser", "Admin"] },
-  { path: "/stock", label: "Stock", roles: ["BasicUser", "Admin"] },
-  { path: "/trends", label: "Trends", roles: ["Admin"] },
-  { path: "/archive", label: "Archive", roles: ["Admin"] },
-  { path: "/account", label: "Account", roles: ["BasicUser", "Admin"] },
-  { path: "/documents", label: "Documents", roles: ["Admin"] },
+  { path: "/", label: "Home", roles: ["BasicUser"] },
+  { path: "/home-admin", label: "Home", roles: ["SuperAdmin"] },
+  { path: "/pantry", label: "Pantry", roles: ["BasicUser", "SuperAdmin"] },
+  { path: "/stock", label: "Stock", roles: ["BasicUser", "SuperAdmin"] },
+  { path: "/trends", label: "Trends", roles: ["SuperAdmin"] },
+  { path: "/archive", label: "Archive", roles: ["SuperAdmin"] },
+  { path: "/account", label: "Account", roles: ["BasicUser", "SuperAdmin"] },
+  { path: "/documents", label: "Documents", roles: ["SuperAdmin"] },
 ];

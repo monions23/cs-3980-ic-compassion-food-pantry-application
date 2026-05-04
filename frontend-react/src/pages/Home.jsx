@@ -1,7 +1,6 @@
 import "../App.css";
 import flatpickr from "flatpickr";
 import { useState, useEffect, useRef } from "react";
-import { useSidebarToggle } from "../utilities/Sidebar/Sidebar_Toggle";
 import { getPantryRecords } from "../utilities/API_Files/Pantry-API";
 import Layout from "./Layout";
 import { formatTime } from "../utilities/Helper_Functions/Scheduling_Helpers";

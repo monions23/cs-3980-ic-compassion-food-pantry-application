@@ -18,6 +18,7 @@ import { AuthProvider } from "./contexts/AuthProvider";
 import Home_Logged_Out from "./pages/Home_Logged_Out";
 import Login_Signup from "./pages/Login_Signup";
 const Home = lazy(() => import("./pages/Home"));
+const HomeAdmin = lazy(() => import("./pages/HomeAdmin"));
 const Archive = lazy(() => import("./pages/Archive"));
 const Trends = lazy(() => import("./pages/Trends"));
 const Stock = lazy(() => import("./pages/StockPage/Stock"));
@@ -37,6 +38,7 @@ function App() {
             {/* Protected Routes (Guarded) */}
             <Route element={<ProtectedRoute />}>
               <Route path="/" element={<Home />} />
+              <Route path="/home-admin" element={<HomeAdmin />} />
               <Route path="/archive" element={<Archive />} />
               <Route path="/trends" element={<Trends />} />
               <Route path="/stock" element={<Stock />} />

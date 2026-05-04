@@ -4,6 +4,8 @@ import { useAuth } from "../utilities/UseAuth";
 
 import Layout from "./Layout";
 
+import { decodeTokenSafe } from "../utilities/Helper_Functions/Auth_Helpers";
+
 import {
   loginRequest,
   signupRequest,
@@ -53,9 +55,19 @@ export default function Login_Signup() {
 
       login(data.access_token); // Sets state in AuthProvider
 
+      // Get the role from the decoded token
+      const payload = decodeTokenSafe(data.access_token);
+      const role = payload?.role || "BasicUser";
+
       setLoginMsgClass("auth-message success");
       setLoginMsg("Login successful!");
-      navigate("/"); // Navigate to the home page (now logged in)
+
+      // Redirect based on role
+      if (role === "SuperAdmin") {
+        navigate("/home-admin");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       console.error(err);
       setLoginMsgClass("auth-message error");
