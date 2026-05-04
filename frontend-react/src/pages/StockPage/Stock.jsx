@@ -55,6 +55,11 @@ export default function Stock() {
       setErrorMsg("Please fill all fields");
       return;
     }
+    //Give error
+    if (formData.quantity < 0 || formData.target_quantity < 0) {
+      setErrorMsg("Stock values cannot be negative");
+      return;
+    } 
 
     try {
       await addStockItem(formData);
@@ -100,6 +105,12 @@ export default function Stock() {
       return;
     }
 
+    //Throw error if negative
+    if (formData.quantity < 0 || formData.target_quantity < 0) {
+      setErrorMsg("Stock values cannot be negative");
+      return;
+    }
+
     try {
       await editStockItem(editingId, formData);
       document.getElementById("close-edit-modal")?.click();
@@ -139,12 +150,37 @@ export default function Stock() {
      HANDLE CHANGE TO FORM VALUES
   ========================= */
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value, // This dynamically updates whichever field was changed
-    });
-  };
+  const { name, value } = e.target;
+
+  let newValue = value;
+
+  // Only apply rules to numeric fields
+  if (name === "quantity" || name === "target_quantity") {
+    // Convert to number
+    const num = Number(value);
+
+    // Prevent negatives
+    if (num < 0) {
+      setErrorMsg("Stock values cannot be negative");
+      return; // stop update entirely
+    }
+
+    // Optional: prevent decimals
+    if (!Number.isInteger(num)) {
+      setErrorMsg("Stock must be a whole number");
+      return;
+    }
+
+    newValue = num;
+  }
+
+  setErrorMsg(""); // clear error if valid
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: newValue,
+  }));
+};
 
   /* =========================
      UPDATE CHART WHEN STOCKED FOOD CHANGES
