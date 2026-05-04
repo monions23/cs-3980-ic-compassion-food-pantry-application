@@ -8,7 +8,6 @@ export default function Account() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [userEmail, setUserEmail] = useState("");
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [showChangeEmail, setShowChangeEmail] = useState(false);
 
@@ -17,7 +16,22 @@ export default function Account() {
   ========================= */
   async function handlePasswordReset(event) {
     event.preventDefault();
-    resetPassword(currentPassword, newPassword);
+
+    try {
+      const response = await resetPassword(currentPassword, newPassword);
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.detail || "Password update failed");
+        return;
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+      alert("Connection error. Please try again.");
+      return;
+    }
+
+    alert("Password successfully updated!");
   }
 
   /* ====================
@@ -25,7 +39,25 @@ export default function Account() {
   ========================= */
   async function handleEmailChange(event) {
     event.preventDefault();
-    changeEmail(newEmail, confirmPassword, setUserEmail);
+
+    try {
+      const response = await changeEmail(newEmail, confirmPassword);
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.detail || "Failed to update email");
+        return;
+      }
+
+      // IMPORTANT: replace token
+      localStorage.setItem("access_token", data.access_token);
+
+      alert("Email updated successfully");
+    } catch (error) {
+      console.error("Network error:", error);
+      alert("Connection error. Please try again.");
+      return;
+    }
   }
 
   return (

@@ -12,7 +12,7 @@ export default function Layout({ children }) {
     <>
       <Topbar toggleSidebar={toggleSidebar} />
       <main className="container">
-        <Sidebar active={active} userRole="Admin" isAuthenticated={false} />
+        <Sidebar active={active} />
         {/* This "children" is where the unique magic of each page lives */}
         <section className="main">{children}</section>
       </main>

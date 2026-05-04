@@ -6,8 +6,13 @@ import {
   deleteFile,
 } from "../utilities/API_Files/Files-API";
 
+import { hideUploadIfNotAdmin } from "../utilities/Helper_Functions/File_Helpers";
+
 export default function Documents() {
   const [files, setFiles] = useState([]);
+
+  // Permissions check for uploading a file
+  const uploadState = hideUploadIfNotAdmin();
 
   /* ====================
   HANDLE LOADING THE FILES
@@ -48,7 +53,15 @@ export default function Documents() {
             <h1>Upload and Download files</h1>
             <form id="uploadForm">
               <input type="file" name="file" />
-              <button type="submit">Upload</button>
+              <button
+                type="submit"
+                onSubmit={handleFileUpload}
+                style={{
+                  display: uploadState ? "block" : "none",
+                }}
+              >
+                Upload
+              </button>
             </form>
           </div>
           <div className="main-structure-right">

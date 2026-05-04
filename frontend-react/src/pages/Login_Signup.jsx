@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../utilities/UseAuth";
 
 import Layout from "./Layout";
 
 import {
-  login,
-  signup,
+  loginRequest,
+  signupRequest,
   forgotPassword,
 } from "../utilities/API_Files/Signup-Login-API";
 
 export default function Login_Signup() {
   const navigate = useNavigate();
+  const { login } = useAuth(); // Get the function from Context
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [forgotPasswordSection, setForgotPasswordSection] = useState(false);
 
@@ -21,6 +23,7 @@ export default function Login_Signup() {
   const [signupMsgClass, setSignupMsgClass] = useState("auth-message");
   const [resetPasswordMsg, setPasswordMsg] = useState("");
   const [passwordMsgColor, setPasswordMsgColor] = useState("");
+
   /* ==========================
   LOGIN HANDLER
 ``========================== */
@@ -29,7 +32,7 @@ export default function Login_Signup() {
     e.stopPropagation();
 
     try {
-      const response = await login(formData.email, formData.password);
+      const response = await loginRequest(formData.email, formData.password);
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
@@ -48,9 +51,10 @@ export default function Login_Signup() {
 
       localStorage.setItem("access_token", data.access_token);
 
+      login(data.access_token); // Sets state in AuthProvider
+
       setLoginMsgClass("auth-message success");
       setLoginMsg("Login successful!");
-
       navigate("/"); // Navigate to the home page (now logged in)
     } catch (err) {
       console.error(err);
@@ -64,7 +68,7 @@ export default function Login_Signup() {
 ``========================== */
   async function handleSignup() {
     try {
-      const response = await signup(formData.email, formData.password);
+      const response = await signupRequest(formData.email, formData.password);
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {

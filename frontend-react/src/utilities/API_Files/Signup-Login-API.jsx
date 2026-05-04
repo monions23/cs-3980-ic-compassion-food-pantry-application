@@ -3,7 +3,7 @@ const API_BASE = "http://127.0.0.1:8000";
 /* ==========================
     LOG IN
 ========================== */
-export const login = async (email, password) => {
+export const loginRequest = async (email, password) => {
   const res = await fetch(`${API_BASE}/auth/sign-in`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -19,7 +19,7 @@ export const login = async (email, password) => {
 /* ==========================
     SIGN UP
 ========================== */
-export const signup = async (email, password) => {
+export const signupRequest = async (email, password) => {
   const res = await fetch(`${API_BASE}/auth/signup`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

@@ -7,11 +7,7 @@ function Footer() {
       <footer>
         <hr className="center" />
         <div className="footer-grid">
-          <img
-            src="IC_Compassion_Logo_big.jpg"
-            alt="Iowa City Compassion Logo"
-            className="footer-logo"
-          />
+          {/* LEFT: TEXT */}
           <div className="footer-pantry-info">
             <p>
               Food Pantry Open 12:00 pm to 5:00 pm Wednesday
@@ -25,11 +21,22 @@ function Footer() {
               Iowa City, IA 52240 <br />@ 2026 by IC Compassion
             </p>
           </div>
-          <a href="https://www.iccompassion.org/" className="footer-button">
-            For more information
-          </a>
+
+          {/* RIGHT: LOGO + BUTTON */}
+          <div className="footer-right">
+            <img
+              src="IC_Compassion_Logo_big.jpg"
+              alt="Iowa City Compassion Logo"
+              className="footer-logo"
+            />
+
+            <a href="https://www.iccompassion.org/" class="footer-button">
+              For more information
+            </a>
+          </div>
         </div>
-        <hr className="center" />
+
+        <hr class="center" />
       </footer>
     </>
   );

@@ -4,13 +4,18 @@ import {
   AUTHENTICATED_SIDEBAR_LINKS,
 } from "../utilities/Sidebar/Sidebar_Config";
 
+import { useAuth } from "../utilities/UseAuth";
 /* To toggle sidebar */
-export default function Sidebar({ active, userRole, isAuthenticated }) {
+export default function Sidebar({ active }) {
+  const { isAuthenticated, userRole, logout } = useAuth();
+
+  // Filter sidebar links
   const sidebarLinks = isAuthenticated
     ? AUTHENTICATED_SIDEBAR_LINKS.filter((link) =>
         link.roles.includes(userRole),
       )
     : LOGGED_OUT_SIDEBAR_LINKS;
+
   return (
     <>
       {/* Display the filtered links */}
@@ -26,15 +31,13 @@ export default function Sidebar({ active, userRole, isAuthenticated }) {
         {/* Logout button for authenticated users */}
         {isAuthenticated && (
           <div className="sidebar-links">
-            <button
-              onClick={() => {
-                /* logout function */
-              }}
+            <NavLink
+              onClick={() => logout(localStorage.getItem("access_token"))}
               className="sidebar-button"
-              style={{ background: "none", border: "none", cursor: "pointer" }}
+              end
             >
               Log Out
-            </button>
+            </NavLink>
           </div>
         )}
       </aside>

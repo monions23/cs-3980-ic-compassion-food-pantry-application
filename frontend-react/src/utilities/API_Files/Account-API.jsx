@@ -16,30 +16,13 @@ export const resetPassword = async (currentPass, newPass) => {
     }),
   });
 
-  let data;
-  try {
-    data = await res.json();
-  } catch {
-    const text = await res.text();
-    console.error("Backend error:", text);
-    alert(text);
-    return;
-  }
-
-  if (!res.ok) {
-    alert(data.detail || "Password update failed");
-    return;
-  }
-
-  alert("Password successfully updated!");
+  return res;
 };
 
 /* ====================
   CHANGE EMAIL
   ========================= */
-export const changeEmail = async (newEmail, password, setHandler) => {
-  event.preventDefault();
-
+export const changeEmail = async (newEmail, password) => {
   const token = localStorage.getItem("access_token");
 
   const res = await fetch("http://127.0.0.1:8000/users/change-email", {
@@ -54,23 +37,5 @@ export const changeEmail = async (newEmail, password, setHandler) => {
     }),
   });
 
-  let data;
-  try {
-    data = await res.json();
-  } catch {
-    const text = await res.text();
-    alert(text);
-    return;
-  }
-
-  if (!res.ok) {
-    alert(data.detail || "Failed to update email");
-    return;
-  }
-
-  // IMPORTANT: replace token
-  localStorage.setItem("access_token", data.access_token);
-  setHandler(newEmail);
-
-  alert("Email updated successfully");
+  return res;
 };

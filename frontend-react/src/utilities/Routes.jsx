@@ -1,10 +1,11 @@
 import { Navigate, Outlet } from "react-router-dom";
-
+import { useState, useEffect } from "react";
+import { useAuth } from "./UseAuth";
 export const ProtectedRoute = () => {
-  const token = localStorage.getItem("access_token");
+  const { isAuthenticated, userRole } = useAuth();
 
   // If no token, bounce them to login
-  if (!token) {
+  if (!isAuthenticated && !localStorage.getItem("access_token")) {
     return <Navigate to="/welcome" replace />;
   }
 

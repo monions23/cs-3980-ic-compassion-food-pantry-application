@@ -707,3 +707,7 @@ footer {
 .account-row:last-child .account-label {
   border-radius: 0 0 8px 8px;
 }
+
+.flatpickr-calendar {
+  position: fixed !important;
+}
