@@ -492,28 +492,101 @@ form button:hover {
 /* =========================
    STOCK PAGE (tables + search)
 ========================= */
+
+.stock-info {
+  
+  border-radius: 8px;  
+  max-height: 80vh; /* 50% of screen height */
+  overflow-y: auto;
+  overflow-x: auto; 
+}
+
 .stock-table {
   width: 100%;
   border-radius: 10px;
-  overflow: hidden;
+  margin: 0px;
   background: white;
+  min-width: 200px; /* forces overflow when screen is small */
+  border-collapse: collapse;
 }
 
 .stock-header {
   background: #f1f5f9;
   font-weight: 600;
+  
 }
+
+.stock-info::-webkit-scrollbar {
+  width: 6px;
+}
+
+.stock-info::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
 
 .stock-table-item,
 .stock-header {
   padding: 12px;
 }
 
+
 .search-answer-quantity {
   border-radius: 10px;
   overflow: hidden;
   background: white;
 }
+
+  .stock-edit-button {
+  background-color:#02909d;
+  color:white;
+  border:none;
+  padding-left:15px;
+  padding-right:15px;
+  padding-top: 5px;
+  padding-bottom: 5px;;
+  margin-bottom:5px;
+}
+ .stock-edit-button:hover {
+  background-color:#65bac2;
+  color:white;
+}
+
+ .stock-delete-btn {
+  background-color: #bc1a38;
+  color:white;
+  border:none;
+  padding-left:15px;
+  padding-right:15px;
+  padding-top: 5px;
+  padding-bottom: 5px;;
+  margin:2px;
+}
+.stock-delete-btn:hover {
+  background-color:#660e1e;
+  color:white;
+}
+
+#main-signup-button-container {
+  display: grid; place-items: center; 
+}
+
+.main-signup-button, .add-stock-button{
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #02909d;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: 0.2s ease;
+  
+}
+
+.main-signup-button:hover, .add-stock-button:hover {
+  background-color: #bc1a38;
+}
+
 
 /* =========================
    MODALS (Bootstrap overrides)
@@ -818,53 +891,3 @@ footer {
 .flatpickr-calendar {
   position: fixed;
 }
-
- .stockModalTrigger, .stock-edit-button {
-  background-color:#02909d;
-  color:white;
-  border:none;
-  padding-left:15px;
-  padding-right:15px;
-  padding-top: 5px;
-  padding-bottom: 5px;;
-  margin-bottom:5px;
-}
-.stockModalTrigger:hover, .stock-edit-button:hover {
-  background-color:#65bac2;
-  color:white;
-}
-
- .stock-delete-btn {
-  background-color: #bc1a38;
-  color:white;
-  border:none;
-  padding-left:15px;
-  padding-right:15px;
-  padding-top: 5px;
-  padding-bottom: 5px;;
-  margin:2px;
-}
-.stock-delete-btn:hover {
-  background-color:#660e1e;
-  color:white;
-}
-
-#main-signup-button-container {
-  display: grid; place-items: center; 
-}
-
-.main-signup-button, .add-stock-button{
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #02909d;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: 0.2s ease;
-  
-}
-
-.main-signup-button:hover, .add-stock-button:hover {
-  background-color: #bc1a38;
-}
-

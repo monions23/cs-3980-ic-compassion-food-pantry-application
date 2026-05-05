@@ -52,6 +52,7 @@ export default function StockModal({
                   value={formData.quantity}
                   onChange={handleChange}
                   name="quantity"
+                  
                 />
               </div>
 

@@ -3,7 +3,6 @@ import Chart from "chart.js/auto";
 import Layout from "./Layout";
 import { getPantryRecords } from "../utilities/API_Files/Pantry-API";
 
-// ✅ Flatpickr
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
@@ -30,7 +29,8 @@ function Trends() {
     once: 0,
     twice: 0,
     three: 0,
-    fourPlus: 0,
+    four: 0,        
+    fivePlus: 0,    
     familyTotal: 0,
   });
 
@@ -40,12 +40,33 @@ function Trends() {
   /* =========================
      HELPERS
   ========================= */
+function getWednesdaysInMonth(year, month) {
+  const dates = [];
+  const d = new Date(year, month, 1);
 
-  function getWeekOfMonth(date) {
-    const d = new Date(date);
-    return Math.floor((d.getDate() - 1) / 7);
+  // Move to first Wednesday
+  while (d.getDay() !== 3) { // 3 = Wednesday
+    d.setDate(d.getDate() + 1);
   }
 
+  // Collect all Wednesdays
+  while (d.getMonth() === month) {
+    dates.push(new Date(d));
+    d.setDate(d.getDate() + 7);
+  }
+
+  return dates;
+}
+
+function getFirstWednesday(year, month) {
+  const d = new Date(year, month, 1);
+
+  while (d.getDay() !== 3) {
+    d.setDate(d.getDate() + 1);
+  }
+
+  return d;
+}
   /* =========================
      FILTER
   ========================= */
@@ -58,7 +79,7 @@ function Trends() {
 
       const date = new Date(r.created_at);
 
-      // ✅ Flatpickr month selection
+      //Flatpickr month selection
       if (selectedMonth) {
         return (
           date.getFullYear() === selectedMonth.getFullYear() &&
@@ -67,13 +88,41 @@ function Trends() {
       }
 
       if (currentRange === "month") {
+        const year = now.getFullYear();
+        const month = now.getMonth();
+
+        const firstWednesday = getFirstWednesday(year, month);
+
+        // Check if ANY record exists on/after first Wednesday of this month
+        const hasStartedThisMonth = records.some((rec) => {
+          if (!rec.created_at) return false;
+
+          const d = new Date(rec.created_at);
+          return (
+            d >= firstWednesday &&
+            d.getMonth() === month &&
+            d.getFullYear() === year
+          );
+        });
+
+        // If not started → use previous month
+        if (!hasStartedThisMonth) {
+          const prev = new Date(year, month - 1, 1);
+
+          return (
+            date.getMonth() === prev.getMonth() &&
+            date.getFullYear() === prev.getFullYear()
+          );
+        }
+
+        // Otherwise use current month
         return (
-          date.getMonth() === now.getMonth() &&
-          date.getFullYear() === now.getFullYear()
+          date.getMonth() === month &&
+          date.getFullYear() === year
         );
       }
 
-      // ✅ Rolling 12 months
+      // Rolling 12 months
       if (currentRange === "year") {
         const past = new Date();
         past.setMonth(now.getMonth() - 11);
@@ -97,16 +146,36 @@ function Trends() {
 
     // Month view
     if (selectedMonth || currentRange === "month") {
-      labels = ["Week 1", "Week 2", "Week 3", "Week 4"];
-      visits = [0, 0, 0, 0];
-      people = [0, 0, 0, 0];
+      const baseDate = selectedMonth || new Date();
+
+      const year = baseDate.getFullYear();
+      const month = baseDate.getMonth();
+
+      const wednesdays = getWednesdaysInMonth(year, month);
+
+      // Labels like "Apr 3", "Apr 10", etc.
+      labels = wednesdays.map((d) =>
+        d.toLocaleDateString("default", { month: "short", day: "numeric" })
+      );
+
+      visits = new Array(wednesdays.length).fill(0);
+      people = new Array(wednesdays.length).fill(0);
 
       filtered.forEach((r) => {
-        const week = getWeekOfMonth(r.created_at);
-        if (week < 0 || week > 3) return;
+        const d = new Date(r.created_at);
 
-        visits[week]++;
-        people[week] += r.num_ppl_in_families || 0;
+        // Only count Wednesdays
+        if (d.getDay() !== 3) return;
+
+        // Find matching Wednesday index
+        const index = wednesdays.findIndex(
+          (wd) => wd.toDateString() === d.toDateString()
+        );
+
+        if (index !== -1) {
+          visits[index]++;
+          people[index] += r.num_ppl_in_families || 0;
+        }
       });
     }
 
@@ -218,13 +287,14 @@ function Trends() {
       0
     );
 
-    let once = 0, twice = 0, three = 0, fourPlus = 0;
+    let once = 0, twice = 0, three = 0, four = 0, fivePlus = 0;
 
     Object.values(visitCounts).forEach((c) => {
       if (c === 1) once++;
       else if (c === 2) twice++;
       else if (c === 3) three++;
-      else fourPlus++;
+      else if (c === 4) four++;
+      else if (c >= 5) fivePlus++;
     });
 
     setInsights({
@@ -234,7 +304,8 @@ function Trends() {
       once,
       twice,
       three,
-      fourPlus,
+      four,
+      fivePlus,
       familyTotal: totalPeople,
     });
   }
@@ -280,6 +351,7 @@ function Trends() {
               value={selectedMonth}
               options={{
                 dateFormat: "Y-m",
+                maxDate: new Date(), 
                 plugins: [
                   new monthSelectPlugin({
                     shorthand: true,
@@ -344,7 +416,8 @@ function Trends() {
               <p>Visited Once: {insights.once}</p>
               <p>Visited Twice: {insights.twice}</p>
               <p>Visited 3 Times: {insights.three}</p>
-              <p>Visited 4+ Times: {insights.fourPlus}</p>
+              <p>Visited 4 Times: {insights.four}</p>
+              <p>Visited 5+ Times: {insights.fivePlus}</p>
 
               <hr />
 
