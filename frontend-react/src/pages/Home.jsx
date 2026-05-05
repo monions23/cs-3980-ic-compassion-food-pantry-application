@@ -23,6 +23,10 @@ function Home() {
     window.location.href = "/login-signup";
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 961730a20a436d012b695316a5baacced1369856
   // Initialize flatpickr
   useEffect(() => {
     console.log("dateRef.current:", dateRef.current);
@@ -64,6 +68,11 @@ function Home() {
     setTimeSlots(slots);
   }, []);
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 961730a20a436d012b695316a5baacced1369856
   // Submit booking
   async function submitBooking() {
     if (dateInput === "" || timeSelect === "") {
@@ -112,18 +121,31 @@ function Home() {
             <hr />
             <br />
             <div className="icon-span">
-              <Link to="/account">
-                <img src="icons/solid-user-logo.svg" alt="Account" />
-              </Link>
+              <a href="/account" className="icon-item">
+                <img src="/icons/solid-user-logo.svg" alt="Account" />
+                <span>Account</span>
+              </a>
 
-              <Link to="/documents">
-                <img src="icons/solid-file-logo.svg" alt="Files" />
-              </Link>
+              <a href="/documents" className="icon-item">
+                <img src="/icons/solid-file-logo.svg" alt="Files" />
+                <span>Files</span>
+              </a>
 
+<<<<<<< HEAD
               <img src="icons/logout-logo.svg" alt="Logout" onClick={logout} />
             </div>
             <br />
             <br />
+=======
+              <div className="icon-item" onClick={logout}>
+                <img src="/icons/logout-logo.svg" alt="Logout" />
+                <span>Logout</span>
+              </div>
+            </div>
+            <br />
+            <br />
+
+>>>>>>> 961730a20a436d012b695316a5baacced1369856
           </div>
           <div className="main-structure-right">
             <div className="scheduler">

@@ -56,11 +56,7 @@ Next, it should be noted project uses FastAPI and Uvicorn. All necessary librari
 pip install -r requirements.txt
 ```
 ## FRONTEND
-### Folder Structure
-frontend-react/ <br>
-|──
-|──
-
+Developed in React
 
 ### Key Features
 - Dynamic dashboard with sidebar navigation
@@ -259,5 +255,3 @@ Files
 - Users can delete their own files
 - Admin: upload files (visible in all accounts)
 - Admin: can delete any file
-
-## MAJOR FEATURES

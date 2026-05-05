@@ -78,7 +78,10 @@ export default function Login_Signup() {
   /* ==========================
   SIGN UP HANDLER
 ``========================== */
-  async function handleSignup() {
+  async function handleSignup(e) {
+
+    e.preventDefault();
+
     try {
       const response = await signupRequest(formData.email, formData.password);
       const data = await response.json().catch(() => ({}));
@@ -91,6 +94,8 @@ export default function Login_Signup() {
 
       setSignupMsg("Account created! Please sign in.");
       setSignupMsgClass("auth-message success");
+      setFormData({ email: "", password: "" });
+      document.getElementById("sign-in-email")?.focus();
     } catch (err) {
       console.error(err);
       setSignupMsgClass("auth-message error");
@@ -238,7 +243,10 @@ export default function Login_Signup() {
               <p
                 id="signup-msg"
                 className={signupMsgClass}
-                style={{ marginTop: "10px" }}
+                style={{
+                  marginTop: "10px",
+                  fontWeight: "bold",
+                }}
               >
                 {signupMsg}
               </p>

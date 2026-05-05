@@ -32,7 +32,7 @@ function Topbar({ toggleSidebar }) {
         </div>
 
         <div className="user">
-          <span>Welcome, {email}</span>
+          <span>{email}</span>
         </div>
       </section>
     </>

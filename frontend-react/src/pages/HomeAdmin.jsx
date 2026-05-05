@@ -9,6 +9,13 @@ import { getScheduledTimes } from "../utilities/API_Files/Scheduling-API";
 export default function HomeAdmin() {
   const [scheduleRecords, setScheduleRecords] = useState({});
 
+  function logout() {
+    localStorage.removeItem("access_token");
+
+    // redirect to login page
+    window.location.href = "/login-signup";
+  }
+
   // for month total
   const [monthTotal, setMonthTotal] = useState(0);
 
@@ -158,35 +165,40 @@ export default function HomeAdmin() {
             <hr />
             <br />
             <div className="icon-span">
-              <a href="/archive">
-                <img src="icons/archive-logo.svg" alt="Icon Homepage Links" />
+              <a href="/archive" className="icon-item">
+                <img src="/icons/archive-logo.svg" alt="Archive" />
+                <span>Archive</span>
               </a>
-              <a href="/trends">
-                <img src="icons/trends-logo.svg" alt="Icon Homepage Links" />
+
+              <a href="/trends" className="icon-item">
+                <img src="/icons/trends-logo.svg" alt="Trends" />
+                <span>Trends</span>
               </a>
-              <a href="/stock">
-                <img src="icons/stock-logo.svg" alt="Icon Homepage Links" />
+
+              <a href="/stock" className="icon-item">
+                <img src="/icons/stock-logo.svg" alt="Stock" />
+                <span>Stock</span>
               </a>
-              <a href="/account">
-                <img
-                  src="icons/solid-user-logo.svg"
-                  alt="Icon Homepage Links"
-                />
+
+              <a href="/account" className="icon-item">
+                <img src="/icons/solid-user-logo.svg" alt="Account" />
+                <span>Account</span>
               </a>
-              <a href="/documents">
-                <img
-                  src="icons/solid-file-logo.svg"
-                  alt="Icon Homepage Links"
-                />
+
+              <a href="/documents" className="icon-item">
+                <img src="/icons/solid-file-logo.svg" alt="Files" />
+                <span>Files</span>
               </a>
-              <a href="/pantry">
-                <img src="icons/pantry-logo.svg" alt="Icon Homepage Links" />
+
+              <a href="/pantry" className="icon-item">
+                <img src="/icons/pantry-logo.svg" alt="Pantry" />
+                <span>Pantry</span>
               </a>
-              <img
-                src="icons/logout-logo.svg"
-                alt="Icon Homepage Links"
-                onclick="logout()"
-              />
+
+              <div className="icon-item" onClick={logout}>
+                <img src="/icons/logout-logo.svg" alt="Logout" />
+                <span>Logout</span>
+              </div>
             </div>
             <br />
             <div className="card p-3 text-center">
