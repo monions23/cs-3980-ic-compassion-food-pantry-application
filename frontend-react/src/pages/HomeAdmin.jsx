@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-// Components
 import Layout from "./Layout";
+
 import { getPantryRecords } from "../utilities/API_Files/Pantry-API";
 import { getNextWednesday } from "../utilities/Helper_Functions/Scheduling_Helpers";
 import { getScheduledTimes } from "../utilities/API_Files/Scheduling-API";

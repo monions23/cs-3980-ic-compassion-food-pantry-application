@@ -10,9 +10,18 @@ import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
 import "flatpickr/dist/plugins/monthSelect/style.css";
 
 const COLORS = [
-  "#4e79a7", "#f28e2b", "#e15759", "#76b7b2",
-  "#59a14f", "#edc948", "#b07aa1", "#ff9da7",
-  "#9c755f", "#bab0ab", "#86bc86", "#ffbe7d",
+  "#4e79a7",
+  "#f28e2b",
+  "#e15759",
+  "#76b7b2",
+  "#59a14f",
+  "#edc948",
+  "#b07aa1",
+  "#ff9da7",
+  "#9c755f",
+  "#bab0ab",
+  "#86bc86",
+  "#ffbe7d",
 ];
 
 function Trends() {
@@ -181,12 +190,12 @@ function Trends() {
       data.labels.map((label, i) => ({
         label,
         value: selected[i],
-      }))
+      })),
     );
   }, [buildDataset, currentMode, graphType]);
 
   /* =========================
-     INSIGHTS (UNCHANGED)
+     INSIGHTS
   ========================= */
 
   function updateInsights(filtered) {
@@ -210,15 +219,15 @@ function Trends() {
     const uniqueVisitors = Object.keys(visitCounts).length;
 
     const returningVisitors = Object.values(visitCounts).filter(
-      (c) => c > 1
+      (c) => c > 1,
     ).length;
 
-    const totalPeople = Object.values(familyMap).reduce(
-      (sum, v) => sum + v,
-      0
-    );
+    const totalPeople = Object.values(familyMap).reduce((sum, v) => sum + v, 0);
 
-    let once = 0, twice = 0, three = 0, fourPlus = 0;
+    let once = 0,
+      twice = 0,
+      three = 0,
+      fourPlus = 0;
 
     Object.values(visitCounts).forEach((c) => {
       if (c === 1) once++;
@@ -257,7 +266,14 @@ function Trends() {
       renderChart();
       updateInsights(filtered);
     }
-  }, [records, currentMode, currentRange, graphType, selectedMonth, renderChart]);
+  }, [
+    records,
+    currentMode,
+    currentRange,
+    graphType,
+    selectedMonth,
+    renderChart,
+  ]);
 
   /* =========================
      UI (UNCHANGED STRUCTURE)
@@ -291,7 +307,10 @@ function Trends() {
               onChange={(dates) => setSelectedMonth(dates[0])}
             />
 
-            <button className="Trends-clear-btn" onClick={() => setSelectedMonth(null)}>
+            <button
+              className="Trends-clear-btn"
+              onClick={() => setSelectedMonth(null)}
+            >
               Clear
             </button>
           </div>
@@ -300,7 +319,6 @@ function Trends() {
         {/*  RIGHT SIDE  */}
         <div className="main-structure-right">
           <div className="trends-right-grid">
-            
             <div className="trends-controls">
               <div className="menu">
                 <span className="menu-title">Type of Graph:</span>
@@ -316,8 +334,12 @@ function Trends() {
               <div className="menu">
                 <span className="menu-title">Data Range:</span>
                 <div className="menu-buttons">
-                  <button onClick={() => setCurrentRange("month")}>Past Month</button>
-                  <button onClick={() => setCurrentRange("year")}>Past Year</button>
+                  <button onClick={() => setCurrentRange("month")}>
+                    Past Month
+                  </button>
+                  <button onClick={() => setCurrentRange("year")}>
+                    Past Year
+                  </button>
                 </div>
               </div>
 
@@ -326,8 +348,12 @@ function Trends() {
               <div className="menu">
                 <span className="menu-title">Mode:</span>
                 <div className="menu-buttons">
-                  <button onClick={() => setCurrentMode("visits")}>Visitors</button>
-                  <button onClick={() => setCurrentMode("people")}>People Served</button>
+                  <button onClick={() => setCurrentMode("visits")}>
+                    Visitors
+                  </button>
+                  <button onClick={() => setCurrentMode("people")}>
+                    People Served
+                  </button>
                 </div>
               </div>
             </div>

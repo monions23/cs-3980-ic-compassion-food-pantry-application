@@ -1,10 +1,14 @@
-import Layout from "./Layout";
 import { useEffect, useState } from "react";
+
+import Layout from "./Layout";
+
 import {
   getFiles,
   uploadFile,
   deleteFile,
 } from "../utilities/API_Files/Files-API";
+
+import { getUser } from "../utilities/API_Files/Account-API";
 
 export default function Documents() {
   const [files, setFiles] = useState([]);
@@ -16,15 +20,8 @@ export default function Documents() {
   useEffect(() => {
     async function loadUser() {
       try {
-        const res = await fetch("http://127.0.0.1:8000/users/me", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        });
-
-        if (!res.ok) return;
-
-        const data = await res.json();
+        const token = localStorage.getItem("access_token");
+        const data = await getUser(token);
         setUser(data);
       } catch (err) {
         console.error("Error loading user:", err);
@@ -39,14 +36,14 @@ export default function Documents() {
   ========================= */
   async function handleFileLoad() {
     const filesLoaded = await getFiles();
-    setFiles(filesLoaded || []); 
+    setFiles(filesLoaded || []);
   }
 
   /* ====================
   UPLOAD FILE
   ========================= */
   async function handleFileUpload(e) {
-    e.preventDefault(); 
+    e.preventDefault();
 
     await uploadFile(e);
     handleFileLoad();
@@ -70,10 +67,9 @@ export default function Documents() {
   return (
     <Layout>
       <div className="main-grid">
-        
         {/* LEFT SIDE */}
         <div className="main-structure-top">
-          <h1>Upload and Download files</h1>
+          <h1>Pantry Documents</h1>
 
           {/* Only show upload for SuperAdmin */}
           {user?.role === "SuperAdmin" && (
@@ -105,7 +101,7 @@ export default function Documents() {
                 </tr>
               ) : (
                 files.map((file) => (
-                  <tr key={file._id}> 
+                  <tr key={file._id}>
                     <td>{file.filename}</td>
                     <td>{file.uploaded_by}</td>
                     <td>

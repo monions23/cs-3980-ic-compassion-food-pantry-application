@@ -1,11 +1,12 @@
-import "../App.css";
-import flatpickr from "flatpickr";
 import { useState, useEffect, useRef } from "react";
-import { getPantryRecords } from "../utilities/API_Files/Pantry-API";
+import { Link } from "react-router-dom";
+import flatpickr from "flatpickr";
+
 import Layout from "./Layout";
+
+// import { getPantryRecords } from "../utilities/API_Files/Pantry-API";
 import { formatTime } from "../utilities/Helper_Functions/Scheduling_Helpers";
 import { scheduleTime } from "../utilities/API_Files/Scheduling-API";
-import { Link } from "react-router-dom";
 
 function Home() {
   const [dateInput, setDateInput] = useState("");
@@ -22,7 +23,6 @@ function Home() {
     window.location.href = "/login-signup";
   }
 
- 
   // Initialize flatpickr
   useEffect(() => {
     console.log("dateRef.current:", dateRef.current);
@@ -64,8 +64,6 @@ function Home() {
     setTimeSlots(slots);
   }, []);
 
-  
-
   // Submit booking
   async function submitBooking() {
     if (dateInput === "" || timeSelect === "") {
@@ -101,7 +99,7 @@ function Home() {
   }
 
   // Initialize time slots on load
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
   return (
     <>
       <Layout>
@@ -122,14 +120,10 @@ function Home() {
                 <img src="icons/solid-file-logo.svg" alt="Files" />
               </Link>
 
-              <img
-                src="icons/logout-logo.svg"
-                alt="Logout"
-                onClick={logout} />
+              <img src="icons/logout-logo.svg" alt="Logout" onClick={logout} />
             </div>
             <br />
             <br />
-            
           </div>
           <div className="main-structure-right">
             <div className="scheduler">

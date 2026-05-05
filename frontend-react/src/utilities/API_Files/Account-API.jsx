@@ -39,3 +39,45 @@ export const changeEmail = async (newEmail, password) => {
 
   return res;
 };
+
+/* ====================
+  GET USER
+  ========================= */
+export const getUser = async (token) => {
+  const res = await fetch("http://127.0.0.1:8000/users/me", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!res.ok) return;
+
+  const data = await res.json();
+  return data;
+};
+
+/* ====================
+  GET ALL USERS
+  ========================= */
+export const getAllUsers = async (token) => {
+  const res = await fetch("http://127.0.0.1:8000/users/", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!res.ok) return;
+
+  const data = await res.json();
+  return data;
+};
+
+/* ====================
+  UPDATE A USER'S ROLE
+  ========================= */
+export const updateRole = async (token, userId, newRole) => {
+  await fetch(`http://127.0.0.1:8000/users/${userId}/role`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ role: newRole }),
+  });
+};

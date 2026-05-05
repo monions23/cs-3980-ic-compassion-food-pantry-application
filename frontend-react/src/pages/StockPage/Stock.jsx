@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 
-// Components
 import Layout from "../Layout";
 import StockChart from "./StockChart";
 import StockModal from "./StockModal";
 
-// API CALLS
 import {
   getAllStock,
   addStockItem,
@@ -188,7 +186,7 @@ export default function Stock() {
                   setErrorMsg("");
                 }}
               >
-                <i className="add-stock-button">Add Item</i> 
+                <i className="add-stock-button">Add Item</i>
               </button>
             </div>
 

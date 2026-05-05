@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 
-// Components
 import Layout from "../Layout";
 
-// API CALLS
 import {
   getPantryRecords,
   addPantryRecord,
@@ -182,9 +180,13 @@ export default function Pantry() {
                       key={r.public_id}
                       className="pantry-update update-card"
                     >
-                      <div className="pantry-updates-header">Family of {r.num_ppl_in_families}</div>
+                      <div className="pantry-updates-header">
+                        Family of {r.num_ppl_in_families}
+                      </div>
                       <br />
-                      <div className="pantry-updates-date">{new Date(r.created_at).toLocaleString()}</div>
+                      <div className="pantry-updates-date">
+                        {new Date(r.created_at).toLocaleString()}
+                      </div>
                       <button
                         className="Pantry-delete-btn"
                         onClick={() => handleDelete(r.public_id)}

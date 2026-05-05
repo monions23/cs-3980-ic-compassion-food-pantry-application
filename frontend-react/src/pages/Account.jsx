@@ -1,8 +1,16 @@
-import "../App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+//. Components
 import Layout from "./Layout";
-import { resetPassword, changeEmail } from "../utilities/API_Files/Account-API";
-import { useEffect } from "react";
+
+// API Calls
+import {
+  resetPassword,
+  changeEmail,
+  getUser,
+  getAllUsers,
+  updateRole,
+} from "../utilities/API_Files/Account-API";
 
 export default function Account() {
   const [newPassword, setNewPassword] = useState("");
@@ -18,16 +26,13 @@ export default function Account() {
     loadUser();
   }, []);
 
+  /* ====================
+  LOAD A USER
+  ========================= */
   async function loadUser() {
     const token = localStorage.getItem("access_token");
 
-    const res = await fetch("http://127.0.0.1:8000/users/me", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (!res.ok) return;
-
-    const data = await res.json();
+    const data = await getUser(token);
     setUser(data);
 
     if (data.role === "SuperAdmin") {
@@ -35,36 +40,30 @@ export default function Account() {
     }
   }
 
+  /* ====================
+  LOAD USERS IN ADMIN TABLE
+  ========================= */
   async function loadAdminTable() {
     const token = localStorage.getItem("access_token");
 
-    const res = await fetch("http://127.0.0.1:8000/users/", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (!res.ok) return;
-
-    const data = await res.json();
+    const data = await getAllUsers(token);
     setUsers(data);
-    console.log(data);
   }
 
-  async function updateRole(userId, newRole) {
-    console.log(userId);
+  /* ====================
+  UPDATE A ROLE
+  ========================= */
+  async function updateRoleHandler(userId, newRole) {
     const token = localStorage.getItem("access_token");
 
-    await fetch(`http://127.0.0.1:8000/users/${userId}/role`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ role: newRole }),
-    });
+    await updateRole(token, userId, newRole);
 
     alert("Role updated!");
   }
 
+  /* ====================
+  PASSWORD RESET HANDLER
+  ========================= */
   async function handlePasswordReset(e) {
     e.preventDefault();
     const res = await resetPassword(currentPassword, newPassword);
@@ -72,6 +71,9 @@ export default function Account() {
     alert("Password updated!");
   }
 
+  /* ====================
+  EMAIL CHANGE HANDLER
+  ========================= */
   async function handleEmailChange(e) {
     e.preventDefault();
     const res = await changeEmail(newEmail, confirmPassword);
@@ -192,7 +194,9 @@ export default function Account() {
                     <td>
                       <select
                         defaultValue={u.role}
-                        onChange={(e) => updateRole(u.id, e.target.value)}
+                        onChange={(e) =>
+                          updateRoleHandler(u.id, e.target.value)
+                        }
                       >
                         <option value="BasicUser">Basic User</option>
                         <option value="SuperAdmin">Super Admin</option>
