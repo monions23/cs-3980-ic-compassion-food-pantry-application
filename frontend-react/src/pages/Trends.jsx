@@ -294,7 +294,8 @@ function Trends() {
     let once = 0,
       twice = 0,
       three = 0,
-      fourPlus = 0;
+      four = 0,
+      fivePlus = 0;
 
     Object.values(visitCounts).forEach((c) => {
       if (c === 1) once++;
